@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+  node_validator:
+    user: root
+    image: openethereum/openethereum:latest
+    volumes:
+      - node_validator:/root/.local/share/openethereum
+      - ./genesis:/root/.local/share/openethereum/genesis
+      - ./node_validator/keys:/root/.local/share/openethereum/keys
+      - ./node_validator/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro
+      - ./node_validator/config:/root/.local/share/openethereum/config
+    ports:
+      - "30300:30300"  # Puerto de escucha de nodos
+      - "8548:8545"
+    environment:
+      - NODE_TYPE=validator
+    networks:
+      ethereum_net:
+        ipv4_address: 172.20.0.2
+    command:
+      --config /root/.local/share/openethereum/config/config.toml
+      --chain /root/.local/share/openethereum/genesis/genesis.json
+      --engine-signer 0x66942BfBa08A29372eabeB4E992cB7Bdaff0c773
+  node_non_validator_1:
+    user: root
+    image: openethereum/openethereum:latest
+    volumes:
+      - node_non_validator_1:/root/.local/share/openethereum
+      - ./genesis:/root/.local/share/openethereum/genesis
+      - ./node_non_validator_1/keys:/root/.local/share/openethereum/keys
+      - ./node_non_validator_1/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro
+      - ./node_non_validator_1/config:/root/.local/share/openethereum/config
+    ports:
+      - "30301:30300"  # Puerto de escucha de nodos
+      - "8547:8545"
+    environment:
+      - NODE_TYPE=non_validator
+    networks:
+      ethereum_net:
+        ipv4_address: 172.20.0.3
+    command:
+      --config /root/.local/share/openethereum/config/config.toml
+      --chain /root/.local/share/openethereum/genesis/genesis.json
+  node_non_validator_2:
+    user: root
+    image: openethereum/openethereum:latest
+    volumes:
+      - node_non_validator_2:/root/.local/share/openethereum
+      - ./genesis:/root/.local/share/openethereum/genesis
+      - ./node_non_validator_2/keys:/root/.local/share/openethereum/keys
+      - ./node_non_validator_2/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro
+      - ./node_non_validator_2/config:/root/.local/share/openethereum/config
+    ports:
+      - "30302:30300"  # Puerto de escucha de nodos
+      - "8546:8545"
+    environment:
+      - NODE_TYPE=non_validator
+    networks:
+      ethereum_net:
+        ipv4_address: 172.20.0.4
+    command:
+      --config /root/.local/share/openethereum/config/config.toml
+      --chain /root/.local/share/openethereum/genesis/genesis.json
+  node_rpc:
+    user: root
+    image: openethereum/openethereum:latest
+    volumes:
+      - node_rpc:/root/.local/share/openethereum
+      - ./genesis:/root/.local/share/openethereum/genesis
+      - ./node_rpc/keys:/root/.local/share/openethereum/keys
+      - ./node_rpc/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro
+      - ./node_rpc/config:/root/.local/share/openethereum/config
+    ports:
+      - "8545:8545"  # Puerto RPC
+    environment:
+      - NODE_TYPE=rpc
+    networks:
+      ethereum_net:
+        ipv4_address: 172.20.0.5
+    command:
+      --config /root/.local/share/openethereum/config/config.toml
+      --chain /root/.local/share/openethereum/genesis/genesis.json
+volumes:
+  node_validator:
+  node_non_validator_1:
+  node_non_validator_2:
+  node_rpc:
+networks:
+  ethereum_net:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.20.0.0/16

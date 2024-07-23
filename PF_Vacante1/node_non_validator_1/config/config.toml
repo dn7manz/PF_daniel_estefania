@@ -1,0 +1,14 @@
+[network]
+port = 30303
+discovery = true
+nat = "extip:172.20.0.3"
+
+[rpc]
+interface = "0.0.0.0"
+port = 8545
+cors = ["*"]
+apis = ["web3", "eth", "personal", "net"]
+
+[account]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
+
