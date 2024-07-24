@@ -56,5 +56,59 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 ## 3. Configuración y Desarrollo
 
 ### Script GenerateAll.sh
-Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque genesis, el docker-compose y los archivos de configuracion de cada nodo
+Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque genesis, el docker-compose y los archivos de configuracion de cada nodo.
+
+#### Generar direcotrios y cuentas.
+La primera funcion que hay en el shell, se llama generate_keys, la que al ejecutarse, se crean los direcotrios inciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los direcotrios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendra la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la funcion es generar una cuenta por cada nodo utilizando las password geeradas anteriormente y por ultimo muestra por pantalla la informacion de la cuentas creadas.
+
+```sh
+generate_keys() {
+#!/bin/bash
+
+#Generar directorios
+mkdir -p "node_validator/config"
+mkdir -p "node_validator/keys/Proyecto_final"
+
+mkdir -p "node_non_validator_1/config"
+mkdir -p "node_non_validator_1/keys/Proyecto_final"
+
+mkdir -p "node_non_validator_2/config"
+mkdir -p "node_non_validator_2/keys/Proyecto_final"
+
+mkdir -p "node_rpc/config"
+mkdir -p "node_rpc/keys/Proyecto_final"
+
+#Generar archivos password.pwd
+cat > ./node_validator/keys/Proyecto_final/password.pwd <<EOF
+validator
+EOF
+
+cat > ./node_non_validator_1/keys/Proyecto_final/password.pwd <<EOF
+nonvalidator1
+EOF
+
+cat > ./node_non_validator_2/keys/Proyecto_final/password.pwd <<EOF
+nonvalidator2
+EOF
+
+cat > ./node_rpc/keys/Proyecto_final/password.pwd <<EOF
+rpc
+EOF
+
+
+# Generar cuentas y guardar las claves en los directorios respectivos
+account_node_validator=$(geth account new --password ./node_validator/keys/Proyecto_final/password.pwd --keystore ./node_validator/keys/Proyecto_final)
+account_node_non_validator_1=$(geth account new --password ./node_non_validator_1/keys/Proyecto_final/password.pwd --keystore ./node_non_validator_1/keys/Proyecto_final)
+account_node_non_validator_2=$(geth account new --password ./node_non_validator_2/keys/Proyecto_final/password.pwd --keystore ./node_non_validator_2/keys/Proyecto_final)
+account_node_rpc=$(geth account new --password ./node_rpc/keys/Proyecto_final/password.pwd --keystore ./node_rpc/keys/Proyecto_final)
+
+echo "Cuentas generadas y guardadas en los directorios correspondientes."
+
+#Mostrar informacion por consola de las cuentas generadas.
+echo "node_validator: $account_node_validator"
+echo "node_non_validator_1: $account_node_non_validator_1"
+echo "node_non_validator_2: $account_node_non_validator_2"
+echo "node_rpc: $account_node_rpc"
+```
+hola
 
