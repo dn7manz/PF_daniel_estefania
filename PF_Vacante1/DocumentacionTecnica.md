@@ -59,7 +59,7 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque genesis, el docker-compose y los archivos de configuracion de cada nodo.
 
 #### Generar direcotrios y cuentas.
-La primera funcion que hay en el shell, se llama generate_keys, la que al ejecutarse, se crean los direcotrios inciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los direcotrios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendra la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la funcion es generar una cuenta por cada nodo utilizando las password geeradas anteriormente y por ultimo muestra por pantalla la informacion de la cuentas creadas.
+La primera funcion que hay en el shell, se llama generate_keys, la que al ejecutarse, se crean los direcotrios inciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los direcotrios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendra la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la funcion es generar una cuenta por cada nodo utilizando las password geeradas anteriormente y por ultimo muestra por pantalla la informacion de la cuentas creadas. A continuacion el codigo de la funcion:
 
 ```sh
 generate_keys() {
@@ -110,5 +110,59 @@ echo "node_non_validator_1: $account_node_non_validator_1"
 echo "node_non_validator_2: $account_node_non_validator_2"
 echo "node_rpc: $account_node_rpc"
 ```
-hola
+#### Generar archivo Genesis
+La siguiente funcion es para generar el archivo Genesis, el archivo genesis es un archivo de configuración fundamental en las redes de blockchain. Define las reglas y parámetros iniciales para una nueva red de blockchain. Esencialmente, establece el estado inicial de la red al momento de su creación. A continuacion se analiza cada parte del codigo:
+
+```json
+generate_genesis(){
+mkdir -p genesis/
+cat > ./genesis/genesis.json <<EOF
+{
+  "name": "Proyecto_final",
+  "engine": {
+    "authorityRound": {
+      "params": {
+        "stepDuration": "5",
+        "validators": {
+          "list": [
+            "0x0000000000000000000000000000"
+          ]
+        }
+      }
+    }
+  },
+```
+Este fragmento del archivo genesis configura una red blockchain personalizada con un nombre específico y establece el algoritmo de consenso como Authority Round. Configura la duración de los bloques y define los validadores autorizados que pueden producir bloques en la red. Hay multiples opciones en estas etiquetas que puedas establecer el funciomaniento de la red, en la parte de [Engine] en vez de authorityRound, podria ser instabul o clique, que son direfentes consensos. en parte de [params] podriamos establecer los validadores maximos o minimos que puede tener una red con "maxValidators" o "minValidators", tambien para establecer cada cuanto tiempo genera bloques, en mi caso es 5, definido en "stepDuration". Una vez que obtengamos la direccion de la cuenta del nodo validador habra que volver a esta parte y estabelcer la direccion en la lista para que pueda firmar y hacer consenso.
+
+```json
+"genesis": {
+    "seal": {
+      "authorityRound": {
+        "step": "0x0",
+        "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "difficulty": "0x20000",
+    "gasLimit": "0x165A0BC00"
+  },
+  "accounts": {
+    "0x00000000001": {
+      "balance": "100000000000000000000000000000"
+    },
+    "0x00000000002": {
+      "balance": "100000000000000000000000000000"
+    },
+    "0x00000000003": {
+      "balance": "100000000000000000000000000000"
+    },
+    "0x00000000004": {
+      "balance": "100000000000000000000000000000"  
+    } 
+  }
+}
+```
+Este fragmento del archivo genesis define la configuración del consenso, los parámetros iniciales para el minado (o límites del bloque), y establece saldos iniciales para cuentas específicas. Cuando se ejecute esta funcion, deberemos de volver para estabelecer las direcciones de las cuentas de cada nodo.
+
+
+
 
