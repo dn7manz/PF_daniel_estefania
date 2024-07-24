@@ -113,7 +113,7 @@ echo "node_rpc: $account_node_rpc"
 #### Generar archivo Genesis
 La siguiente funcion es para generar el archivo Genesis, el archivo genesis es un archivo de configuración fundamental en las redes de blockchain. Define las reglas y parámetros iniciales para una nueva red de blockchain. Esencialmente, establece el estado inicial de la red al momento de su creación. A continuacion se analiza cada parte del codigo:
 
-```json
+```sh
 generate_genesis(){
 mkdir -p genesis/
 cat > ./genesis/genesis.json <<EOF
@@ -134,7 +134,7 @@ cat > ./genesis/genesis.json <<EOF
 ```
 Este fragmento del archivo genesis configura una red blockchain personalizada con un nombre específico y establece el algoritmo de consenso como Authority Round. Configura la duración de los bloques y define los validadores autorizados que pueden producir bloques en la red. Hay multiples opciones en estas etiquetas que puedas establecer el funciomaniento de la red, en la parte de [Engine] en vez de authorityRound, podria ser instabul o clique, que son direfentes consensos. en parte de [params] podriamos establecer los validadores maximos o minimos que puede tener una red con "maxValidators" o "minValidators", tambien para establecer cada cuanto tiempo genera bloques, en mi caso es 5, definido en "stepDuration". Una vez que obtengamos la direccion de la cuenta del nodo validador habra que volver a esta parte y estabelcer la direccion en la lista para que pueda firmar y hacer consenso.
 
-```json
+```sh
 "genesis": {
     "seal": {
       "authorityRound": {
