@@ -443,6 +443,43 @@ desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la sigu
 ```bash
 ./Generate_all.sh
 ```
+![image](https://github.com/user-attachments/assets/1256a5fb-20c4-4ed9-b2ca-e52304782e80)
+
+Una vez ejecutado el script sh, es muy importante volver a los archivos que necesitan las direcciones de las cuentas ya que se crearon exitosamente.
+
+[node_validator/config/config.toml](node_validator/config/config.toml)
+```toml
+[mining]
+engine_signer = "0x66942BfBa08A29372eabeB4E992cB7Bdaff0c773"
+reseal_on_txs = "all"
+min_gas_price = 0
+```
+
+[docker-compose.yaml](docker-compose.yaml)
+```yaml
+ command:
+      --config /root/.local/share/openethereum/config/config.toml
+      --chain /root/.local/share/openethereum/genesis/genesis.json
+      --engine-signer 0x66942BfBa08A29372eabeB4E992cB7Bdaff0c773
+```
+
+[genesis/genesis.json](genesis/genesis.json)
+```json
+ "engine": {
+    "authorityRound": {
+      "params": {
+        "stepDuration": "5",
+        "validators": {
+          "list": [
+            "0x66942BfBa08A29372eabeB4E992cB7Bdaff0c773"
+          ]
+        }
+      }
+    }
+  }
+```
+
+
 
 
 
