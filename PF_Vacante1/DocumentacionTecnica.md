@@ -283,7 +283,7 @@ Cada nodo tiene su propio conjunto de volúmenes para almacenar datos y claves, 
 La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a través de una red interna.
 
 
-####Generar los config.toml
+#### Generar los config.toml
 
 El archivo config.toml es un archivo de configuración utilizado por OpenEthereum (anteriormente conocido como Parity) para definir cómo debe comportarse un nodo en la red Ethereum. Este archivo está escrito en formato TOML (Tom's Obvious, Minimal Language), que es un formato de configuración simple y legible para humanos. A continuacion muestro los ficheros de configuracion de cada nodo.
 
@@ -402,15 +402,19 @@ Puertos de Red ([network]): Cada nodo tiene un puerto diferente para las conexio
    - node_non_validator_1: 30301
    - node_non_validator_2: 30302
    - node_rpc: 30303 (coincide con el puerto del validador, pero no afecta el RPC)
+
 Puertos RPC ([rpc]): Cada nodo utiliza un puerto diferente para el RPC:
    - node_validator: 8548
    - node_non_validator_1: 8547
    - node_non_validator_2: 8546
    - node_rpc: 8545
+     
 Minado ([mining]):
    - Solo el node_validator tiene configuración de minería ([mining]), ya que actúa como el validador que firma y mina bloques.
+     
 IPC y WebSockets ([ipc] y [websockets]):
    - Todos los nodos desactivan IPC y WebSockets excepto el node_rpc, que no tiene configuraciones especiales para estos dos parámetros.
+     
 Hilos del Servidor RPC (server_threads):
    - Solo los nodos que no son validadores (node_non_validator_1, node_non_validator_2, y node_rpc) configuran el número de hilos para el servidor RPC.
 
