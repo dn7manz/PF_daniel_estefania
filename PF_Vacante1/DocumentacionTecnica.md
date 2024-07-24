@@ -455,7 +455,7 @@ reseal_on_txs = "all"
 min_gas_price = 0
 ```
 
-[docker-compose.yaml](docker-compose.yaml)
+[docker-compose.yml](docker-compose.yml)
 ```yaml
  command:
       --config /root/.local/share/openethereum/config/config.toml
