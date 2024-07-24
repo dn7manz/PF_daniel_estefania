@@ -216,7 +216,7 @@ cors = ["*"]
 apis = ["web3", "eth", "personal", "net"]
 
 [account]
-password = ["/root/.local/share/openethereum/keys/password.pwd"]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
 
 [mining]
 engine_signer = "<address_of_node1>"
@@ -239,7 +239,7 @@ cors = ["*"]
 apis = ["web3", "eth", "personal", "net"]
 
 [account]
-password = ["/root/.local/share/openethereum/keys/password.pwd"]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
 
 EOF
 }
@@ -258,7 +258,7 @@ cors = ["*"]
 apis = ["web3", "eth", "personal", "net"]
 
 [account]
-password = ["/root/.local/share/openethereum/keys/password.pwd"]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
 
 EOF
 }
@@ -278,7 +278,7 @@ apis = ["web3", "eth", "personal", "net"]
 server_threads = 4
 
 [account]
-password = ["/root/.local/share/openethereum/keys/password.pwd"]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
 
 [ipc]
 disable = true
