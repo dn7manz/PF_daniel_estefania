@@ -421,6 +421,29 @@ Hilos del Servidor RPC (server_threads):
 Este conjunto de configuraciones permite que cada nodo desempeñe su papel específico en la red Ethereum, ya sea como validador, nodo no validador, o nodo RPC.
 
 
+#### Ejecucion del Script
+
+Una vez se ha revisado las funciones del script, al final del archivo se llaman a las funciones como se puede ver a continunacion:
+
+```sh
+# Ejecutar funciones
+generate_keys
+generate_genesis
+generate_config_node_validator
+generate_config_node_non_validator_1
+generate_config_node_non_validator_2
+generate_config_node_rpc
+generate_docker_compose
+
+echo "Configuración completada. Se ha generado docker-compose.yml, los pares de claves y las configuraciones"
+
+```
+desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la siguiente manera, dando resultado lo siguiente:
+
+```bash
+./Generate_all.sh
+```
+
 
 
 
