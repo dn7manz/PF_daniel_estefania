@@ -4,6 +4,7 @@
 generate_keypair() {
 #!/bin/bash
 
+#Generar directorios
 mkdir -p "node_validator/config"
 mkdir -p "node_validator/keys/Proyecto_final"
 
@@ -16,6 +17,7 @@ mkdir -p "node_non_validator_2/keys/Proyecto_final"
 mkdir -p "node_rpc/config"
 mkdir -p "node_rpc/keys/Proyecto_final"
 
+#Generar archivos password.pwd
 cat > ./node_validator/keys/Proyecto_final/password.pwd <<EOF
 validator
 EOF
@@ -40,6 +42,8 @@ account_node_non_validator_2=$(geth account new --password ./node_non_validator_
 account_node_rpc=$(geth account new --password ./node_rpc/keys/Proyecto_final/password.pwd --keystore ./node_rpc/keys/Proyecto_final)
 
 echo "Cuentas generadas y guardadas en los directorios correspondientes."
+
+#Mostrar informacion por consola de las cuentas generadas.
 echo "node_validator: $account_node_validator"
 echo "node_non_validator_1: $account_node_non_validator_1"
 echo "node_non_validator_2: $account_node_non_validator_2"
