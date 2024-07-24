@@ -166,7 +166,7 @@ Este fragmento del archivo genesis define la configuración del consenso, los pa
 #### Generar Docker-compose
 La sieguiente funcion se encarga simplemente de crear el archivo docker-compose, neecsario para iniciar y configurar cada nodo. A continunacion se muestra el codigo del archivo con comentarios que explican cada linea.
 
-```sh
+```yml
 # Generar docker-compose.yml
 generate_docker_compose() {
 cat > docker-compose.yml <<EOF
@@ -281,6 +281,22 @@ Este archivo docker-compose.yml configura cuatro servicios diferentes para una r
 Cada nodo tiene su propio conjunto de volúmenes para almacenar datos y claves, y está configurado para comunicarse a través de puertos específicos.
 
 La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a través de una red interna.
+
+**Resumen de las diferencias**
+
+- Roles y Funciones:
+   - Nodo Validador: Responsable de validar y firmar bloques.
+   - Nodos No Validadores: Participan en la red pero no validan bloques.
+   - Nodo RPC: Dedicado a servir solicitudes RPC.
+- Puertos:
+   - Los nodos validadores y no validadores usan puertos P2P (30300, 30301, 30302).
+   - Los nodos tienen diferentes puertos RPC (8545, 8546, 8547, 8548).
+- Volúmenes:
+   - Cada nodo tiene su propio volumen de datos para almacenar datos específicos del nodo.
+   - Los nodos cargan archivos de configuración específicos a su rol y propósito.
+- Comandos:
+   - Los nodos validadores incluyen la opción --engine-signer para firmar bloques.
+   - Los nodos no validadores y el nodo RPC no incluyen esta opción
 
 
 #### Generar los config.toml
