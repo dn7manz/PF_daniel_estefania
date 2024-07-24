@@ -275,9 +275,13 @@ EOF
 Este archivo docker-compose.yml configura cuatro servicios diferentes para una red Ethereum privada usando OpenEthereum:
 
 node_validator: Nodo que actúa como validador en la red.
+
 node_non_validator_1: Nodo que no actúa como validador.
+
 node_non_validator_2: Otro nodo que no actúa como validador.
+
 node_rpc: Nodo que proporciona acceso RPC a la red.
+
 Cada nodo tiene su propio conjunto de volúmenes para almacenar datos y claves, y está configurado para comunicarse a través de puertos específicos. La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a través de una red interna.
 
 
