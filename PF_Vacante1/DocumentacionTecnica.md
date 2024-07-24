@@ -21,10 +21,35 @@ El proyecto implica varios componentes clave:
    - Un nodo RPC para interactuar con la red.
 
 3. **Inicialización del Bloque Génesis**: Se crea un archivo de configuración génesis que define el estado inicial de la blockchain privada, incluyendo la distribución de ether y las reglas de consenso.
+4. **Pruebas de Transacciones**: Se realizan transacciones de prueba a través de los nodos para asegurar que las transacciones se procesan correctamente tanto por los nodos validadores como por los no validadores.
+5. **Despliegue de Smart Contracts**: A través de la herramienta Remix, se despliega un contrato inteligente de prueba para validar la configuración de la red. Este contrato se utiliza para realizar transacciones y verificar que los nodos están funcionando correctamente.
 
-4. **Despliegue de Smart Contracts**: A través de la herramienta Remix, se despliega un contrato inteligente de prueba para validar la configuración de la red. Este contrato se utiliza para realizar transacciones y verificar que los nodos están funcionando correctamente.
+## 2. Requisitos y Preparación
 
-5. **Pruebas de Transacciones**: Se realizan transacciones de prueba a través de los nodos para asegurar que las transacciones se procesan correctamente tanto por los nodos validadores como por los no validadores.
+### Entorno de Desarrollo
+Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software que facilitan la creación y gestión de una red blockchain privada. A continuación, se detallan las herramientas utilizadas:
 
-Este proyecto no solo prueba la capacidad técnica para manejar una red blockchain privada, sino que también demuestra la habilidad para documentar y presentar el trabajo de manera clara y profesional.
+1. **Docker**: Docker es una plataforma de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización a nivel de sistema operativo. Los contenedores son livianos y contienen todo lo necesario para ejecutar la aplicación: código, runtime, herramientas del sistema, librerías y configuraciones. Esto permite que la aplicación se ejecute de manera uniforme y consistente en cualquier entorno, facilitando el desarrollo, la prueba y la implementación de aplicaciones en múltiples plataformas.
+
+   - **Componentes Clave de Docker**:
+     - **Docker Engine**: Es el motor de Docker que crea y ejecuta los contenedores.
+     - **Docker Hub**: Es un registro de contenedores públicos donde los usuarios pueden compartir y descargar imágenes de Docker.
+     - **Docker Compose**: Es una herramienta para definir y ejecutar aplicaciones multi-contenedor mediante archivos YAML.
+
+2. **OpenEthereum**: OpenEthereum, anteriormente conocido como Parity Ethereum, es un cliente de Ethereum de alta eficiencia y velocidad, desarrollado en el lenguaje de programación Rust. Está diseñado para ser utilizado tanto por desarrolladores como por empresas que buscan integrar tecnologías blockchain en sus sistemas. OpenEthereum es conocido por su rendimiento y la capacidad de ejecutar nodos de forma rápida y eficiente.
+
+   - **Características de OpenEthereum**:
+     - **Alto Rendimiento**: Procesa transacciones a alta velocidad.
+     - **Modularidad**: Su arquitectura modular permite agregar y modificar funcionalidades con facilidad.
+     - **Seguridad**: Incluye características avanzadas de seguridad y control de acceso.
+     - **Compatibilidad**: Es compatible con múltiples redes de Ethereum, incluidas mainnet, testnets y redes privadas.
+
+3. **Solidity**: Lenguaje de programación para escribir contratos inteligentes en la blockchain de Ethereum. Se utilizó para desarrollar los contratos inteligentes de prueba.
+
+   **Compilación de Solidity usando solc**:
+   Para compilar contratos inteligentes escritos en Solidity, se utiliza el compilador `solc`, que convierte el código de Solidity en bytecode y en formato ABI necesarios para su futurp despliegue.
+   
+5. **Remix**: Entorno de desarrollo integrado (IDE) para escribir, compilar y desplegar contratos inteligentes escritos en Solidity. Remix se usó para compilar y desplegar el contrato inteligente en la red Ethereum privada.
+
+6. **Node.js y NPM**: Se utilizaron para ejecutar scripts de automatización y gestionar dependencias adicionales necesarias para la interacción con la blockchain.
 
