@@ -53,3 +53,8 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 
 6. **Node.js y NPM**: Se utilizaron para ejecutar scripts de automatización y gestionar dependencias adicionales necesarias para la interacción con la blockchain.
 
+## 3. Configuración y Desarrollo
+
+### Script GenerateAll.sh
+Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque genesis, el docker-compose y los archivos de configuracion de cada nodo
+
