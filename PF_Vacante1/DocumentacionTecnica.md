@@ -273,21 +273,148 @@ EOF
 }
 ```
 Este archivo docker-compose.yml configura cuatro servicios diferentes para una red Ethereum privada usando OpenEthereum:
-
-node_validator: Nodo que actúa como validador en la red.
-
-node_non_validator_1: Nodo que no actúa como validador.
-
-node_non_validator_2: Otro nodo que no actúa como validador.
-
-node_rpc: Nodo que proporciona acceso RPC a la red.
+   - node_validator: Nodo que actúa como validador en la red.
+   - node_non_validator_1: Nodo que no actúa como validador.
+   - node_non_validator_2: Otro nodo que no actúa como validador.
+   - node_rpc: Nodo que proporciona acceso RPC a la red.
 
 Cada nodo tiene su propio conjunto de volúmenes para almacenar datos y claves, y está configurado para comunicarse a través de puertos específicos.
 
 La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a través de una red interna.
 
 
+####Generar los config.toml
 
+El archivo config.toml es un archivo de configuración utilizado por OpenEthereum (anteriormente conocido como Parity) para definir cómo debe comportarse un nodo en la red Ethereum. Este archivo está escrito en formato TOML (Tom's Obvious, Minimal Language), que es un formato de configuración simple y legible para humanos. A continuacion muestro los ficheros de configuracion de cada nodo.
+
+**node_validator**
+
+```sh
+generate_config_node_validator() {
+cat > ./node_validator/config/config.toml <<EOF
+[network]
+port = 30303
+discovery = true
+nat = "extip:172.20.0.2"
+
+[rpc]
+interface = "0.0.0.0"
+port = 8545
+cors = ["*"]
+apis = ["web3", "eth", "personal", "net"]
+
+[account]
+password = ["/root/.local/share/openethereum/keys/password.pwd"]
+
+[mining]
+engine_signer = "<address_of_node1>"
+reseal_on_txs = "all"
+min_gas_price = 0
+EOF
+}
+```
+la etiqueta network Configura los parámetros de red del nodo.
+   - port: 30303 - El puerto en el que el nodo escuchará las conexiones entrantes de otros nodos de la red. Este puerto es utilizado para la comunicación P2P entre nodos.
+   - discovery: true - Activa el descubrimiento de pares (peers). Esto permite que el nodo descubra otros nodos en la red y establezca conexiones con ellos.
+   - nat: "extip:172.20.0.2" - Configura la traducción de direcciones de red (NAT). En este caso, se está indicando la dirección IP externa del nodo para el descubrimiento y la comunicación.
+   
+la etiqueta rpc: Configura el servidor RPC (Remote Procedure Call) del nodo.
+   - interface: "0.0.0.0" - Especifica en qué interfaces de red el RPC escuchará solicitudes. 0.0.0.0 significa que escuchará en todas las interfaces disponibles.
+   - port: 8545 - El puerto en el que el RPC estará disponible. Este puerto es utilizado para las solicitudes RPC.
+   - cors: "*" - Permite solicitudes de cualquier origen, lo que es útil para pruebas, pero puede ser inseguro para entornos de producción.
+   - apis: "web3", "eth", "personal", "net" - Habilita los módulos de API especificados:
+      - web3: API para interactuar con la capa Web3.
+      - eth: API para interactuar con la capa Ethereum.
+      - personal: API para interactuar con la capa personal (manejo de cuentas, envío de transacciones, etc.).
+      - net: API para interactuar con la capa de red (información de la red, conexiones, etc.).
+
+la etiqueta account: Configura los parámetros relacionados con la cuenta del nodo.
+   - password: "/root/.local/share/openethereum/keys/Proyecto_final/password.pwd" - Ruta al archivo que contiene la contraseña de la cuenta del nodo. Este archivo es utilizado para desbloquear la cuenta al iniciar el nodo.
+
+la etiqueta mining: Configura los parámetros relacionados con la minería en el nodo.
+   - engine_signer: "<address_of_node1>" - La dirección de la cuenta que firmará los bloques. En el caso de un nodo validador, esta es la cuenta que se utilizará para el consenso, Es importante introducir la dirrecion del nodo validador en cuanto se creen las cuentas.
+   - reseal_on_txs: "all" - Indica que el nodo debe volver a sellar (minar) un bloque cuando se reciban transacciones. Esto asegura que los bloques se mantengan actualizados con las transacciones más recientes.
+   - min_gas_price: 0 - El precio mínimo del gas que el nodo aceptará para las transacciones. Establecerlo en 0 puede hacer que el nodo acepte transacciones con cualquier precio de gas, lo que puede ser útil para pruebas.
+
+**node_non_validator_1 y node_non_validator_2**
+
+```sh
+generate_config_node_non_validator_1() {
+cat > ./node_non_validator_1/config/config.toml <<EOF
+[network]
+port = 30303
+discovery = true
+nat = "extip:172.20.0.3"
+
+[rpc]
+interface = "0.0.0.0"
+port = 8545
+cors = ["*"]
+apis = ["web3", "eth", "personal", "net"]
+
+[account]
+password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
+
+EOF
+}
+```
+en estos nodos solo hace falta de especificar la etiqueta de network rpc y account, como no son validadores no haria falta la etiqueta mining
+
+**node_rpc**
+
+```sh
+generate_config_node_rpc() {
+cat > ./node_rpc/config/config.toml <<EOF
+[network]
+port = 30303
+discovery = true
+nat = "extip:172.20.0.5"
+
+[rpc]
+interface = "0.0.0.0"
+port = 8545
+cors = ["*"]
+apis = ["web3", "eth", "personal", "net"]
+server_threads = 4
+
+[account]
+password = ["/root/.local/share/openethereum/keys/password.pwd"]
+
+[ipc]
+disable = true
+
+[websockets]
+disable = true
+
+EOF
+}
+```
+la etiqueta ipc: Configura la comunicación IPC (Inter-Process Communication) del nodo.
+   - disable: true - Desactiva la comunicación IPC. IPC permite que el nodo se comunique con otros procesos en la misma máquina a través de un socket. Desactivar IPC puede ser útil si no se necesita esta comunicación o si se prefiere utilizar otros métodos de comunicación.
+
+la etiqueta websockets: Configura la comunicación a través de WebSockets.
+   - disable: true - Desactiva el soporte para WebSockets. WebSockets permiten una comunicación bidireccional en tiempo real entre el nodo y los clientes. Desactivar WebSockets puede reducir la carga en el nodo si no se requiere esta funcionalidad.
+
+**Resumen de las diferencias**
+
+Puertos de Red ([network]): Cada nodo tiene un puerto diferente para las conexiones P2P:
+   - node_validator: 30303
+   - node_non_validator_1: 30301
+   - node_non_validator_2: 30302
+   - node_rpc: 30303 (coincide con el puerto del validador, pero no afecta el RPC)
+Puertos RPC ([rpc]): Cada nodo utiliza un puerto diferente para el RPC:
+   - node_validator: 8548
+   - node_non_validator_1: 8547
+   - node_non_validator_2: 8546
+   - node_rpc: 8545
+Minado ([mining]):
+   - Solo el node_validator tiene configuración de minería ([mining]), ya que actúa como el validador que firma y mina bloques.
+IPC y WebSockets ([ipc] y [websockets]):
+   - Todos los nodos desactivan IPC y WebSockets excepto el node_rpc, que no tiene configuraciones especiales para estos dos parámetros.
+Hilos del Servidor RPC (server_threads):
+   - Solo los nodos que no son validadores (node_non_validator_1, node_non_validator_2, y node_rpc) configuran el número de hilos para el servidor RPC.
+
+Este conjunto de configuraciones permite que cada nodo desempeñe su papel específico en la red Ethereum, ya sea como validador, nodo no validador, o nodo RPC.
 
 
 
