@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Función para generar un par de claves RSA
-generate_keypair() {
+generate_keys() {
 #!/bin/bash
 
 #Generar directorios
@@ -291,7 +291,7 @@ EOF
 
 
 # Ejecutar funciones
-generate_keypair
+generate_keys
 generate_genesis
 generate_config_node_validator
 generate_config_node_non_validator_1
