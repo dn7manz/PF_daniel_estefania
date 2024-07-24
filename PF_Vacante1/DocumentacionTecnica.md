@@ -163,6 +163,127 @@ Este fragmento del archivo genesis configura una red blockchain personalizada co
 ```
 Este fragmento del archivo genesis define la configuración del consenso, los parámetros iniciales para el minado (o límites del bloque), y establece saldos iniciales para cuentas específicas. Cuando se ejecute esta funcion, deberemos de volver para estabelecer las direcciones de las cuentas de cada nodo.
 
+#### Generar Docker-compose
+La sieguiente funcion se encarga simplemente de crear el archivo docker-compose, neecsario para iniciar y configurar cada nodo. A continunacion se muestra el codigo del archivo con comentarios que explican cada linea.
+
+```sh
+# Generar docker-compose.yml
+generate_docker_compose() {
+cat > docker-compose.yml <<EOF
+version: '3'  # Versión del formato de archivo Docker Compose
+
+services:
+  node_validator:  # Servicio para un nodo validador
+    user: root  # Ejecutar el contenedor como el usuario root
+    image: openethereum/openethereum:latest  # Imagen Docker a utilizar, la más reciente de OpenEthereum
+    volumes:
+      - node_validator:/root/.local/share/openethereum  # Monta un volumen llamado 'node_validator' para persistencia de datos
+      - ./genesis:/root/.local/share/openethereum/genesis  # Monta el directorio local 'genesis' en la ruta del contenedor
+      - ./node_validator/keys:/root/.local/share/openethereum/keys  # Monta el directorio local 'keys' con las claves
+      - ./node_validator/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro  # Monta el archivo de contraseña con permisos de solo lectura
+      - ./node_validator/config:/root/.local/share/openethereum/config  # Monta el directorio local 'config' con la configuración del nodo
+    ports:
+      - "30300:30300"  # Mapea el puerto 30300 del contenedor al puerto 30300 del host, para comunicación entre nodos
+      - "8548:8545"  # Mapea el puerto 8545 del contenedor al puerto 8548 del host, para la interfaz JSON-RPC
+    environment:
+      - NODE_TYPE=validator  # Variable de entorno que define este nodo como un validador
+    networks:
+      ethereum_net:  # Conecta el contenedor a la red 'ethereum_net'
+        ipv4_address: 172.20.0.2  # Asigna una dirección IP estática a este contenedor
+    command:
+      --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
+      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+      --engine-signer 0x00000000000000001  # Dirección del nodo validador para la firma de bloques
+
+  node_non_validator_1:  # Servicio para un nodo no validador (nodo de red)
+    user: root  # Ejecutar el contenedor como el usuario root
+    image: openethereum/openethereum:latest  # Imagen Docker a utilizar
+    volumes:
+      - node_non_validator_1:/root/.local/share/openethereum  # Monta un volumen llamado 'node_non_validator_1'
+      - ./genesis:/root/.local/share/openethereum/genesis  # Monta el directorio local 'genesis'
+      - ./node_non_validator_1/keys:/root/.local/share/openethereum/keys  # Monta el directorio local 'keys'
+      - ./node_non_validator_1/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro  # Monta el archivo de contraseña con permisos de solo lectura
+      - ./node_non_validator_1/config:/root/.local/share/openethereum/config  # Monta el directorio local 'config'
+    ports:
+      - "30301:30300"  # Mapea el puerto 30300 del contenedor al puerto 30301 del host
+      - "8547:8545"  # Mapea el puerto 8545 del contenedor al puerto 8547 del host
+    environment:
+      - NODE_TYPE=non_validator  # Variable de entorno que define este nodo como no validador
+    networks:
+      ethereum_net:  # Conecta el contenedor a la red 'ethereum_net'
+        ipv4_address: 172.20.0.3  # Asigna una dirección IP estática a este contenedor
+    command:
+      --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
+      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+
+  node_non_validator_2:  # Otro nodo no validador
+    user: root  # Ejecutar el contenedor como el usuario root
+    image: openethereum/openethereum:latest  # Imagen Docker a utilizar
+    volumes:
+      - node_non_validator_2:/root/.local/share/openethereum  # Monta un volumen llamado 'node_non_validator_2'
+      - ./genesis:/root/.local/share/openethereum/genesis  # Monta el directorio local 'genesis'
+      - ./node_non_validator_2/keys:/root/.local/share/openethereum/keys  # Monta el directorio local 'keys'
+      - ./node_non_validator_2/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro  # Monta el archivo de contraseña con permisos de solo lectura
+      - ./node_non_validator_2/config:/root/.local/share/openethereum/config  # Monta el directorio local 'config'
+    ports:
+      - "30302:30300"  # Mapea el puerto 30300 del contenedor al puerto 30302 del host
+      - "8546:8545"  # Mapea el puerto 8545 del contenedor al puerto 8546 del host
+    environment:
+      - NODE_TYPE=non_validator  # Variable de entorno que define este nodo como no validador
+    networks:
+      ethereum_net:  # Conecta el contenedor a la red 'ethereum_net'
+        ipv4_address: 172.20.0.4  # Asigna una dirección IP estática a este contenedor
+    command:
+      --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
+      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+
+  node_rpc:  # Servicio para un nodo RPC
+    user: root  # Ejecutar el contenedor como el usuario root
+    image: openethereum/openethereum:latest  # Imagen Docker a utilizar
+    volumes:
+      - node_rpc:/root/.local/share/openethereum  # Monta un volumen llamado 'node_rpc'
+      - ./genesis:/root/.local/share/openethereum/genesis  # Monta el directorio local 'genesis'
+      - ./node_rpc/keys:/root/.local/share/openethereum/keys  # Monta el directorio local 'keys'
+      - ./node_rpc/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro  # Monta el archivo de contraseña con permisos de solo lectura
+      - ./node_rpc/config:/root/.local/share/openethereum/config  # Monta el directorio local 'config'
+    ports:
+      - "8545:8545"  # Mapea el puerto 8545 del contenedor al puerto 8545 del host, para la interfaz JSON-RPC
+    environment:
+      - NODE_TYPE=rpc  # Variable de entorno que define este nodo como RPC
+    networks:
+      ethereum_net:  # Conecta el contenedor a la red 'ethereum_net'
+        ipv4_address: 172.20.0.5  # Asigna una dirección IP estática a este contenedor
+    command:
+      --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
+      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+
+volumes:
+  node_validator:  # Define un volumen para persistir datos del nodo validador
+  node_non_validator_1:  # Define un volumen para persistir datos del primer nodo no validador
+  node_non_validator_2:  # Define un volumen para persistir datos del segundo nodo no validador
+  node_rpc:  # Define un volumen para persistir datos del nodo RPC
+
+networks:
+  ethereum_net:  # Define una red personalizada para los contenedores
+    driver: bridge  # Utiliza el controlador de red 'bridge' para la red personalizada
+    ipam:
+      config:
+      - subnet: 172.20.0.0/16  # Define el rango de subred para la red personalizada
+EOF
+}
+```
+Este archivo docker-compose.yml configura cuatro servicios diferentes para una red Ethereum privada usando OpenEthereum:
+
+node_validator: Nodo que actúa como validador en la red.
+node_non_validator_1: Nodo que no actúa como validador.
+node_non_validator_2: Otro nodo que no actúa como validador.
+node_rpc: Nodo que proporciona acceso RPC a la red.
+Cada nodo tiene su propio conjunto de volúmenes para almacenar datos y claves, y está configurado para comunicarse a través de puertos específicos. La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a través de una red interna.
+
+
+
+
+
 
 
 
