@@ -590,6 +590,21 @@ Para obtener las cuentas de los nodos en una red Ethereum privada utilizando cur
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
 - http://localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
 
+### Obtener balances
+
+Para obtener el balance de una cuenta específica en un nodo Ethereum utilizando curl, se usa el método JSON-RPC eth_getBalance. Este método devuelve la cantidad de Wei (la unidad más pequeña de Ether) que tiene la cuenta.
+
+![image](https://github.com/user-attachments/assets/ce3fb99f-61d0-4fbe-82a2-f8d6e89ed52b)
+
+**Explicación del Comando**
+- curl -X POST: Indica que estamos realizando una solicitud POST.
+- --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0xYourAddress", "latest"],"id":1}': Este es el cuerpo de la solicitud JSON-RPC:
+   - "jsonrpc": "2.0": Especifica la versión del protocolo JSON-RPC.
+   - "method": "eth_getBalance": Especifica el método que queremos invocar, en este caso, eth_getBalance.
+   - "params": ["0xAddress", "latest"]: Los parámetros del método. El primer parámetro es la dirección de la cuenta cuyo balance queremos obtener y el segundo parámetro es el número del bloque (usualmente "latest" para obtener el balance más reciente).
+   - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
+
+
 
 
 
