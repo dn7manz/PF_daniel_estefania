@@ -461,6 +461,8 @@ desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la sigu
 ```
 ![image](https://github.com/user-attachments/assets/1256a5fb-20c4-4ed9-b2ca-e52304782e80)
 
+![image](https://github.com/user-attachments/assets/86c8741c-15f1-4949-83b5-a5cf5b259565)
+
 Una vez ejecutado el script sh, es muy importante volver a los archivos que necesitan las direcciones de las cuentas ya que se crearon exitosamente.
 
 [node_validator/config/config.toml](node_validator/config/config.toml)
@@ -527,6 +529,47 @@ min_gas_price = 0
   }
 }
 ```
+
+## 4. Despliegue y pruebas.
+
+### Levantamiento de contenedores
+
+Una vez que todo ha sido creado y configurado gracias al script [Generate_All.sh](Generate_All.sh), es posible levantar los dockers y ponerlos en funcionamiento a traves del fichero [docker-compose.yml](docker-compose.yml). Para esto, a traves de la terminal, ejecutarermos el siguiente comando:
+
+```sh
+docker-compose up -d
+```
+Con el siguiente comando levantamos todos los nodos necesarios para que funcione la red y con el parametro "-d" lo ejecutamos en modo demonio.
+
+![image](https://github.com/user-attachments/assets/40100394-4a66-4643-b2be-be64cd91b102)
+
+A continuacion a traves de la aplicacion de Escritorio de Docker, revisaremos los logs de cada nodo para comprobar que los nodos se esten ejecutando, sincronizados y generando bloques.
+
+**node_validator**
+
+![image](https://github.com/user-attachments/assets/801745db-b45c-406a-8f62-4200c227e2b0)
+
+**node_non_validator_1**
+
+![image](https://github.com/user-attachments/assets/55b57a9c-57f3-440c-b736-37d49167c6fc)
+
+**node_non_validator_2**
+
+![image](https://github.com/user-attachments/assets/79314026-1acd-418d-9f9d-c2c0f6f96cd2)
+
+**node_rpc**
+
+![image](https://github.com/user-attachments/assets/7ad8a748-2886-4473-85f6-77575c20acea)
+
+
+
+
+
+
+
+
+
+Aqui se puede observar que los nodos se estan ejecutando correctamente, podemos ver que el engine es "AuthorityRound", en la siguiente linea, se puede observar el public enode,  tambien se puede ver que tienen emparejado 3 peers lo que indica que los otros nodos tambien se esta ejcutando bien y el ultimo indicativo de que todo va correctamente es que estan generando bloques.
 
 
 
