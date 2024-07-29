@@ -567,12 +567,31 @@ Aqui se puede observar que los nodos se estan ejecutando correctamente, podemos 
 
 Ahora que los nodos ya estan levantados sin errores, sincronizados, generando bloques, es momento de interactuar con la red para verificar su funcionamiento de la siguiente manera:
 
-####Comandos curl y Método POST
+#### Comandos curl método POST
+
    - ¿Qué es curl?
       - curl es una herramienta de línea de comandos utilizada para transferir datos desde o hacia un servidor, utilizando uno de los muchos protocolos soportados, como HTTP, HTTPS, FTP, y más. Es muy útil para realizar solicitudes HTTP desde la terminal y probar APIs.
 
    - Método POST en HTTP
       - El método POST en HTTP se utiliza para enviar datos al servidor para crear o actualizar un recurso. En el contexto de blockchain, se puede utilizar para enviar transacciones, interactuar con contratos inteligentes, o consultar el estado de la red.
+
+### Obtener cuentas.
+
+Para obtener las cuentas de los nodos en una red Ethereum privada utilizando curl, se utiliza el método JSON-RPC eth_accounts. Este método devuelve una lista de todas las cuentas gestionadas por el nodo al que se envía la solicitud. A continuacion se muestra un ejemplo de varios comandos a los distintos nodos de la red.
+
+![image](https://github.com/user-attachments/assets/eee6ab68-0ee7-4567-a8cf-cfd45c110ae5)
+
+**Explicación del Comando**
+- curl -X POST: Indica que estamos realizando una solicitud POST.
+- --data '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":1}': Este es el cuerpo de la solicitud JSON-RPC:
+   - "jsonrpc": "2.0": Especifica la versión del protocolo JSON-RPC.
+   - "method": "eth_accounts": Especifica el método que queremos invocar, en este caso, eth_accounts.
+   - "params": []: Una lista vacía de parámetros, ya que eth_accounts no requiere parámetros.
+   - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
+- http://localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
+
+
+
 
 
 
