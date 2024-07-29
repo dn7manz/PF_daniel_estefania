@@ -588,7 +588,7 @@ Para obtener las cuentas de los nodos en una red Ethereum privada utilizando cur
    - "method": "eth_accounts": Especifica el método que queremos invocar, en este caso, eth_accounts.
    - "params": []: Una lista vacía de parámetros, ya que eth_accounts no requiere parámetros.
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
-- http://localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
+- localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
 
 ### Obtener balances
 
