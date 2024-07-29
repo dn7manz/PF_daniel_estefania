@@ -463,7 +463,7 @@ desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la sigu
 
 ![image](https://github.com/user-attachments/assets/86c8741c-15f1-4949-83b5-a5cf5b259565)
 
-Una vez ejecutado el script sh, es muy importante volver a los archivos que necesitan las direcciones de las cuentas ya que se crearon exitosamente.
+Una vez ejecutado el script sh por la pantalla de la terminal, apareceran las direcciones de cada cuenta, es muy importante volver a los archivos que necesitan estas direcciones para que posterioremente en el despliegue todo funcione bien.
 
 [node_validator/config/config.toml](node_validator/config/config.toml)
 ```toml
@@ -561,15 +561,18 @@ A continuacion a traves de la aplicacion de Escritorio de Docker, revisaremos lo
 
 ![image](https://github.com/user-attachments/assets/7ad8a748-2886-4473-85f6-77575c20acea)
 
-
-
-
-
-
-
-
-
 Aqui se puede observar que los nodos se estan ejecutando correctamente, podemos ver que el engine es "AuthorityRound", en la siguiente linea, se puede observar el public enode,  tambien se puede ver que tienen emparejado 3 peers lo que indica que los otros nodos tambien se esta ejcutando bien y el ultimo indicativo de que todo va correctamente es que estan generando bloques.
+
+### Puebras y transacciones
+
+Ahora que los nodos ya estan levantados sin errores, sincronizados, generando bloques, es momento de interactuar con la red para verificar su funcionamiento de la siguiente manera:
+
+####Comandos curl y Método POST
+   - ¿Qué es curl?
+      - curl es una herramienta de línea de comandos utilizada para transferir datos desde o hacia un servidor, utilizando uno de los muchos protocolos soportados, como HTTP, HTTPS, FTP, y más. Es muy útil para realizar solicitudes HTTP desde la terminal y probar APIs.
+
+   - Método POST en HTTP
+      - El método POST en HTTP se utiliza para enviar datos al servidor para crear o actualizar un recurso. En el contexto de blockchain, se puede utilizar para enviar transacciones, interactuar con contratos inteligentes, o consultar el estado de la red.
 
 
 
