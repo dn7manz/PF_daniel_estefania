@@ -664,7 +664,7 @@ Una vez que los nodos de la red privada de Ethereum están correctamente levanta
 
 #### Codigo Solidity
 
-A continuacion se muestra el codigo del [contracts/Contrato.sol](SmartContract) que consigue sistema de votacion simple con funciones para votar y obtener los resultados.
+A continuacion se muestra el codigo del [SmartContract](contracts/Contrato.sol) que consigue sistema de votacion simple con funciones para votar y obtener los resultados.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -706,20 +706,19 @@ contract SimpleVoting {
     }
 }
 ```
-- Licencia y Versión del Compilador
-   - // SPDX-License-Identifier: MIT: Indica que el contrato está bajo la licencia MIT.
-   - pragma solidity ^0.8.0;: Define la versión mínima de Solidity requerida para compilar el contrato.
-- Variables de Estado
-   - string[] public names;: Arreglo que almacena los nombres de los candidatos u opciones de votación.
-   - uint256[] public votes;: Arreglo que guarda el número de votos recibidos por cada opción.
-- Función vote
-   Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
-- Función getResults
-   Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
+Licencia y Versión del Compilador.
+- // SPDX-License-Identifier: MIT: Indica que el contrato está bajo la licencia MIT.
+- pragma solidity ^0.8.0;: Define la versión mínima de Solidity requerida para compilar el contrato.
+Variables de Estado.
+- string[] public names;: Arreglo que almacena los nombres de los candidatos u opciones de votación.
+- uint256[] public votes;: Arreglo que guarda el número de votos recibidos por cada opción.
+Funciones.
+- Función vote: Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
+- Función getResults: Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
 
 #### Compilacion
 
-Una vez diseñado la logica del [contracts/Contrato.sol](SmartContract) para compilarlo, nos dirigeremos a la ruta donde se ubica el contrato en una consola y procederemos a compilar con la herramineta solc.
+Una vez diseñado la logica del [SmartContract](contracts/Contrato.sol) para compilarlo, nos dirigeremos a la ruta donde se ubica el contrato en una consola y procederemos a compilar con la herramineta solc.
 Antes hay que intalar la herramienta solc con el siguiente comando:
 ```sh
 npm install -g solc
@@ -729,6 +728,252 @@ ahora con la heramineta instalada, para proceder con la compilacion ejecuto el s
 solc --abi --bin Contrato.sol -o ./build
 ```
 Este comando sirve para obtener los datos binarios y los datos ABI reuqeridos para desplegar el contrato en la red en la carpeta build.
+
+#### Despliegar y interactuar con Web3js
+
+Para desplegar el [SmartContract](contracts/Contrato.sol) con web3.js, he creado un script de JavaScript, que se conecta al nodo que especifiquemos y despliega el contrato, desde la cuenta del nodo al que se conecta. A continuacion se muestra el codigo del [script](contracts/deploy.js) con comentarios explicando cada bloque.
+
+```js
+const Web3 = require('web3');
+const fs = require('fs');
+const path = require('path');
+const readlineSync = require('readline-sync');
+const fetch = require('node-fetch');
+
+// Conecta a tu nodo Ethereum
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+console.log('Se ha conectado con el node RPC');
+
+
+// Lee el ABI y el bytecode del contrato
+const contractABI = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'build', 'Contrato_sol_SimpleVoting.abi'), 'utf-8'));
+const contractBytecode = fs.readFileSync(path.resolve(__dirname, 'build', 'Contrato_sol_SimpleVoting.bin'), 'utf-8');
+
+// Función para pedir la contraseña de la cuenta
+function askPassword() {
+    return readlineSync.question('Introduce la contraseña de la cuenta: ', { hideEchoBack: true });
+}
+
+async function deployContract() {
+    try {
+        // Obtén las cuentas disponibles
+        const accounts = await web3.eth.personal.getAccounts();
+        if (accounts.length === 0) {
+            console.log('No hay cuentas disponibles en el nodo.');
+            return;
+        }
+
+        const account = accounts[0];
+	console.log('Cuenta seleccionada:', account)
+        const password = askPassword();
+
+        // Crear una instancia del contrato
+        const contract = new web3.eth.Contract(contractABI);
+
+        // Definir los parámetros del despliegue
+        const deployParameters = {
+            data: '0x' + contractBytecode,
+            arguments: [] // Añade argumentos del constructor si es necesario
+        };
+
+        // Construir el objeto de transacción
+        const tx = {
+            from: account,
+            data: contract.deploy(deployParameters).encodeABI(),
+            gas: '0x4c4b40',
+            gasPrice: '0x4A817C800' // 20 Gwei
+        };
+
+       // Enviar la transacción usando personal_sendTransaction
+        const txHash = await web3.eth.personal.sendTransaction(tx, password);
+        console.log('Contrato desplegado, esperando la confirmación...');
+        console.log('Hash de la transacción:', txHash);
+
+    } catch (error) {
+        console.error('Error al desplegar el contrato:', error.message);
+    }
+}
+
+// Ejecuta la función de despliegue
+deployContract();
+```
+Importación de librerías
+- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
+- fs: Utilizado para leer archivos desde el sistema de archivos.
+- path: Módulo para trabajar con rutas de archivos.
+- readlineSync: Librería para manejar la entrada del usuario desde la consola.
+- fetch: Librería para realizar solicitudes HTTP, aunque no se usa directamente en este script.
+Conexión al nodo Ethereum
+- Se conecta a un nodo de Ethereum en la URL especificada (http://localhost:8545).
+Lectura de ABI y bytecode del contrato
+- ABI (Application Binary Interface): Define cómo interactuar con el contrato. Se lee desde un archivo JSON.
+- Bytecode: El código compilado del contrato, leído desde un archivo binario.
+Función askPassword
+- Solicita la contraseña de la cuenta del usuario, ocultando la entrada para seguridad.
+Función deployContract
+- Obtención de cuentas: Recupera las cuentas disponibles en el nodo. Usa la primera cuenta para desplegar el contrato.
+- Instancia del contrato: Crea una instancia del contrato usando el ABI.
+- Parámetros de despliegue: Configura los parámetros para el despliegue, incluyendo el bytecode y los argumentos del constructor (si los hay).
+- Objeto de transacción: Define los detalles de la transacción, como la dirección de la cuenta, el bytecode del contrato, el gas, y el precio del gas.
+- Envía la transacción: Utiliza web3.eth.personal.sendTransaction para enviar la transacción, solicitando la contraseña del usuario.
+Ejecución del despliegue
+- Llama a deployContract para iniciar el proceso de despliegue del contrato.
+Este script automatiza el proceso de despliegue de un contrato inteligente en la blockchain de Ethereum, permitiendo interactuar con el contrato a través de una interfaz de línea de comandos. Para ejcutar este script, lo haremos con el siguiente comando:
+
+```sh
+node deploy.js
+```
+La consola muestra lo siguiente:
+![image](https://github.com/user-attachments/assets/87c7fd49-5c09-4afd-ad81-0b4bbb9949aa)
+
+Despues de desplegar el contrato exitosamente, utilizare el hash de transaccion para obtener todos los datos del contrato con un comando curl con el metodo eth_getTransactionReceipt, estos datos seran necesario recopilarlos para despues interactuar con el contrato.
+
+![image](https://github.com/user-attachments/assets/a219eab8-0b55-4cde-9627-a6121953355a)
+
+Una vez tenga los datos, utilizare otro script para interactuar con el contrato utilizando sus funciones, para votar desde distintas cuentas y obtener los resultados y establecer un ganador. El codigo con comentarios del script es el siguiente:
+
+```js
+// Importa las librerías necesarias
+const Web3 = require('web3');
+const fs = require('fs');
+const path = require('path');
+const readlineSync = require('readline-sync');
+
+// Función principal para seleccionar la acción
+async function main() {
+
+        // Función para pedir la URL del nodo
+    function askNodeURL() {
+        return readlineSync.question('Introduce la URL del nodo (por ejemplo, http://localhost:8545): ');
+    }
+        // Función para pedir la contraseña de la cuenta
+    function askPassword() {
+        return readlineSync.question('Introduce la contraseña de la cuenta: ', { hideEchoBack: true });
+    }
+        // Función para pedir argumentos para las funciones del contrato
+	function askArguments(prompt) {
+        return readlineSync.question(prompt);
+	}
+    	// Conexión al nodo seleccionado
+	const nodeURL = askNodeURL();
+	const web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
+
+	// Dirección del contrato desplegado
+	const contractAddress = '0x45215e29a04ba0ee4aef76eda537a43bb47e1eb9';
+
+	// ABI del contrato
+	const contractABI = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'build', 'Contrato_sol_SimpleVoting.abi'), 'utf-8'));
+
+	// Instancia del contrato usando web3.eth.Contract
+	const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    // Función para votar por una opción
+	async function vote(account, password) {
+    const name = askArguments('Introduce el nombre al que deseas votar: ');
+        try {
+            // Construir el objeto de transacción
+            const tx = {
+                from: account,
+                to: contractAddress,
+                data: contract.methods.vote(name).encodeABI()
+            };
+            // Enviar la transacción usando personal_sendTransaction
+            const receipt = await web3.eth.personal.sendTransaction(tx, password);
+            console.log('Voto registrado:', receipt);
+        } catch (error) {
+            console.error('Error al votar:', error.message);
+        }
+	}
+        // Función para obtener los resultados de los votos
+    async function getResults() {
+    try {
+        // Establecer opciones para la llamada
+        const options = {
+            to: contractAddress,
+            data: contract.methods.getResults().encodeABI(),
+            gas: 3000000,
+            gasPrice: '20000000000' // 20 Gwei
+        };
+
+        // Hacer la llamada al contrato
+        const result = await web3.eth.call(options);
+
+        // Decodificar el resultado
+        const decodedResult = web3.eth.abi.decodeParameters(
+            ['string[]', 'uint256[]'], 
+            result
+        );
+
+        console.log('Resultados de la votación:', decodedResult);
+    } catch (error) {
+        console.error('Error al obtener los resultados:', error.message);
+    }
+	}
+
+        // Inicia la ejecución del programa
+      	const accounts = await web3.eth.personal.getAccounts();
+        if (accounts.length === 0) {
+            console.log('No hay cuentas disponibles en el nodo.');
+            return;
+        }
+
+        const account = accounts[0];
+        console.log(`Cuenta seleccionada: ${account}`);
+        const password = askPassword();
+
+        while (true) {
+        console.log(`
+        [1] Votar
+        [2] Obtener resultados
+        [0] CANCEL
+        `);
+        const choice = askArguments('Elige una acción [1...2 / 0]: ');
+
+        switch (choice) {
+            case '1':
+                await vote(account, password);
+                break;
+            case '2':
+                await getResults();
+                break;
+            case '0':
+                console.log('Cancelando...');
+                return; // Salir del bucle y terminar el programa
+            default:
+                console.log('Opción inválida. Inténtalo de nuevo.');
+        }
+    }
+}
+
+// Llama a la función principal para iniciar el programa
+main();
+```
+Importación de librerías
+- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
+- fs: Importa el módulo del sistema de archivos para leer archivos.
+- path: Módulo para trabajar con rutas de archivo.
+- readlineSync: Librería para manejar la entrada de usuario en la consola.
+Funciones auxiliares
+- askNodeURL(): Solicita al usuario la URL del nodo de Ethereum al que se conectará.
+- askPassword(): Solicita al usuario la contraseña de la cuenta, oculta la entrada para seguridad.
+- askArguments(prompt): Solicita argumentos al usuario, como nombres o números, para interactuar con el contrato.
+Funciones de contrato
+- vote(account, password): Función para votar por una opción. Construye y envía una transacción al contrato.
+- getResults(): Función para obtener y mostrar los resultados de la votación. Llama a una función de contrato y decodifica el resultado.
+Ejecución del programa
+- Obtiene las cuentas disponibles en el nodo y selecciona la primera.
+- Solicita al usuario la contraseña y ofrece un menú para elegir entre votar o obtener resultados.
+- Ejecuta la acción seleccionada por el usuario.
+Este script proporciona una interfaz de línea de comandos para interactuar con un contrato de votación en la blockchain de Ethereum, permitiendo a los usuarios votar y consultar los resultados utilizando Web3.js.
+
+
+
+
+
+
+
+
+
 
 
 
