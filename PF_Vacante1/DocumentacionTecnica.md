@@ -818,7 +818,9 @@ deployContract();
 	- Envía la transacción: Utiliza web3.eth.personal.sendTransaction para enviar la transacción, solicitando la contraseña del usuario.
  - Ejecución del despliegue
 	- Llama a deployContract para iniciar el proceso de despliegue del contrato.
-Este script automatiza el proceso de despliegue de un contrato inteligente en la blockchain de Ethereum, permitiendo interactuar con el contrato a través de una interfaz de línea de comandos. Para ejcutar este script, lo haremos con el siguiente comando:
+Este script automatiza el proceso de despliegue de un contrato inteligente en la blockchain de Ethereum, permitiendo interactuar con el contrato a través de una interfaz de línea de comandos.
+
+Para ejcutar este script, lo haremos con el siguiente comando:  
 
 ```sh
 node deploy.js
