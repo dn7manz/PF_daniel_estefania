@@ -575,7 +575,7 @@ Ahora que los nodos ya estan levantados sin errores, sincronizados, generando bl
    - Método POST en HTTP
       - El método POST en HTTP se utiliza para enviar datos al servidor para crear o actualizar un recurso. En el contexto de blockchain, se puede utilizar para enviar transacciones, interactuar con contratos inteligentes, o consultar el estado de la red.
 
-### Obtener cuentas.
+#### Obtener cuentas.
 
 Para obtener las cuentas de los nodos en una red Ethereum privada utilizando curl, se utiliza el método JSON-RPC eth_accounts. Este método devuelve una lista de todas las cuentas gestionadas por el nodo al que se envía la solicitud. A continuacion se muestra un ejemplo de varios comandos a los distintos nodos de la red.
 
@@ -590,7 +590,9 @@ Para obtener las cuentas de los nodos en una red Ethereum privada utilizando cur
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
 - localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
 
-### Obtener balances
+Como resultado del comando obtenemos las direcciones que estan alojadas en los nodos.
+
+#### Obtener balances
 
 Para obtener el balance de una cuenta específica en un nodo Ethereum utilizando curl, se usa el método JSON-RPC eth_getBalance. Este método devuelve la cantidad de Wei (la unidad más pequeña de Ether) que tiene la cuenta.
 
@@ -603,6 +605,70 @@ Para obtener el balance de una cuenta específica en un nodo Ethereum utilizando
    - "method": "eth_getBalance": Especifica el método que queremos invocar, en este caso, eth_getBalance.
    - "params": ["0xAddress", "latest"]: Los parámetros del método. El primer parámetro es la dirección de la cuenta cuyo balance queremos obtener y el segundo parámetro es el número del bloque (usualmente "latest" para obtener el balance más reciente).
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
+
+Como resultado obtenemos el balances de las cuentas en WEI.
+
+#### Transacciones
+
+Para realizar una transaccion de ethers de una cuenta a otra cuenta, utilizando curl, se usa el metodo personal_sendTransaction. Este método es parte de la API JSON-RPC de Ethereum y es utilizado para enviar transacciones firmadas desde una cuenta gestionada por un nodo Ethereum, proporcionando una forma segura y sencilla de interactuar con contratos inteligentes o transferir Ether.
+
+![image](https://github.com/user-attachments/assets/1b1bf700-d87a-4223-a248-9d8848862f9a)
+
+**Explicación del Comando**
+- curl -X POST: Indica que estamos realizando una solicitud HTTP POST, lo cual es necesario para enviar datos al servidor.
+   - "jsonrpc": "2.0": Define la versión del protocolo JSON-RPC que se está utilizando.
+   - "method": "personal_sendTransaction": Especifica el método de la API que se está llamando, en este caso, personal_sendTransaction.
+   - "params": Lista de parámetros que se envían al método:
+      - "from": La dirección de la cuenta desde la cual se envía la transacción.
+      - "to": La dirección de la cuenta de destino.
+      - "value": La cantidad de Ether a enviar, expresada en Wei.
+      - "gas": El límite de gas para la transacción, que establece el máximo de unidades de gas que se puede gastar.
+      - "gasPrice": El precio del gas por unidad, especificado en Wei.
+      - "data": Datos adicionales a enviar, usualmente utilizado para interactuar con contratos inteligentes.
+   - "YourAccountPassword": La contraseña de la cuenta remitente, utilizada para desbloquear la cuenta y firmar la transacción.
+   - "id": 1: Un identificador único para la solicitud, utilizado para hacer un seguimiento de la misma. Puede ser cualquier número o cadena.
+
+Como se puede ver una vez es ejecutado el comando, como resultado obtengo el hash de la transaccion. Para comprobar que esta transaccion se incluyo en un bloque debemos de ir a los logs del nodo desde el cual se realizo la operacion para ver si se ha minado la transaccion.
+
+![image](https://github.com/user-attachments/assets/b75f6d39-ad75-44ed-8c4c-d689d7d57632)
+
+En esta imagen se ve el nodo ha firmado una transaccion, la cual el hash coincide con el de la operacion realizada, ademas el siguiente bloque se observa que hay 1 transaccion (1 txs).
+
+#### Prueba roles
+
+Para comprobar que cada nodo realemnte estan haciendo sus roles correcatamente, vamos a apagar el nodo validador y posteriormente realaizar una transaccion desde otro nodo, para comprobar como se comportan los nodos.
+
+Lo primero sera parar el nodo validador.
+
+![image](https://github.com/user-attachments/assets/1909b304-8068-4c3b-ac4b-8b1999f693f4)
+
+Una vez el nodo este apagado ejecutamos una transaccion desde algun el nodo no validador.
+
+![image](https://github.com/user-attachments/assets/eb2324c7-d1ff-4ebf-83e2-e229d1ff28b3)
+
+Como resultado obtenemos un hash, pero esto no significa que se haya minado he incluido en un bloque, si nos vamos a los logs del nodo del cual se ha hecho la operacion, veremos que el nodo reporta recurrentemente que no esta firmando y que no esta preparando bloques.
+
+![image](https://github.com/user-attachments/assets/0261cefa-e5f0-4725-b0fc-fe7bb0536e53)
+
+Ahora una vez lanzada la operacion, viendo que el nodo no puedo procesar la transaccion. Encendemos el nodo validador y podemos observar que posteriormente el nodo mina la transaccion y se adjunta en un bloque como vemos en la siguientes imagenes.
+
+![image](https://github.com/user-attachments/assets/84754e13-a7da-42ba-b58a-8ab030372aa8)
+
+![image](https://github.com/user-attachments/assets/ffed289e-f1fd-4d8e-8e35-05bbe6898578)
+
+Despues de esta prueba podemos confirmar que cada nodo actua bajo su rol correctamente ya que solo si el nodo validador esta encendido, se minan transacciones y se generan bloques.
+
+### Despliegue de SmartContract
+
+
+
+
+
+
+
+
+
+
 
 
 
