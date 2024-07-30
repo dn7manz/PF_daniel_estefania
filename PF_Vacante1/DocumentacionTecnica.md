@@ -706,15 +706,15 @@ contract SimpleVoting {
     }
 }
 ```
-Licencia y Versión del Compilador.
-- // SPDX-License-Identifier: MIT: Indica que el contrato está bajo la licencia MIT.
-- pragma solidity ^0.8.0;: Define la versión mínima de Solidity requerida para compilar el contrato.
-Variables de Estado.
-- string[] public names;: Arreglo que almacena los nombres de los candidatos u opciones de votación.
-- uint256[] public votes;: Arreglo que guarda el número de votos recibidos por cada opción.
-Funciones.
-- Función vote: Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
-- Función getResults: Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
+- Licencia y Versión del Compilador.
+	- // SPDX-License-Identifier: MIT: Indica que el contrato está bajo la licencia MIT.
+	- pragma solidity ^0.8.0;: Define la versión mínima de Solidity requerida para compilar el contrato.
+- Variables de Estado.
+	- string[] public names;: Arreglo que almacena los nombres de los candidatos u opciones de votación.
+	- uint256[] public votes;: Arreglo que guarda el número de votos recibidos por cada opción.
+- Funciones.
+	- Función vote: Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
+	- Función getResults: Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
 
 #### Compilacion
 
@@ -797,27 +797,27 @@ async function deployContract() {
 // Ejecuta la función de despliegue
 deployContract();
 ```
-Importación de librerías
-- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
-- fs: Utilizado para leer archivos desde el sistema de archivos.
-- path: Módulo para trabajar con rutas de archivos.
-- readlineSync: Librería para manejar la entrada del usuario desde la consola.
-- fetch: Librería para realizar solicitudes HTTP, aunque no se usa directamente en este script.
-Conexión al nodo Ethereum
-- Se conecta a un nodo de Ethereum en la URL especificada (http://localhost:8545).
-Lectura de ABI y bytecode del contrato
-- ABI (Application Binary Interface): Define cómo interactuar con el contrato. Se lee desde un archivo JSON.
-- Bytecode: El código compilado del contrato, leído desde un archivo binario.
-Función askPassword
-- Solicita la contraseña de la cuenta del usuario, ocultando la entrada para seguridad.
-Función deployContract
-- Obtención de cuentas: Recupera las cuentas disponibles en el nodo. Usa la primera cuenta para desplegar el contrato.
-- Instancia del contrato: Crea una instancia del contrato usando el ABI.
-- Parámetros de despliegue: Configura los parámetros para el despliegue, incluyendo el bytecode y los argumentos del constructor (si los hay).
-- Objeto de transacción: Define los detalles de la transacción, como la dirección de la cuenta, el bytecode del contrato, el gas, y el precio del gas.
-- Envía la transacción: Utiliza web3.eth.personal.sendTransaction para enviar la transacción, solicitando la contraseña del usuario.
-Ejecución del despliegue
-- Llama a deployContract para iniciar el proceso de despliegue del contrato.
+- Importación de librerías
+	- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
+	- fs: Utilizado para leer archivos desde el sistema de archivos.
+	- path: Módulo para trabajar con rutas de archivos.
+	- readlineSync: Librería para manejar la entrada del usuario desde la consola.
+	- fetch: Librería para realizar solicitudes HTTP, aunque no se usa directamente en este script.
+- Conexión al nodo Ethereum
+	- Se conecta a un nodo de Ethereum en la URL especificada (http://localhost:8545).
+- Lectura de ABI y bytecode del contrato
+	- ABI (Application Binary Interface): Define cómo interactuar con el contrato. Se lee desde un archivo JSON.
+	- Bytecode: El código compilado del contrato, leído desde un archivo binario.
+- Función askPassword
+	- Solicita la contraseña de la cuenta del usuario, ocultando la entrada para seguridad.
+- Función deployContract
+	- Obtención de cuentas: Recupera las cuentas disponibles en el nodo. Usa la primera cuenta para desplegar el contrato.
+	- Instancia del contrato: Crea una instancia del contrato usando el ABI.
+	- Parámetros de despliegue: Configura los parámetros para el despliegue, incluyendo el bytecode y los argumentos del constructor (si los hay).
+	- Objeto de transacción: Define los detalles de la transacción, como la dirección de la cuenta, el bytecode del contrato, el gas, y el precio del gas.
+	- Envía la transacción: Utiliza web3.eth.personal.sendTransaction para enviar la transacción, solicitando la contraseña del usuario.
+ - Ejecución del despliegue
+	- Llama a deployContract para iniciar el proceso de despliegue del contrato.
 Este script automatiza el proceso de despliegue de un contrato inteligente en la blockchain de Ethereum, permitiendo interactuar con el contrato a través de una interfaz de línea de comandos. Para ejcutar este script, lo haremos con el siguiente comando:
 
 ```sh
@@ -948,23 +948,45 @@ async function main() {
 // Llama a la función principal para iniciar el programa
 main();
 ```
-Importación de librerías
-- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
-- fs: Importa el módulo del sistema de archivos para leer archivos.
-- path: Módulo para trabajar con rutas de archivo.
-- readlineSync: Librería para manejar la entrada de usuario en la consola.
-Funciones auxiliares
-- askNodeURL(): Solicita al usuario la URL del nodo de Ethereum al que se conectará.
-- askPassword(): Solicita al usuario la contraseña de la cuenta, oculta la entrada para seguridad.
-- askArguments(prompt): Solicita argumentos al usuario, como nombres o números, para interactuar con el contrato.
-Funciones de contrato
-- vote(account, password): Función para votar por una opción. Construye y envía una transacción al contrato.
-- getResults(): Función para obtener y mostrar los resultados de la votación. Llama a una función de contrato y decodifica el resultado.
-Ejecución del programa
-- Obtiene las cuentas disponibles en el nodo y selecciona la primera.
-- Solicita al usuario la contraseña y ofrece un menú para elegir entre votar o obtener resultados.
-- Ejecuta la acción seleccionada por el usuario.
+- Importación de librerías
+	- Web3: Importa la biblioteca Web3.js para interactuar con la blockchain de Ethereum.
+	- fs: Importa el módulo del sistema de archivos para leer archivos.
+	- path: Módulo para trabajar con rutas de archivo.
+	- readlineSync: Librería para manejar la entrada de usuario en la consola.
+- Funciones auxiliares
+	- askNodeURL(): Solicita al usuario la URL del nodo de Ethereum al que se conectará.
+	- askPassword(): Solicita al usuario la contraseña de la cuenta, oculta la entrada para seguridad.
+	- askArguments(prompt): Solicita argumentos al usuario, como nombres o números, para interactuar con el contrato.
+- Funciones de contrato
+	- vote(account, password): Función para votar por una opción. Construye y envía una transacción al contrato.
+	- getResults(): Función para obtener y mostrar los resultados de la votación. Llama a una función de contrato y decodifica el resultado.
+- Ejecución del programa
+	- Obtiene las cuentas disponibles en el nodo y selecciona la primera.
+	- Solicita al usuario la contraseña y ofrece un menú para elegir entre votar o obtener resultados.
+	- Ejecuta la acción seleccionada por el usuario.
 Este script proporciona una interfaz de línea de comandos para interactuar con un contrato de votación en la blockchain de Ethereum, permitiendo a los usuarios votar y consultar los resultados utilizando Web3.js.
+
+A continuacion para probar a interactuar con el contrato, ejecutare el script en repetidas veces conectandome a las distintas cuentas de cada nodo, suponiendo que cada cuenta puede votar 2 veces entre Daniel, Sergio y Aaron, demostrando el caso de uso, obteniendo los resultado posteriormente de todos los votos. 
+
+**node_rpc**
+![image](https://github.com/user-attachments/assets/5672bb3a-6b38-4993-86a6-a25e2ee67fa1)
+![image](https://github.com/user-attachments/assets/ef20264a-0117-4aac-8584-0af7dce01cbc)
+la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
+**node_non_validator_1
+![image](https://github.com/user-attachments/assets/cec2b1c3-ea88-4a8e-b586-2a3e556fd817)
+![image](https://github.com/user-attachments/assets/09c981d5-efd2-4e81-9ca4-c527bac5ec43)
+la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
+**node_non_validator_2
+![image](https://github.com/user-attachments/assets/81029109-f9c4-46c6-a9d9-e822b3f2d0f1)
+![image](https://github.com/user-attachments/assets/9670e6ff-b45a-493e-88e1-b3760fe19234)
+la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
+**node_validator**
+![image](https://github.com/user-attachments/assets/77b17f92-d249-481e-9dff-de8696acdd9c)
+![image](https://github.com/user-attachments/assets/90232154-56d3-4aee-bfeb-ec071d90ddd7)
+la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
+
+
+
 
 
 
