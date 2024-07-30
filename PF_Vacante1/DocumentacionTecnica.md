@@ -968,21 +968,36 @@ Este script proporciona una interfaz de línea de comandos para interactuar con 
 
 A continuacion para probar a interactuar con el contrato, ejecutare el script en repetidas veces conectandome a las distintas cuentas de cada nodo, suponiendo que cada cuenta puede votar 2 veces entre Daniel, Sergio y Aaron, demostrando el caso de uso, obteniendo los resultado posteriormente de todos los votos. 
 
-**node_rpc**
-![image](https://github.com/user-attachments/assets/5672bb3a-6b38-4993-86a6-a25e2ee67fa1)
-![image](https://github.com/user-attachments/assets/ef20264a-0117-4aac-8584-0af7dce01cbc)
-la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
-**node_non_validator_1
-![image](https://github.com/user-attachments/assets/cec2b1c3-ea88-4a8e-b586-2a3e556fd817)
-![image](https://github.com/user-attachments/assets/09c981d5-efd2-4e81-9ca4-c527bac5ec43)
-la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
-**node_non_validator_2
-![image](https://github.com/user-attachments/assets/81029109-f9c4-46c6-a9d9-e822b3f2d0f1)
-![image](https://github.com/user-attachments/assets/9670e6ff-b45a-493e-88e1-b3760fe19234)
-la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
-**node_validator**
-![image](https://github.com/user-attachments/assets/77b17f92-d249-481e-9dff-de8696acdd9c)
-![image](https://github.com/user-attachments/assets/90232154-56d3-4aee-bfeb-ec071d90ddd7)
+**node_rpc**  
+
+![image](https://github.com/user-attachments/assets/5672bb3a-6b38-4993-86a6-a25e2ee67fa1)  
+
+![image](https://github.com/user-attachments/assets/ef20264a-0117-4aac-8584-0af7dce01cbc)  
+
+la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.  
+
+**node_non_validator_1**  
+
+![image](https://github.com/user-attachments/assets/cec2b1c3-ea88-4a8e-b586-2a3e556fd817)  
+
+![image](https://github.com/user-attachments/assets/09c981d5-efd2-4e81-9ca4-c527bac5ec43)  
+
+la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.  
+
+**node_non_validator_2**  
+
+![image](https://github.com/user-attachments/assets/81029109-f9c4-46c6-a9d9-e822b3f2d0f1)  
+
+![image](https://github.com/user-attachments/assets/9670e6ff-b45a-493e-88e1-b3760fe19234)  
+
+la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.  
+
+**node_validator**  
+
+![image](https://github.com/user-attachments/assets/77b17f92-d249-481e-9dff-de8696acdd9c)  
+
+![image](https://github.com/user-attachments/assets/90232154-56d3-4aee-bfeb-ec071d90ddd7)  
+
 la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
 
 
