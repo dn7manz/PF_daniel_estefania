@@ -974,7 +974,7 @@ A continuacion para probar a interactuar con el contrato, ejecutare el script en
 
 ![image](https://github.com/user-attachments/assets/ef20264a-0117-4aac-8584-0af7dce01cbc)  
 
-la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.  
+La cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.  
 
 **node_non_validator_1**  
 
@@ -982,7 +982,7 @@ la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
 
 ![image](https://github.com/user-attachments/assets/09c981d5-efd2-4e81-9ca4-c527bac5ec43)  
 
-la cuenta alojada en el nodo no validador 1 ha votado a Daniel y Sergio satisfactoriamente.  
+La cuenta alojada en el nodo no validador 1 ha votado a Daniel y Sergio satisfactoriamente.  
 
 **node_non_validator_2**  
 
@@ -990,7 +990,7 @@ la cuenta alojada en el nodo no validador 1 ha votado a Daniel y Sergio satisfac
 
 ![image](https://github.com/user-attachments/assets/9670e6ff-b45a-493e-88e1-b3760fe19234)  
 
-la cuenta alojada en el nodo no validador 2 ha votado a Daniel y Aaron satisfactoriamente.  
+La cuenta alojada en el nodo no validador 2 ha votado a Daniel y Aaron satisfactoriamente.  
 
 **node_validator**  
 
@@ -998,7 +998,16 @@ la cuenta alojada en el nodo no validador 2 ha votado a Daniel y Aaron satisfact
 
 ![image](https://github.com/user-attachments/assets/90232154-56d3-4aee-bfeb-ec071d90ddd7)  
 
-la cuenta alojada en el nodo validador ha votado a Daniel y Sergio satisfactoriamente.
+La cuenta alojada en el nodo validador ha votado a Daniel y Sergio satisfactoriamente.
+
+Una vez que se han registrado los votos, el siguiente paso es calcular y obtener los resultados. Para ello, se invoca la función getResults del contrato inteligente. Esta función devuelve una lista de candidatos junto con el número de votos que cada uno ha recibido. Esto permite verificar de manera pública y transparente los resultados de la votación.
+
+Este proceso asegura que cada voto es registrado y contabilizado de forma segura y precisa, ofreciendo una solución de votación digital confiable y accesible.
+
+![image](https://github.com/user-attachments/assets/91e44d1a-741a-4492-8d7e-33b263a3601d)
+
+Como se puede observar el resultado de llamar a la funcion ha sido imprimir por consola el recuento de todos los votos recogidos hasta ahora y decidir el ganador, que fue Daniel.
+
 
 
 
