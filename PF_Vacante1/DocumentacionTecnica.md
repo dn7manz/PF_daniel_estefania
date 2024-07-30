@@ -982,7 +982,7 @@ la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
 
 ![image](https://github.com/user-attachments/assets/09c981d5-efd2-4e81-9ca4-c527bac5ec43)  
 
-la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.  
+la cuenta alojada en el nodo no validador 1 ha votado a Daniel y Sergio satisfactoriamente.  
 
 **node_non_validator_2**  
 
@@ -990,7 +990,7 @@ la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
 
 ![image](https://github.com/user-attachments/assets/9670e6ff-b45a-493e-88e1-b3760fe19234)  
 
-la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.  
+la cuenta alojada en el nodo no validador 2 ha votado a Daniel y Aaron satisfactoriamente.  
 
 **node_validator**  
 
@@ -998,7 +998,7 @@ la cuenta alojada en el nodo rpc ha votado a Daniel y Aaron satisfactoriamente.
 
 ![image](https://github.com/user-attachments/assets/90232154-56d3-4aee-bfeb-ec071d90ddd7)  
 
-la cuenta alojada en el nodo rpc ha votado a Daniel y Sergio satisfactoriamente.
+la cuenta alojada en el nodo validador ha votado a Daniel y Sergio satisfactoriamente.
 
 
 
