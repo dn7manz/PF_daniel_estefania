@@ -642,7 +642,7 @@ Lo primero sera parar el nodo validador.
 
 ![image](https://github.com/user-attachments/assets/1909b304-8068-4c3b-ac4b-8b1999f693f4)
 
-Una vez el nodo este apagado ejecutamos una transaccion desde algun el nodo no validador.
+Cuando el nodo este apagado ejecutamos una transaccion desde algun el nodo no validador.
 
 ![image](https://github.com/user-attachments/assets/eb2324c7-d1ff-4ebf-83e2-e229d1ff28b3)
 
@@ -659,6 +659,79 @@ Ahora una vez lanzada la operacion, viendo que el nodo no puedo procesar la tran
 Despues de esta prueba podemos confirmar que cada nodo actua bajo su rol correctamente ya que solo si el nodo validador esta encendido, se minan transacciones y se generan bloques.
 
 ### Despliegue de SmartContract
+
+Una vez que los nodos de la red privada de Ethereum están correctamente levantados y se han realizado pruebas básicas de transacciones, el siguiente paso es desplegar un contrato inteligente. En este proyecto, el contrato inteligente elegido es un sistema de votación simple escrito en Solidity.
+
+#### Codigo Solidity
+
+A continuacion se muestra el codigo del [contracts/Contrato.sol](SmartContract) que consigue sistema de votacion simple con funciones para votar y obtener los resultados.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SimpleVoting {
+    // Almacena los nombres de los candidatos u opciones de votación
+    string[] public names;
+    // Almacena el número de votos recibidos por cada opción
+    uint256[] public votes;
+
+    // Función para registrar un voto para una opción específica
+    function vote(string memory name) public {
+        // Variable booleana para verificar si la opción ya existe
+        bool found = false;
+        // Bucle para recorrer todas las opciones existentes
+        for (uint256 i = 0; i < names.length; i++) {
+            // Compara el nombre dado con los nombres existentes usando keccak256 para evitar problemas de comparación de strings
+            if (keccak256(abi.encodePacked(names[i])) == keccak256(abi.encodePacked(name))) {
+                // Incrementa el contador de votos de la opción encontrada
+                votes[i]++;
+                // Marca la opción como encontrada
+                found = true;
+                // Termina el bucle porque ya se encontró la opción
+                break;
+            }
+        }
+        // Si la opción no se encontró, se agrega como una nueva opción
+        if (!found) {
+            names.push(name); // Agrega el nuevo nombre al arreglo de nombres
+            votes.push(1); // Inicializa su contador de votos a 1
+        }
+    }
+
+    // Función para obtener los resultados de la votación
+    function getResults() public view returns (string[] memory, uint256[] memory) {
+        // Devuelve los arreglos de nombres y votos
+        return (names, votes);
+    }
+}
+```
+- Licencia y Versión del Compilador
+   - // SPDX-License-Identifier: MIT: Indica que el contrato está bajo la licencia MIT.
+   - pragma solidity ^0.8.0;: Define la versión mínima de Solidity requerida para compilar el contrato.
+- Variables de Estado
+   - string[] public names;: Arreglo que almacena los nombres de los candidatos u opciones de votación.
+   - uint256[] public votes;: Arreglo que guarda el número de votos recibidos por cada opción.
+- Función vote
+   Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
+- Función getResults
+   Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
+
+#### Compilacion
+
+Una vez diseñado la logica del [contracts/Contrato.sol](SmartContract) para compilarlo, nos dirigeremos a la ruta donde se ubica el contrato en una consola y procederemos a compilar con la herramineta solc.
+Antes hay que intalar la herramienta solc con el siguiente comando:
+```sh
+npm install -g solc
+```
+ahora con la heramineta instalada, para proceder con la compilacion ejecuto el siguiente comando:
+```sh
+solc --abi --bin Contrato.sol -o ./build
+```
+Este comando sirve para obtener los datos binarios y los datos ABI reuqeridos para desplegar el contrato en la red en la carpeta build.
+
+
+
 
 
 
