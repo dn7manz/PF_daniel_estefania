@@ -1010,7 +1010,11 @@ Este proceso asegura que cada voto es registrado y contabilizado de forma segura
 
 Como se puede observar el resultado de llamar a la función ha sido imprimir por consola el recuento de todos los votos recogidos hasta ahora y decidir el ganador, que fue Daniel.
 
+## Comentarios finales
 
+Para finalizar esta documentación técnica para la vacante de Blockchain TS, quiero subrayar la dedicación y el esfuerzo puestos en este proyecto. He abordado los conceptos fundamentales, las tecnologías emergentes y las prácticas más avanzadas en el ámbito de blockchain. Este trabajo es un reflejo de mi compromiso con el desarrollo y la innovación dentro de esta apasionante área.
+
+A través de esta documentación, he buscado no solo demostrar mi conocimiento y habilidades, sino también mi entusiasmo por seguir explorando y expandiendo mis capacidades en tecnología blockchain. Confío en que este documento evidencie mi preparación y mi deseo de contribuir al crecimiento y éxito de la organización. Agradezco la oportunidad de compartir este trabajo y estoy ansioso por la posibilidad de unirme al equipo para enfrentar juntos los retos y oportunidades que ofrece la tecnología blockchain.
 
 
 
