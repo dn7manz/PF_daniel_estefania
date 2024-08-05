@@ -56,10 +56,10 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 ## 3. Configuración y Desarrollo
 
 ### Script GenerateAll.sh
-Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque genesis, el docker-compose y los archivos de configuracion de cada nodo.
+Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque génesis, el docker-compose y los archivos de configuración de cada nodo.
 
-#### Generar direcotrios y cuentas.
-La primera funcion que hay en el shell, se llama generate_keys, la que al ejecutarse, se crean los direcotrios inciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los direcotrios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendra la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la funcion es generar una cuenta por cada nodo utilizando las password geeradas anteriormente y por ultimo muestra por pantalla la informacion de la cuentas creadas. A continuacion el codigo de la funcion:
+#### Generar directorios y cuentas.
+La primera función que hay en el shell, se llama generate_keys, la que, al ejecutarse, se crean los directorios iniciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los directorios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendrá la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la función es generar una cuenta por cada nodo utilizando las password generadas anteriormente y por último muestra por pantalla la información de las cuentas creadas. A continuación, el código de la función:
 
 ```sh
 generate_keys() {
@@ -111,7 +111,7 @@ echo "node_non_validator_2: $account_node_non_validator_2"
 echo "node_rpc: $account_node_rpc"
 ```
 #### Generar archivo Genesis
-La siguiente funcion es para generar el archivo Genesis, el archivo genesis es un archivo de configuración fundamental en las redes de blockchain. Define las reglas y parámetros iniciales para una nueva red de blockchain. Esencialmente, establece el estado inicial de la red al momento de su creación. A continuacion se analiza cada parte del codigo:
+La siguiente función es para generar el archivo Genesis, el archivo génesis es un archivo de configuración fundamental en las redes de blockchain. Define las reglas y parámetros iniciales para una nueva red de blockchain. Esencialmente, establece el estado inicial de la red al momento de su creación. A continuación, se analiza cada parte del código:
 
 ```sh
 generate_genesis(){
@@ -132,7 +132,7 @@ cat > ./genesis/genesis.json <<EOF
     }
   },
 ```
-Este fragmento del archivo genesis configura una red blockchain personalizada con un nombre específico y establece el algoritmo de consenso como Authority Round. Configura la duración de los bloques y define los validadores autorizados que pueden producir bloques en la red. Hay multiples opciones en estas etiquetas que puedas establecer el funciomaniento de la red, en la parte de [Engine] en vez de authorityRound, podria ser instabul o clique, que son direfentes consensos. en parte de [params] podriamos establecer los validadores maximos o minimos que puede tener una red con "maxValidators" o "minValidators", tambien para establecer cada cuanto tiempo genera bloques, en mi caso es 5, definido en "stepDuration". Una vez que obtengamos la direccion de la cuenta del nodo validador habra que volver a esta parte y estabelcer la direccion en la lista para que pueda firmar y hacer consenso.
+Este fragmento del archivo génesis configura una red blockchain personalizada con un nombre específico y establece el algoritmo de consenso como Authority Round. Configura la duración de los bloques y define los validadores autorizados que pueden producir bloques en la red. Hay múltiples opciones en estas etiquetas que puedas establecer el funcionamiento de la red, en la parte de [Engine] en vez de authorityRound, podría ser instabul o clique, que son diferentes consensos. en parte de [params] podríamos establecer los validadores máximos o mínimos que puede tener una red con "maxValidators" o "minValidators", también para establecer cada cuanto tiempo genera bloques, en mi caso es 5, definido en "stepDuration". Una vez que obtengamos la dirección de la cuenta del nodo validador habrá que volver a esta parte y establecer la dirección en la lista para que pueda firmar y hacer consenso.
 
 ```sh
 "genesis": {
@@ -161,10 +161,10 @@ Este fragmento del archivo genesis configura una red blockchain personalizada co
   }
 }
 ```
-Este fragmento del archivo genesis define la configuración del consenso, los parámetros iniciales para el minado (o límites del bloque), y establece saldos iniciales para cuentas específicas. Cuando se ejecute esta funcion, deberemos de volver para estabelecer las direcciones de las cuentas de cada nodo.
+Este fragmento del archivo génesis define la configuración del consenso, los parámetros iniciales para el minado (o límites del bloque), y establece saldos iniciales para cuentas específicas. Cuando se ejecute esta función, deberemos de volver para establecer las direcciones de las cuentas de cada nodo.
 
 #### Generar Docker-compose
-La sieguiente funcion se encarga simplemente de crear el archivo docker-compose, neecsario para iniciar y configurar cada nodo. A continunacion se muestra el codigo del archivo con comentarios que explican cada linea.
+La siguiente función se encarga simplemente de crear el archivo docker-compose, necesario para iniciar y configurar cada nodo. A continuación, se muestra el código del archivo con comentarios que explican cada línea.
 
 ```yml
 # Generar docker-compose.yml
@@ -178,7 +178,7 @@ services:
     image: openethereum/openethereum:latest  # Imagen Docker a utilizar, la más reciente de OpenEthereum
     volumes:
       - node_validator:/root/.local/share/openethereum  # Monta un volumen llamado 'node_validator' para persistencia de datos
-      - ./genesis:/root/.local/share/openethereum/genesis  # Monta el directorio local 'genesis' en la ruta del contenedor
+      - ./génesis:/root/.local/share/openethereum/génesis  # Monta el directorio local 'génesis' en la ruta del contenedor
       - ./node_validator/keys:/root/.local/share/openethereum/keys  # Monta el directorio local 'keys' con las claves
       - ./node_validator/keys/Proyecto_final/password.pwd:/root/.local/share/openethereum/keys/Proyecto_final/password.pwd:ro  # Monta el archivo de contraseña con permisos de solo lectura
       - ./node_validator/config:/root/.local/share/openethereum/config  # Monta el directorio local 'config' con la configuración del nodo
@@ -192,7 +192,7 @@ services:
         ipv4_address: 172.20.0.2  # Asigna una dirección IP estática a este contenedor
     command:
       --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
-      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+      --chain /root/.local/share/openethereum/génesis/genesis.json  # Ruta al archivo de génesis de la cadena
       --engine-signer 0x00000000000000001  # Dirección del nodo validador para la firma de bloques
 
   node_non_validator_1:  # Servicio para un nodo no validador (nodo de red)
@@ -214,7 +214,7 @@ services:
         ipv4_address: 172.20.0.3  # Asigna una dirección IP estática a este contenedor
     command:
       --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
-      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+      --chain /root/.local/share/openethereum/génesis/genesis.json  # Ruta al archivo de génesis de la cadena
 
   node_non_validator_2:  # Otro nodo no validador
     user: root  # Ejecutar el contenedor como el usuario root
@@ -235,7 +235,7 @@ services:
         ipv4_address: 172.20.0.4  # Asigna una dirección IP estática a este contenedor
     command:
       --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
-      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+      --chain /root/.local/share/openethereum/génesis/genesis.json  # Ruta al archivo de génesis de la cadena
 
   node_rpc:  # Servicio para un nodo RPC
     user: root  # Ejecutar el contenedor como el usuario root
@@ -255,7 +255,7 @@ services:
         ipv4_address: 172.20.0.5  # Asigna una dirección IP estática a este contenedor
     command:
       --config /root/.local/share/openethereum/config/config.toml  # Ruta al archivo de configuración del nodo
-      --chain /root/.local/share/openethereum/genesis/genesis.json  # Ruta al archivo de génesis de la cadena
+      --chain /root/.local/share/openethereum/génesis/genesis.json  # Ruta al archivo de génesis de la cadena
 
 volumes:
   node_validator:  # Define un volumen para persistir datos del nodo validador
@@ -286,7 +286,7 @@ La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a t
 
 - Roles y Funciones:
    - Nodo Validador: Responsable de validar y firmar bloques.
-   - Nodos No Validadores: Participan en la red pero no validan bloques.
+   - Nodos No Validadores: Participan en la red, pero no validan bloques.
    - Nodo RPC: Dedicado a servir solicitudes RPC.
 - Puertos:
    - Los nodos validadores y no validadores usan puertos P2P (30300, 30301, 30302).
@@ -301,7 +301,7 @@ La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a t
 
 #### Generar los config.toml
 
-El archivo config.toml es un archivo de configuración utilizado por OpenEthereum (anteriormente conocido como Parity) para definir cómo debe comportarse un nodo en la red Ethereum. Este archivo está escrito en formato TOML (Tom's Obvious, Minimal Language), que es un formato de configuración simple y legible para humanos. A continuacion muestro los ficheros de configuracion de cada nodo.
+El archivo config.toml es un archivo de configuración utilizado por OpenEthereum (anteriormente conocido como Parity) para definir cómo debe comportarse un nodo en la red Ethereum. Este archivo está escrito en formato TOML (Tom's Obvious, Minimal Language), que es un formato de configuración simple y legible para humanos. A continuación, muestro los ficheros de configuración de cada nodo.
 
 **node_validator**
 
@@ -348,7 +348,7 @@ la etiqueta account: Configura los parámetros relacionados con la cuenta del no
    - password: "/root/.local/share/openethereum/keys/Proyecto_final/password.pwd" - Ruta al archivo que contiene la contraseña de la cuenta del nodo. Este archivo es utilizado para desbloquear la cuenta al iniciar el nodo.
 
 la etiqueta mining: Configura los parámetros relacionados con la minería en el nodo.
-   - engine_signer: "<address_of_node1>" - La dirección de la cuenta que firmará los bloques. En el caso de un nodo validador, esta es la cuenta que se utilizará para el consenso, Es importante introducir la dirrecion del nodo validador en cuanto se creen las cuentas.
+   - engine_signer: "<address_of_node1>" - La dirección de la cuenta que firmará los bloques. En el caso de un nodo validador, esta es la cuenta que se utilizará para el consenso, Es importante introducir la dirección del nodo validador en cuanto se creen las cuentas.
    - reseal_on_txs: "all" - Indica que el nodo debe volver a sellar (minar) un bloque cuando se reciban transacciones. Esto asegura que los bloques se mantengan actualizados con las transacciones más recientes.
    - min_gas_price: 0 - El precio mínimo del gas que el nodo aceptará para las transacciones. Establecerlo en 0 puede hacer que el nodo acepte transacciones con cualquier precio de gas, lo que puede ser útil para pruebas.
 
@@ -374,7 +374,7 @@ password = ["/root/.local/share/openethereum/keys/Proyecto_final/password.pwd"]
 EOF
 }
 ```
-en estos nodos solo hace falta de especificar la etiqueta de network rpc y account, como no son validadores no haria falta la etiqueta mining
+en estos nodos solo hace falta de especificar la etiqueta de network rpc y account, como no son validadores no haría falta la etiqueta mining
 
 **node_rpc**
 
@@ -439,7 +439,7 @@ Este conjunto de configuraciones permite que cada nodo desempeñe su papel espec
 
 #### Ejecucion del Script
 
-Una vez se ha revisado las funciones del script, al final del archivo se llaman a las funciones como se puede ver a continunacion:
+Una vez se ha revisado las funciones del script, al final del archivo se llaman a las funciones como se puede ver a continuación:
 
 ```sh
 # Ejecutar funciones
@@ -454,7 +454,7 @@ generate_docker_compose
 echo "Configuración completada. Se ha generado docker-compose.yml, los pares de claves y las configuraciones"
 
 ```
-desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la siguiente manera, dando resultado lo siguiente:
+desde la consola, en la ubicación raíz del proyecto, ejecuto el shell de la siguiente manera, dando resultado lo siguiente:
 
 ```bash
 ./Generate_all.sh
@@ -463,7 +463,7 @@ desde la consola, en la ubicacion raiz del proyecto, ejecuto el shell de la sigu
 
 ![image](https://github.com/user-attachments/assets/86c8741c-15f1-4949-83b5-a5cf5b259565)
 
-Una vez ejecutado el script sh por la pantalla de la terminal, apareceran las direcciones de cada cuenta, es muy importante volver a los archivos que necesitan estas direcciones para que posterioremente en el despliegue todo funcione bien.
+Una vez ejecutado el script sh por la pantalla de la terminal, aparecerán las direcciones de cada cuenta, es muy importante volver a los archivos que necesitan estas direcciones para que posteriormente en el despliegue todo funcione bien.
 
 [node_validator/config/config.toml](node_validator/config/config.toml)
 ```toml
@@ -534,16 +534,16 @@ min_gas_price = 0
 
 ### Levantamiento de contenedores
 
-Una vez que todo ha sido creado y configurado gracias al script [Generate_All.sh](Generate_All.sh), es posible levantar los dockers y ponerlos en funcionamiento a traves del fichero [docker-compose.yml](docker-compose.yml). Para esto, a traves de la terminal, ejecutarermos el siguiente comando:
+Una vez que todo ha sido creado y configurado gracias al script [Generate_All.sh](Generate_All.sh), es posible levantar los dockers y ponerlos en funcionamiento a través del fichero [docker-compose.yml](docker-compose.yml). Para esto, a través de la terminal, ejecutáremos el siguiente comando:
 
 ```sh
 docker-compose up -d
 ```
-Con el siguiente comando levantamos todos los nodos necesarios para que funcione la red y con el parametro "-d" lo ejecutamos en modo demonio.
+Con el siguiente comando levantamos todos los nodos necesarios para que funcione la red y con el parámetro "-d" lo ejecutamos en modo demonio.
 
 ![image](https://github.com/user-attachments/assets/40100394-4a66-4643-b2be-be64cd91b102)
 
-A continuacion a traves de la aplicacion de Escritorio de Docker, revisaremos los logs de cada nodo para comprobar que los nodos se esten ejecutando, sincronizados y generando bloques.
+A continuación, a través de la aplicación de Escritorio de Docker, revisaremos los logs de cada nodo para comprobar que los nodos se estén ejecutando, sincronizados y generando bloques.
 
 **node_validator**
 
@@ -561,11 +561,11 @@ A continuacion a traves de la aplicacion de Escritorio de Docker, revisaremos lo
 
 ![image](https://github.com/user-attachments/assets/7ad8a748-2886-4473-85f6-77575c20acea)
 
-Aqui se puede observar que los nodos se estan ejecutando correctamente, podemos ver que el engine es "AuthorityRound", en la siguiente linea, se puede observar el public enode,  tambien se puede ver que tienen emparejado 3 peers lo que indica que los otros nodos tambien se esta ejcutando bien y el ultimo indicativo de que todo va correctamente es que estan generando bloques.
+Aquí se puede observar que los nodos se están ejecutando correctamente, podemos ver que el engine es "AuthorityRound", en la siguiente línea, se puede observar el public enode,  también se puede ver que tienen emparejado 3 peers lo que indica que los otros nodos también se están ejecutando bien y el ultimo indicativo de que todo va correctamente es que están generando bloques.
 
-### Puebras y transacciones
+### Pruebas y transacciones
 
-Ahora que los nodos ya estan levantados sin errores, sincronizados, generando bloques, es momento de interactuar con la red para verificar su funcionamiento de la siguiente manera:
+Ahora que los nodos ya están levantados sin errores, sincronizados, generando bloques, es momento de interactuar con la red para verificar su funcionamiento de la siguiente manera:
 
 #### Comandos curl método POST
 
@@ -577,7 +577,7 @@ Ahora que los nodos ya estan levantados sin errores, sincronizados, generando bl
 
 #### Obtener cuentas.
 
-Para obtener las cuentas de los nodos en una red Ethereum privada utilizando curl, se utiliza el método JSON-RPC eth_accounts. Este método devuelve una lista de todas las cuentas gestionadas por el nodo al que se envía la solicitud. A continuacion se muestra un ejemplo de varios comandos a los distintos nodos de la red.
+Para obtener las cuentas de los nodos en una red Ethereum privada utilizando curl, se utiliza el método JSON-RPC eth_accounts. Este método devuelve una lista de todas las cuentas gestionadas por el nodo al que se envía la solicitud. A continuación, se muestra un ejemplo de varios comandos a los distintos nodos de la red.
 
 ![image](https://github.com/user-attachments/assets/eee6ab68-0ee7-4567-a8cf-cfd45c110ae5)
 
@@ -588,9 +588,9 @@ Para obtener las cuentas de los nodos en una red Ethereum privada utilizando cur
    - "method": "eth_accounts": Especifica el método que queremos invocar, en este caso, eth_accounts.
    - "params": []: Una lista vacía de parámetros, ya que eth_accounts no requiere parámetros.
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
-- localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aqui hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
+- localhost:854?: La URL del nodo Ethereum al que se envía la solicitud. Aquí hay que reemplazar localhost y el puerto del nodo al que se quiere hacer la consulta.
 
-Como resultado del comando obtenemos las direcciones que estan alojadas en los nodos.
+Como resultado del comando obtenemos las direcciones que están alojadas en los nodos.
 
 #### Obtener balances
 
@@ -606,11 +606,11 @@ Para obtener el balance de una cuenta específica en un nodo Ethereum utilizando
    - "params": ["0xAddress", "latest"]: Los parámetros del método. El primer parámetro es la dirección de la cuenta cuyo balance queremos obtener y el segundo parámetro es el número del bloque (usualmente "latest" para obtener el balance más reciente).
    - "id": 1: Un identificador de la solicitud, que puede ser cualquier número. Es útil para hacer un seguimiento de las solicitudes cuando se realizan múltiples solicitudes a la vez.
 
-Como resultado obtenemos el balances de las cuentas en WEI.
+Como resultado obtenemos el balance de las cuentas en WEI.
 
 #### Transacciones
 
-Para realizar una transaccion de ethers de una cuenta a otra cuenta, utilizando curl, se usa el metodo personal_sendTransaction. Este método es parte de la API JSON-RPC de Ethereum y es utilizado para enviar transacciones firmadas desde una cuenta gestionada por un nodo Ethereum, proporcionando una forma segura y sencilla de interactuar con contratos inteligentes o transferir Ether.
+Para realizar una transacción de ethers de una cuenta a otra cuenta, utilizando curl, se usa el método personal_sendTransaction. Este método es parte de la API JSON-RPC de Ethereum y es utilizado para enviar transacciones firmadas desde una cuenta gestionada por un nodo Ethereum, proporcionando una forma segura y sencilla de interactuar con contratos inteligentes o transferir Ether.
 
 ![image](https://github.com/user-attachments/assets/1b1bf700-d87a-4223-a248-9d8848862f9a)
 
@@ -626,45 +626,45 @@ Para realizar una transaccion de ethers de una cuenta a otra cuenta, utilizando 
       - "gasPrice": El precio del gas por unidad, especificado en Wei.
       - "data": Datos adicionales a enviar, usualmente utilizado para interactuar con contratos inteligentes.
    - "YourAccountPassword": La contraseña de la cuenta remitente, utilizada para desbloquear la cuenta y firmar la transacción.
-   - "id": 1: Un identificador único para la solicitud, utilizado para hacer un seguimiento de la misma. Puede ser cualquier número o cadena.
+   - "id": 1: Un identificador único para la solicitud, utilizado para hacer un seguimiento de esta. Puede ser cualquier número o cadena.
 
-Como se puede ver una vez es ejecutado el comando, como resultado obtengo el hash de la transaccion. Para comprobar que esta transaccion se incluyo en un bloque debemos de ir a los logs del nodo desde el cual se realizo la operacion para ver si se ha minado la transaccion.
+Como se puede ver una vez es ejecutado el comando, como resultado obtengo el hash de la transacción. Para comprobar que esta transacción se incluyó en un bloque debemos de ir a los logs del nodo desde el cual se realizó la operación para ver si se ha minado la transacción.
 
 ![image](https://github.com/user-attachments/assets/b75f6d39-ad75-44ed-8c4c-d689d7d57632)
 
-En esta imagen se ve el nodo ha firmado una transaccion, la cual el hash coincide con el de la operacion realizada, ademas el siguiente bloque se observa que hay 1 transaccion (1 txs).
+En esta imagen se ve el nodo ha firmado una transacción, la cual el hash coincide con el de la operación realizada, además el siguiente bloque se observa que hay 1 transacción (1 txs).
 
 #### Prueba roles
 
-Para comprobar que cada nodo realemnte estan haciendo sus roles correcatamente, vamos a apagar el nodo validador y posteriormente realaizar una transaccion desde otro nodo, para comprobar como se comportan los nodos.
+Para comprobar que cada nodo realmente está haciendo sus roles correctamente, vamos a apagar el nodo validador y posteriormente realizar una transacción desde otro nodo, para comprobar cómo se comportan los nodos.
 
-Lo primero sera parar el nodo validador.
+Lo primero será parar el nodo validador.
 
 ![image](https://github.com/user-attachments/assets/1909b304-8068-4c3b-ac4b-8b1999f693f4)
 
-Cuando el nodo este apagado ejecutamos una transaccion desde algun el nodo no validador.
+Cuando el nodo este apagado ejecutamos una transacción desde algún el nodo no validador.
 
 ![image](https://github.com/user-attachments/assets/eb2324c7-d1ff-4ebf-83e2-e229d1ff28b3)
 
-Como resultado obtenemos un hash, pero esto no significa que se haya minado he incluido en un bloque, si nos vamos a los logs del nodo del cual se ha hecho la operacion, veremos que el nodo reporta recurrentemente que no esta firmando y que no esta preparando bloques.
+Como resultado obtenemos un hash, pero esto no significa que se haya minado he incluido en un bloque, si nos vamos a los logs del nodo del cual se ha hecho la operación, veremos que el nodo reporta recurrentemente que no está firmando y que no está preparando bloques.
 
 ![image](https://github.com/user-attachments/assets/0261cefa-e5f0-4725-b0fc-fe7bb0536e53)
 
-Ahora una vez lanzada la operacion, viendo que el nodo no puedo procesar la transaccion. Encendemos el nodo validador y podemos observar que posteriormente el nodo mina la transaccion y se adjunta en un bloque como vemos en la siguientes imagenes.
+Ahora una vez lanzada la operación, viendo que el nodo no puedo procesar la transacción. Encendemos el nodo validador y podemos observar que posteriormente el nodo mina la transacción y se adjunta en un bloque como vemos en las siguientes imágenes.
 
 ![image](https://github.com/user-attachments/assets/84754e13-a7da-42ba-b58a-8ab030372aa8)
 
 ![image](https://github.com/user-attachments/assets/ffed289e-f1fd-4d8e-8e35-05bbe6898578)
 
-Despues de esta prueba podemos confirmar que cada nodo actua bajo su rol correctamente ya que solo si el nodo validador esta encendido, se minan transacciones y se generan bloques.
+Despues de esta prueba podemos confirmar que cada nodo actúa bajo su rol correctamente ya que solo si el nodo validador este encendido, se minan transacciones y se generan bloques.
 
 ### Despliegue de SmartContract
 
 Una vez que los nodos de la red privada de Ethereum están correctamente levantados y se han realizado pruebas básicas de transacciones, el siguiente paso es desplegar un contrato inteligente. En este proyecto, el contrato inteligente elegido es un sistema de votación simple escrito en Solidity.
 
-#### Codigo Solidity
+#### Código Solidity
 
-A continuacion se muestra el codigo del [SmartContract](contracts/Contrato.sol) que consigue sistema de votacion simple con funciones para votar y obtener los resultados.
+A continuación, se muestra el código del [SmartContract](contracts/Contrato.sol) que consigue sistema de votación simple con funciones para votar y obtener los resultados.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -716,22 +716,22 @@ contract SimpleVoting {
 	- Función vote: Esta función permite a los usuarios votar por una opción específica. Si la opción ya existe, incrementa su contador de votos. Si no, añade una nueva entrada.
 	- Función getResults: Retorna los nombres y los votos correspondientes a cada opción, permitiendo la consulta de los resultados de la votación.
 
-#### Compilacion
+#### Compilación
 
-Una vez diseñado la logica del [SmartContract](contracts/Contrato.sol) para compilarlo, nos dirigeremos a la ruta donde se ubica el contrato en una consola y procederemos a compilar con la herramineta solc.
-Antes hay que intalar la herramienta solc con el siguiente comando:
+Una vez diseñado la lógica del [SmartContract](contracts/Contrato.sol) para compilarlo, nos dirigiremos a la ruta donde se ubica el contrato en una consola y procederemos a compilar con la herramienta solc.
+Antes hay que instalar la herramienta solc con el siguiente comando:
 ```sh
 npm install -g solc
 ```
-ahora con la heramineta instalada, para proceder con la compilacion ejecuto el siguiente comando:
+ahora con la herramienta instalada, para proceder con la compilación ejecuto el siguiente comando:
 ```sh
 solc --abi --bin Contrato.sol -o ./build
 ```
-Este comando sirve para obtener los datos binarios y los datos ABI reuqeridos para desplegar el contrato en la red en la carpeta build.
+Este comando sirve para obtener los datos binarios y los datos ABI requeridos para desplegar el contrato en la red en la carpeta build.
 
-#### Despliegar y interactuar con Web3js
+#### Desplegar e interactuar con Web3js
 
-Para desplegar el [SmartContract](contracts/Contrato.sol) con web3.js, he creado un script de JavaScript, que se conecta al nodo que especifiquemos y despliega el contrato, desde la cuenta del nodo al que se conecta. A continuacion se muestra el codigo del [script](contracts/deploy.js) con comentarios explicando cada bloque.
+Para desplegar el [SmartContract](contracts/Contrato.sol) con web3.js, he creado un script de JavaScript, que se conecta al nodo que especifiquemos y despliega el contrato, desde la cuenta del nodo al que se conecta. A continuación, se muestra el código del [script](contracts/deploy.js) con comentarios explicando cada bloque.
 
 ```js
 const Web3 = require('web3');
@@ -820,7 +820,7 @@ deployContract();
 	- Llama a deployContract para iniciar el proceso de despliegue del contrato.
 Este script automatiza el proceso de despliegue de un contrato inteligente en la blockchain de Ethereum, permitiendo interactuar con el contrato a través de una interfaz de línea de comandos.
 
-Para ejcutar este script, lo haremos con el siguiente comando:  
+Para ejecutar este script, lo haremos con el siguiente comando:  
 
 ```sh
 node deploy.js
@@ -828,11 +828,11 @@ node deploy.js
 La consola muestra lo siguiente:
 ![image](https://github.com/user-attachments/assets/87c7fd49-5c09-4afd-ad81-0b4bbb9949aa)
 
-Despues de desplegar el contrato exitosamente, utilizare el hash de transaccion para obtener todos los datos del contrato con un comando curl con el metodo eth_getTransactionReceipt, estos datos seran necesario recopilarlos para despues interactuar con el contrato.
+Despues de desplegar el contrato exitosamente, utilizare el hash de transacción para obtener todos los datos del contrato con un comando curl con el método eth_getTransactionReceipt, estos datos serán necesario recopilarlos para después interactuar con el contrato.
 
 ![image](https://github.com/user-attachments/assets/a219eab8-0b55-4cde-9627-a6121953355a)
 
-Una vez tenga los datos, utilizare otro script para interactuar con el contrato utilizando sus funciones, para votar desde distintas cuentas y obtener los resultados y establecer un ganador. El codigo con comentarios del script es el siguiente:
+Una vez tenga los datos, utilizare otro script para interactuar con el contrato utilizando sus funciones, para votar desde distintas cuentas y obtener los resultados y establecer un ganador. El código con comentarios del script es el siguiente:
 
 ```js
 // Importa las librerías necesarias
@@ -964,11 +964,11 @@ main();
 	- getResults(): Función para obtener y mostrar los resultados de la votación. Llama a una función de contrato y decodifica el resultado.
 - Ejecución del programa
 	- Obtiene las cuentas disponibles en el nodo y selecciona la primera.
-	- Solicita al usuario la contraseña y ofrece un menú para elegir entre votar o obtener resultados.
+	- Solicita al usuario la contraseña y ofrece un menú para elegir entre votar u obtener resultados.
 	- Ejecuta la acción seleccionada por el usuario.
 Este script proporciona una interfaz de línea de comandos para interactuar con un contrato de votación en la blockchain de Ethereum, permitiendo a los usuarios votar y consultar los resultados utilizando Web3.js.
 
-A continuacion para probar a interactuar con el contrato, ejecutare el script en repetidas veces conectandome a las distintas cuentas de cada nodo, suponiendo que cada cuenta puede votar 2 veces entre Daniel, Sergio y Aaron, demostrando el caso de uso, obteniendo los resultado posteriormente de todos los votos. 
+A continuación, para probar a interactuar con el contrato, ejecutare el script en repetidas veces conectándome a las distintas cuentas de cada nodo, suponiendo que cada cuenta puede votar 2 veces entre Daniel, Sergio y Aaron, demostrando el caso de uso, obteniendo los resultados posteriormente de todos los votos. 
 
 **node_rpc**  
 
@@ -1008,8 +1008,7 @@ Este proceso asegura que cada voto es registrado y contabilizado de forma segura
 
 ![image](https://github.com/user-attachments/assets/91e44d1a-741a-4492-8d7e-33b263a3601d)
 
-Como se puede observar el resultado de llamar a la funcion ha sido imprimir por consola el recuento de todos los votos recogidos hasta ahora y decidir el ganador, que fue Daniel.
-
+Como se puede observar el resultado de llamar a la función ha sido imprimir por consola el recuento de todos los votos recogidos hasta ahora y decidir el ganador, que fue Daniel.
 
 
 
