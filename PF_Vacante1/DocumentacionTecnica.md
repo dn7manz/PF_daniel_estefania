@@ -3,17 +3,17 @@
 ## 1. Introducción
 
 ### Contexto y Objetivo
-El objetivo principal de este proyecto es demostrar la capacidad técnica para gestionar una red blockchain privada utilizando OpenEthereum en un entorno Dockerizado. Este proyecto se presenta como parte del proceso de candidatura a una posición en la compañía Blockchain TS, que requiere habilidades en la creación y gestión de redes blockchain, así como en el despliegue y uso de contratos inteligentes.
+El objetivo principal de este proyecto es demostrar la capacidad técnica para gestionar una red blockchain privada utilizando OpenEthereum en un entorno Dockerizado. Este proyecto se presenta como parte del proceso de candidatura a una posición en la compañía Blockchain TS, que requiere habilidades para crear y gestionar redes blockchain, así como en el despliegue y uso de contratos inteligentes.
 
-El propósito del proyecto incluye:
-- Generar pares de claves criptográficas automáticamente.
+Los objetivos del proyecto incluyen:
+- Generar automáticamente pares de claves criptográficas.
 - Configurar y desplegar una red privada de Ethereum utilizando OpenEthereum con Docker.
 - Realizar transacciones de prueba a través de nodos validadores y no validadores para verificar la configuración de la red.
 
 ### Descripción del Proyecto
-El proyecto implica varios componentes clave:
+El proyecto abarca varios componentes clave:
 
-1. **Generación de Pares de Claves**: Se crea un script que genera automáticamente pares de claves criptográficas para los nodos de la red. Estas claves se utilizan para identificar y autenticar a los nodos dentro de la red privada de Ethereum.
+1. **Generación de Pares de Claves**: Se desarrolla un script para generar automáticamente pares de claves criptográficas para los nodos de la red. Estas claves se utilizan para identificar y autenticar a los nodos dentro de la red privada de Ethereum.
 
 2. **Configuración de la Red Dockerizada**: Utilizando Docker Compose, se configura una red privada de Ethereum con cuatro nodos:
    - Un nodo validador.
@@ -21,8 +21,8 @@ El proyecto implica varios componentes clave:
    - Un nodo RPC para interactuar con la red.
 
 3. **Inicialización del Bloque Génesis**: Se crea un archivo de configuración génesis que define el estado inicial de la blockchain privada, incluyendo la distribución de ether y las reglas de consenso.
-4. **Pruebas de Transacciones**: Se realizan transacciones de prueba a través de los nodos para asegurar que las transacciones se procesan correctamente tanto por los nodos validadores como por los no validadores.
-5. **Despliegue de Smart Contracts**: A través de la herramienta Remix, se despliega un contrato inteligente de prueba para validar la configuración de la red. Este contrato se utiliza para realizar transacciones y verificar que los nodos están funcionando correctamente.
+4. **Pruebas de Transacciones**: Se realizarán transacciones de prueba a través de los nodos para asegurar que las transacciones se procesan correctamente tanto por los nodos validadores como por los no validadores.
+5. **Despliegue de Smart Contracts**: A través de la herramienta Remix, se desplegará un contrato inteligente de prueba para validar la configuración de la red. Este contrato se utilizará para realizar transacciones y verificar que los nodos funcionan correctamente.
 
 ## 2. Requisitos y Preparación
 
@@ -47,11 +47,11 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 3. **Solidity**: Lenguaje de programación para escribir contratos inteligentes en la blockchain de Ethereum. Se utilizó para desarrollar los contratos inteligentes de prueba.
 
    **Compilación de Solidity usando solc**:
-   Para compilar contratos inteligentes escritos en Solidity, se utiliza el compilador `solc`, que convierte el código de Solidity en bytecode y en formato ABI necesarios para su futurp despliegue.
-   
-5. **Remix**: Entorno de desarrollo integrado (IDE) para escribir, compilar y desplegar contratos inteligentes escritos en Solidity. Remix se usó para compilar y desplegar el contrato inteligente en la red Ethereum privada.
+   Para compilar contratos inteligentes escritos en Solidity, se utilizará el compilador `solc`, que convierte el código de Solidity en bytecode y en formato ABI necesarios para su futuro despliegue.
 
-6. **Node.js y NPM**: Se utilizaron para ejecutar scripts de automatización y gestionar dependencias adicionales necesarias para la interacción con la blockchain.
+5. **Remix**: Entorno de desarrollo integrado (IDE) para escribir, compilar y desplegar contratos inteligentes escritos en Solidity. Remix se usará para compilar y desplegar el contrato inteligente en la red Ethereum privada.
+
+6. **Node.js y NPM**: Se utilizarán para ejecutar scripts de automatización y gestionar dependencias adicionales necesarias para la interacción con la blockchain.
 
 ## 3. Configuración y Desarrollo
 
