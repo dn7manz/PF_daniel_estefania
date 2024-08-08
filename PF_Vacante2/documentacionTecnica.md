@@ -62,7 +62,7 @@ Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que ti
 
 ### Codigo fuente.
 
-A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [./src/main/java/contracts/contrato.sol](SmartContract). 
+A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
 
 ```solidity
 // SPDX-License-Identifier: MIT
