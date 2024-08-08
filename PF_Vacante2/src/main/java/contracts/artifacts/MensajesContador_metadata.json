@@ -1,0 +1,71 @@
+{
+	"compiler": {
+		"version": "0.8.25+commit.b61c2a91"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "anclarMensaje",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "contador",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Tokio.Web3/src/main/java/contracts/MensajesContador.sol": "MensajesContador"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Tokio.Web3/src/main/java/contracts/MensajesContador.sol": {
+			"keccak256": "0xa5d2d214fbe070ec3fceee3745ea838ead7d569a5aa430723f38aa1434ea8677",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8f91608aca48d194912e041f2ca99a81c38271189de6b3749d4f051f27fe9fae",
+				"dweb:/ipfs/QmXZUpwCGwwe49cetniJgcdxTmATpV4VwAwAALPQ4kEUcg"
+			]
+		}
+	},
+	"version": 1
+}
