@@ -54,7 +54,106 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
   ```
 - **Eclipse IDE**: Es un entorno de desarrollo integrado (IDE) de código abierto utilizado para el desarrollo de software en varios lenguajes de programación, incluyendo Java. Ofrece una amplia gama de herramientas y características, como un editor de código avanzado, depurador, y capacidades de gestión de proyectos, que facilitan la programación y el mantenimiento del código.
 
- - En este proyecto, utilicé **Eclipse IDE** para desarrollar y ejecutar el archivo Java que interactúa con el contrato inteligente desplegado. Eclipse proporcionó un entorno de desarrollo eficiente para escribir, depurar y probar el código Java, facilitando la integración con **Web3j** y la ejecución de operaciones sobre la blockchain de Ethereum.
+   - En este proyecto, utilicé **Eclipse IDE** para desarrollar y ejecutar el archivo Java que interactúa con el contrato inteligente desplegado. Eclipse proporcionó un entorno de desarrollo eficiente para escribir, depurar y probar el código Java, facilitando la integración con **Web3j** y la ejecución de operaciones sobre la blockchain de Ethereum.
+ 
+## 3. Desarrollo y despliegue del SmartContract.
+
+Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
+
+### Codigo fuente.
+
+A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [./src/main/java/contracts/contrato.sol](SmartContract). 
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract DAppEducativa {
+    struct Usuario {
+        string correo;
+        bytes32 hashedPassword;
+        string cursoMatriculado;
+        string cursoMatriculado2;
+        string cursoMatriculado3;
+        bool registrado;
+        string nombre;
+    }
+
+    struct Profesor {
+        string nombre;
+        bool registrado;
+    }
+
+    struct Curso {
+        string nombreCurso;
+        address profesor;
+    }
+```
+Este bloque define las estructuras de datos fundamentales que se utilizarán para gestionar la información de los usuarios, profesores y cursos dentro de la plataforma educativa. Estas estructuras permiten organizar y acceder fácilmente a la información necesaria para la lógica de la aplicación.
+
+- Licencia y version de solidity
+   - Licencia SPDX: Especifica la licencia bajo la cual se distribuye el contrato. Aquí se usa la licencia MIT, una de las más permisivas y populares en proyectos de código abierto.
+   - Versión de Solidity: Define que el contrato está escrito para ser compilado con versiones de Solidity 0.8.0 o superiores.
+- Definicion del contrato
+   - contract DAppEducativa: Define un nuevo contrato inteligente llamado DAppEducativa, que es el núcleo del proyecto. Este contrato gestionará la lógica para registrar usuarios, profesores y cursos en una plataforma educativa descentralizada.
+- Estructuras de datos
+   - Usuario: Define la estructura para almacenar la información relacionada con cada usuario (alumno) en la plataforma.
+      - correo: Guarda la dirección de correo electrónico del usuario.
+      - hashedPassword: Almacena la contraseña del usuario en formato hash para mayor seguridad.
+      - cursoMatriculado, cursoMatriculado2, cursoMatriculado3: Almacenan los nombres de los cursos en los que el usuario está matriculado. Se permiten hasta tres cursos.
+      - registrado: Un valor booleano que indica si el usuario ya ha sido registrado en la plataforma.
+      - nombre: Guarda el nombre completo del usuario.
+   - Profesor: Define la estructura para almacenar la información sobre los profesores.
+      - nombre: Guarda el nombre del profesor.
+      - registrado: Indica si el profesor está registrado en la plataforma.
+   - Curso: Define la estructura para almacenar los datos de un curso.
+      - nombreCurso: Almacena el nombre del curso.
+      - profesor: Guarda la dirección Ethereum del profesor responsable del curso.
+
+```solidity
+mapping(address => Usuario) public usuarios;
+    mapping(address => Profesor) public profesores;
+    mapping(string => Curso) public cursos;
+    mapping(address => bool) public esProfesor;
+
+    address[] public cuentasRegistradas;  
+    address[] public cuentasProfesores;
+    string[] public nombresCursos;
+
+
+    address public owner;
+
+    constructor() {
+        owner = msg.sender; // El creador del contrato es el propietario inicial
+    }
+
+    modifier soloOwner() {
+        require(msg.sender == owner, "Solo el propietario puede ejecutar esta funcion");
+        _;
+    }
+
+    modifier soloProfesor() {
+        require(esProfesor[msg.sender], "Solo profesores pueden ejecutar esta funcion");
+        _;
+    }
+```
+Este bloque establece la infraestructura necesaria para gestionar usuarios, profesores y cursos en la plataforma educativa descentralizada. Los mapeos permiten almacenar y acceder a los datos relevantes, mientras que los modificadores y el constructor aseguran que solo personas con los permisos adecuados puedan realizar ciertas acciones en el contrato.
+
+- Mapeos
+   - usuarios: Mapea direcciones de Ethereum (address) a la estructura Usuario. Esto permite asociar una dirección de Ethereum con un usuario registrado en la plataforma.
+   - profesores: Similar al anterior, este mapeo asocia una dirección de Ethereum con la estructura Profesor, lo que facilita la gestión de profesores registrados.
+   - cursos: Mapea los nombres de los cursos (string) a la estructura Curso, permitiendo una fácil consulta de información sobre un curso en particular.
+   - esProfesor: Este mapeo asocia una dirección de Ethereum con un valor booleano que indica si la dirección corresponde a un profesor registrado. Esto es útil para verificar permisos.
+- Listas de Direcciones y Cursos
+   - cuentasRegistradas: Una lista que almacena todas las direcciones de usuarios que se han registrado en la plataforma.
+   - cuentasProfesores: Almacena las direcciones de los profesores registrados, permitiendo listarlos fácilmente.
+   - nombresCursos: Almacena los nombres de todos los cursos disponibles en la plataforma.
+   - owner: Guarda la dirección del propietario del contrato, que es quien despliega el contrato en la blockchain. Este rol tiene privilegios especiales en ciertas funciones.
+- Constructor
+   - constructor: El constructor se ejecuta una vez, en el momento en que se despliega el contrato. Aquí, se establece que el propietario del contrato (owner) es la dirección que lo despliega (msg.sender).
+- Modificadores
+   - soloOwner: Este modificador restringe el acceso a ciertas funciones del contrato, asegurando que solo el propietario pueda ejecutarlas. Si alguien que no es el propietario intenta ejecutar una función con este modificador, la ejecución falla y muestra un mensaje de error.
+   - soloProfesor: Este modificador restringe el acceso a funciones que solo los profesores deben poder ejecutar. Verifica que la dirección que intenta ejecutar la función esté registrada como profesor en el mapeo esProfesor.
 
 
 
