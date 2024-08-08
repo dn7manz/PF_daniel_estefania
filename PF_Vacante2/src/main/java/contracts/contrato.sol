@@ -25,9 +25,9 @@ contract DAppEducativa {
     mapping(address => Usuario) public usuarios;
     mapping(address => Profesor) public profesores;
     mapping(string => Curso) public cursos;
-    address[] public cuentasRegistradas;
-
     mapping(address => bool) public esProfesor;
+
+    address[] public cuentasRegistradas;  
     address[] public cuentasProfesores;
     string[] public nombresCursos;
 
