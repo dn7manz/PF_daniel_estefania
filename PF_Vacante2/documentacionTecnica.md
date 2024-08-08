@@ -166,6 +166,62 @@ Este bloque establece la infraestructura necesaria para gestionar usuarios, prof
   
    - **soloOwner**: Este modificador restringe el acceso a ciertas funciones del contrato, asegurando que solo el propietario pueda ejecutarlas. Si alguien que no es el propietario intenta ejecutar una función con este modificador, la ejecución falla y muestra un mensaje de error.
    - **soloProfesor**: Este modificador restringe el acceso a funciones que solo los profesores deben poder ejecutar. Verifica que la dirección que intenta ejecutar la función esté registrada como profesor en el mapeo esProfesor.
+```solidity
+function agregarProfesor(address _cuenta, string memory _nombre) public soloOwner {
+        require(!profesores[_cuenta].registrado, "Profesor ya registrado");
+        
+        profesores[_cuenta] = Profesor({
+            nombre: _nombre,
+            registrado: true
+        });
+
+        esProfesor[_cuenta] = true; // Marcar la cuenta como profesor
+        cuentasProfesores.push(_cuenta);
+    }
+```
+La función agregarProfesor permite al propietario del contrato registrar nuevas cuentas de profesores en la plataforma educativa. Antes de registrar un nuevo profesor, la función verifica que la cuenta no esté ya registrada. Una vez que un profesor es agregado, su cuenta se marca como válida y se incluye en la lista de cuentas de profesores.
+
+- **Parámetros de Entrada**:
+
+   - **address _cuenta**: La dirección de Ethereum que representa la cuenta del profesor.
+   - **string memory _nombre**: El nombre del profesor.
+     
+- **Modificador soloOwner**: Esta función está protegida por el modificador soloOwner, lo que significa que solo el propietario del contrato puede ejecutarla. Esto asegura que solo el administrador principal de la plataforma pueda agregar nuevos profesores.
+
+- Lógica de la Función.
+
+   - **require(!profesores[_cuenta].registrado, "Profesor ya registrado");**: Esta línea verifica si la dirección de Ethereum proporcionada ya está registrada como profesor. Si el profesor ya está registrado, la función lanza un error con el mensaje "Profesor ya registrado".
+   - Si la verificación anterior es exitosa, se crea una nueva instancia de la estructura Profesor, asociada a la dirección de Ethereum _cuenta, y se guarda en el mapeo profesores. Esto incluye el nombre del profesor y un indicador de que está registrado.
+   - Finalmente, la dirección del nuevo profesor se agrega a la lista cuentasProfesores. Esta lista puede utilizarse para consultar todas las cuentas de profesores registradas en la plataforma.
+
+
+```solidity
+function agregarCurso(string memory _nombreCurso, address _profesor) public soloOwner {
+        require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");
+        require(esProfesor[_profesor], "El profesor no esta registrado");
+
+        cursos[_nombreCurso] = Curso({
+            nombreCurso: _nombreCurso,
+            profesor: _profesor
+        });
+        nombresCursos.push(_nombreCurso); // Agregar el nombre del curso a la lista
+
+    }
+```
+ La función agregarCurso permite al propietario del contrato añadir nuevos cursos a la plataforma educativa. Antes de registrar un curso, la función realiza verificaciones clave para asegurar que el curso no esté ya registrado y que el profesor asignado esté registrado como tal. Una vez superadas estas verificaciones, se registra el curso y se actualiza la lista de cursos disponibles.
+
+- **Parametros de entrada**
+   - **string memory _nombreCurso**: El nombre del curso que se desea agregar.
+   - **address _profesor**: La dirección de Ethereum del profesor que impartirá el curso.
+- **Modificador soloOwner**: Esta función está protegida por el modificador soloOwner, lo que significa que solo el propietario del contrato puede ejecutarla. Esto asegura que solo la persona con los permisos adecuados pueda agregar nuevos cursos a la plataforma.
+- Logica de la funcion
+   - **require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");**: Esta línea verifica si el curso que se intenta agregar ya está registrado en el contrato. Si el curso ya existe (es decir, si tiene un profesor asignado), la función lanza un error con el mensaje "Curso ya registrado".
+   - **require(esProfesor[_profesor], "El profesor no esta registrado");**: Antes de asignar un curso a un profesor, la función verifica que la dirección proporcionada corresponde a un profesor registrado en la plataforma. Si no es así, se lanza un error con el mensaje "El profesor no está registrado".
+   - Si las verificaciones anteriores son exitosas, se crea un nuevo curso y se asocia con el profesor correspondiente. Esto se hace mediante la asignación de una nueva instancia de la estructura Curso al mapeo cursos, utilizando el nombre del curso como clave.
+   - Finalmente, el nombre del nuevo curso se agrega a la lista nombresCursos. Esto facilita la consulta de todos los cursos registrados en la plataforma.
+
+ 
+
 
 
 
