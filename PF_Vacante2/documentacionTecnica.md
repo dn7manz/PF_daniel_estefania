@@ -188,7 +188,7 @@ La función agregarProfesor permite al propietario del contrato registrar nuevas
      
 - **Modificador soloOwner**: Esta función está protegida por el modificador soloOwner, lo que significa que solo el propietario del contrato puede ejecutarla. Esto asegura que solo el administrador principal de la plataforma pueda agregar nuevos profesores.
 
-- Lógica de la Función.
+- **Lógica de la Función.**
 
    - **require(!profesores[_cuenta].registrado, "Profesor ya registrado");**: Esta línea verifica si la dirección de Ethereum proporcionada ya está registrada como profesor. Si el profesor ya está registrado, la función lanza un error con el mensaje "Profesor ya registrado".
    - Si la verificación anterior es exitosa, se crea una nueva instancia de la estructura Profesor, asociada a la dirección de Ethereum _cuenta, y se guarda en el mapeo profesores. Esto incluye el nombre del profesor y un indicador de que está registrado.
@@ -210,15 +210,66 @@ function agregarCurso(string memory _nombreCurso, address _profesor) public solo
 ```
  La función agregarCurso permite al propietario del contrato añadir nuevos cursos a la plataforma educativa. Antes de registrar un curso, la función realiza verificaciones clave para asegurar que el curso no esté ya registrado y que el profesor asignado esté registrado como tal. Una vez superadas estas verificaciones, se registra el curso y se actualiza la lista de cursos disponibles.
 
-- **Parametros de entrada**
+- **Parametros de entrada.**
+
    - **string memory _nombreCurso**: El nombre del curso que se desea agregar.
    - **address _profesor**: La dirección de Ethereum del profesor que impartirá el curso.
+     
 - **Modificador soloOwner**: Esta función está protegida por el modificador soloOwner, lo que significa que solo el propietario del contrato puede ejecutarla. Esto asegura que solo la persona con los permisos adecuados pueda agregar nuevos cursos a la plataforma.
-- Logica de la funcion
+  
+- **Logica de la funcion.**
+  
    - **require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");**: Esta línea verifica si el curso que se intenta agregar ya está registrado en el contrato. Si el curso ya existe (es decir, si tiene un profesor asignado), la función lanza un error con el mensaje "Curso ya registrado".
    - **require(esProfesor[_profesor], "El profesor no esta registrado");**: Antes de asignar un curso a un profesor, la función verifica que la dirección proporcionada corresponde a un profesor registrado en la plataforma. Si no es así, se lanza un error con el mensaje "El profesor no está registrado".
    - Si las verificaciones anteriores son exitosas, se crea un nuevo curso y se asocia con el profesor correspondiente. Esto se hace mediante la asignación de una nueva instancia de la estructura Curso al mapeo cursos, utilizando el nombre del curso como clave.
    - Finalmente, el nombre del nuevo curso se agrega a la lista nombresCursos. Esto facilita la consulta de todos los cursos registrados en la plataforma.
+
+```solidity
+function registrarUsuario(address _cuenta, string memory _correo, string memory _password, string memory _curso, string memory _nombre) public {
+        require(!usuarios[_cuenta].registrado, "Usuario ya registrado");
+
+        usuarios[_cuenta] = Usuario({
+            correo: _correo,
+            hashedPassword: keccak256(abi.encodePacked(_password)),
+            nombre: _nombre,
+            cursoMatriculado: _curso,
+            cursoMatriculado2: "",
+            cursoMatriculado3: "",
+            registrado: true
+        });
+
+        cuentasRegistradas.push(_cuenta);
+    }
+```
+
+La función registrarUsuario realiza una validación para evitar duplicados, cifra de forma segura la contraseña y registra toda la información relevante del usuario, incluida su matrícula en un curso inicial. Además, mantiene un registro actualizado de todas las cuentas registradas, lo que permite un seguimiento eficiente de los usuarios dentro del sistema.
+
+- **Parámetros de entrada.**
+   
+  - **_cuenta**: La dirección de Ethereum que identifica al usuario.
+  - **_correo**: El correo electrónico del usuario.
+  - **_password**: La contraseña del usuario, que será cifrada antes de almacenarse.
+  - **_curso**: El curso en el que el usuario se está matriculando inicialmente.
+  - **_nombre**: El nombre del usuario.
+
+- **Visibilidad**: La función es pública, por lo que cualquier cuenta puede llamarla.
+
+- **Logica de la funcion.**
+  
+   - **require(!usuarios[_cuenta].registrado, "Usuario ya registrado");**: Antes de registrar al usuario, se verifica si la cuenta asociada ya está registrada. Si el usuario ya existe, la función se detiene y muestra el mensaje "Usuario ya registrado".
+   - **Registro del Usuario**:
+      - Se crea un nuevo usuario utilizando la estructura Usuario.
+      - La contraseña del usuario se almacena de manera segura utilizando el algoritmo de hash keccak256 aplicado al valor de la contraseña cifrada con abi.encodePacked.
+      - Se registra el curso inicial en el que se matricula el usuario (cursoMatriculado).
+      - Los campos cursoMatriculado2 y cursoMatriculado3 se dejan vacíos (""), preparados para futuros cursos si el usuario decide matricularse en más de uno.
+      - El campo registrado se establece en true, indicando que el registro se ha completado.
+   - **Actualización del Registro de Cuentas**: La dirección del nuevo usuario se añade a la lista cuentasRegistradas, lo que facilita la gestión de todos los usuarios registrados en la DApp.
+
+
+
+
+
+
 
  
 
