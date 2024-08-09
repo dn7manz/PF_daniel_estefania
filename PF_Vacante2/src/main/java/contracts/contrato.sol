@@ -72,13 +72,7 @@ contract DAppEducativa {
         cuentasProfesores.push(_cuenta);
     }
 
-    function registrarUsuario(
-        address _cuenta, 
-        string memory _correo, 
-        string memory _password, 
-        string memory _curso, 
-        string memory _nombre
-    ) public {
+    function registrarUsuario(address _cuenta, string memory _correo, string memory _password, string memory _curso, string memory _nombre) public {
         require(!usuarios[_cuenta].registrado, "Usuario ya registrado");
 
         usuarios[_cuenta] = Usuario({
