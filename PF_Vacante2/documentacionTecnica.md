@@ -60,9 +60,11 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
 
 Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
 
-### Codigo fuente.
+### Explicacion del codigo.
 
 A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
+
+#### Preparacion del contrato
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -166,6 +168,9 @@ Este bloque establece la infraestructura necesaria para gestionar usuarios, prof
   
    - **soloOwner**: Este modificador restringe el acceso a ciertas funciones del contrato, asegurando que solo el propietario pueda ejecutarlas. Si alguien que no es el propietario intenta ejecutar una función con este modificador, la ejecución falla y muestra un mensaje de error.
    - **soloProfesor**: Este modificador restringe el acceso a funciones que solo los profesores deben poder ejecutar. Verifica que la dirección que intenta ejecutar la función esté registrada como profesor en el mapeo esProfesor.
+
+#### Funciones de Escritura. 
+
 ```solidity
 function agregarProfesor(address _cuenta, string memory _nombre) public soloOwner {
         require(!profesores[_cuenta].registrado, "Profesor ya registrado");
@@ -265,9 +270,219 @@ La función registrarUsuario realiza una validación para evitar duplicados, cif
       - El campo registrado se establece en true, indicando que el registro se ha completado.
    - **Actualización del Registro de Cuentas**: La dirección del nuevo usuario se añade a la lista cuentasRegistradas, lo que facilita la gestión de todos los usuarios registrados en la DApp.
 
+```solidity
+function matricularseEnOtroCurso(address _cuenta, string memory _nuevoCurso) public {
+        require(usuarios[_cuenta].registrado, "Usuario no registrado");
+
+        Usuario storage usuario = usuarios[_cuenta];
+
+        if (bytes(usuario.cursoMatriculado).length == 0) {
+            usuario.cursoMatriculado = _nuevoCurso;
+        } else if (bytes(usuario.cursoMatriculado2).length == 0) {
+            usuario.cursoMatriculado2 = _nuevoCurso;
+        } else if (bytes(usuario.cursoMatriculado3).length == 0) {
+            usuario.cursoMatriculado3 = _nuevoCurso;
+        } else {
+            revert("El usuario ya esta matriculado en 3 cursos.");
+        }
+    }
+```
+La función matricularseEnOtroCurso permite que un usuario registrado se matricule en hasta tres cursos diferentes. Si hay espacio disponible en los registros de cursos (cursoMatriculado, cursoMatriculado2, cursoMatriculado3), el nuevo curso se añade al primer campo vacío disponible. Si el usuario ya está matriculado en tres cursos, la función previene la matriculación en cursos adicionales, garantizando así que no se supere el límite de tres cursos por usuario.
+
+- **Parámetros de entrada.**
+
+   - **_cuenta**: La dirección de Ethereum que identifica al usuario.
+   - **_nuevoCurso**: El nombre del nuevo curso en el que el usuario desea matricularse. 
+
+- **Visibilidad**: La función es pública, lo que permite que cualquier usuario registrado pueda llamarla.
+
+- **Logica de la funcion.**
+   - **Usuario storage usuario = usuarios[_cuenta];**:  Se verifica que la cuenta esté registrada en el sistema. Si el usuario no está registrado, la función se detiene y lanza el mensaje "Usuario no registrado".
+   - Se obtiene una referencia mutable al objeto Usuario asociado a la dirección _cuenta. Esto permite modificar los datos del usuario dentro de la función.
+   - Asignación del Nuevo Curso:
+      - La función evalúa en qué campos de cursos matriculados (cursoMatriculado, cursoMatriculado2, cursoMatriculado3) hay espacio disponible para matricular al usuario en el nuevo curso.
+      - Se verifica el primer campo vacío de los tres posibles, y se asigna el nuevo curso a dicho campo.
+      - Si el usuario ya está matriculado en tres cursos (todos los campos están llenos), la función lanza una excepción con el mensaje "El usuario ya está matriculado en 3 cursos." y revierte la transacción.
+
+#### Funciones de Lectura. 
+
+    
+```solidity
+function obtenerNombresCursos() public view returns (string[] memory) {
+        return nombresCursos;
+    }
+
+    function obtenerCursosMatriculados(
+        address _cuenta
+    ) public view returns (string memory, string memory, string memory) {
+        Usuario storage usuario = usuarios[_cuenta];
+        return (
+            usuario.cursoMatriculado, 
+            usuario.cursoMatriculado2, 
+            usuario.cursoMatriculado3
+        );
+    }
+
+    function obtenerUsuariosRegistrados() public view soloProfesor returns (Usuario[] memory) {
+        Usuario[] memory usuariosRegistrados = new Usuario[](cuentasRegistradas.length);
+        for (uint i = 0; i < cuentasRegistradas.length; i++) {
+            usuariosRegistrados[i] = usuarios[cuentasRegistradas[i]];
+        }
+        return usuariosRegistrados;
+    }
+
+    function obtenerUsuariosPorCurso(string memory _curso) public view returns (address[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
+            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
+                count++;
+            }
+        }
+
+        address[] memory resultado = new address[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
+            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
+                resultado[index] = cuentasRegistradas[i];
+                index++;
+            }
+        }
+
+        return resultado;
+    }
+
+    function obtenerCuentasProfesores() public view returns (address[] memory, string[] memory) {
+        string[] memory nombres = new string[](cuentasProfesores.length);
+        for (uint i = 0; i < cuentasProfesores.length; i++) {
+            nombres[i] = profesores[cuentasProfesores[i]].nombre;
+        }
+        return (cuentasProfesores, nombres);
+    }function obtenerNombresCursos() public view returns (string[] memory) {
+        return nombresCursos;
+    }
+
+    function obtenerCursosMatriculados(
+        address _cuenta
+    ) public view returns (string memory, string memory, string memory) {
+        Usuario storage usuario = usuarios[_cuenta];
+        return (
+            usuario.cursoMatriculado, 
+            usuario.cursoMatriculado2, 
+            usuario.cursoMatriculado3
+        );
+    }
+
+    function obtenerUsuariosRegistrados() public view soloProfesor returns (Usuario[] memory) {
+        Usuario[] memory usuariosRegistrados = new Usuario[](cuentasRegistradas.length);
+        for (uint i = 0; i < cuentasRegistradas.length; i++) {
+            usuariosRegistrados[i] = usuarios[cuentasRegistradas[i]];
+        }
+        return usuariosRegistrados;
+    }
+
+    function obtenerUsuariosPorCurso(string memory _curso) public view returns (address[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
+            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
+                count++;
+            }
+        }
+
+        address[] memory resultado = new address[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
+            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
+                resultado[index] = cuentasRegistradas[i];
+                index++;
+            }
+        }
+
+        return resultado;
+    }
+
+    function obtenerCuentasProfesores() public view returns (address[] memory, string[] memory) {
+        string[] memory nombres = new string[](cuentasProfesores.length);
+        for (uint i = 0; i < cuentasProfesores.length; i++) {
+            nombres[i] = profesores[cuentasProfesores[i]].nombre;
+        }
+        return (cuentasProfesores, nombres);
+    }
+```
+Estas funciones de lectura permiten a los usuarios y administradores de la DApp consultar información clave sobre cursos, usuarios y profesores, facilitando la gestión y la interacción con el sistema. 
+
+- **obtenerNombresCursos().**
+  
+   - **Propósito**: Esta función permite consultar todos los nombres de los cursos que han sido registrados en el contrato inteligente.
+   - **Funcionamiento**: La función simplemente devuelve el array nombresCursos, que almacena los nombres de los cursos. Este array se llena en la función agregarCurso cuando se añade un nuevo curso.
+   - **Acceso**: Es una función pública y se puede llamar desde cualquier lugar. No requiere permisos especiales.
+
+- **obtenerCursosMatriculados(address _cuenta).**
+
+   - **Propósito**: Permite consultar los cursos en los que un usuario específico está matriculado.
+   - **Funcionamiento**: La función toma la dirección del usuario _cuenta y accede al struct Usuario correspondiente en el mapping usuarios. Devuelve los tres campos que almacenan los cursos matriculados del usuario (cursoMatriculado, cursoMatriculado2, cursoMatriculado3).
+   - **Acceso**: Es una función pública, accesible por cualquier persona.
+
+- **obtenerUsuariosRegistrados().**
+  
+   - **Propósito**: Devuelve un array con toda la información de los usuarios registrados en la plataforma.
+   - **Funcionamiento**: Crea un array dinámico de Usuario con el tamaño de cuentasRegistradas, que es una lista de todas las direcciones de los usuarios registrados. Itera a través de cuentasRegistradas y llena el array usuariosRegistrados con la información correspondiente de cada usuario. Devuelve este array de Usuario.
+   - **Acceso**: Solo los profesores pueden ejecutar esta función debido al modificador soloProfesor.
+ 
+- **obtenerUsuariosPorCurso(string memory _curso).**
+
+   - **Propósito**: Permite obtener una lista de direcciones de usuarios que están matriculados en un curso específico.
+   - **Funcionamiento**: Primero, cuenta cuántos usuarios están matriculados en el curso especificado (_curso). Esto se hace iterando sobre cuentasRegistradas y comparando el curso matriculado del usuario con el curso buscado utilizando keccak256 para la comparación de strings. Luego, crea un array resultado del tamaño exacto necesario y vuelve a iterar sobre cuentasRegistradas para llenar este array con las direcciones de los usuarios matriculados en el curso. Finalmente devuelve el array de direcciones.
+   - **Acceso**: Es una función pública y se puede llamar desde cualquier lugar.
+ 
+- **obtenerCuentasProfesores().**
+
+   - Propósito: Devuelve las direcciones de los profesores y sus nombres asociados.
+   - Funcionamiento: Crea un array nombres del mismo tamaño que cuentasProfesores y lo llena con los nombres de los profesores utilizando el mapping profesores. Devuelve dos arrays: el primero contiene las direcciones de los profesores y el segundo contiene los nombres correspondientes.
+   - Acceso: Es una función pública, accesible por cualquier persona. 
+
+```solidity
+function iniciarSesion(
+    address _cuenta, 
+    string memory _correo, 
+    string memory _password
+) public view returns (string memory) {
+    require(
+        keccak256(abi.encodePacked(_correo)) == keccak256(abi.encodePacked(usuarios[_cuenta].correo)), 
+        "Correo incorrecto"
+    );
+    require(
+        keccak256(abi.encodePacked(_password)) == usuarios[_cuenta].hashedPassword, 
+        "pass incorrecta"
+    );
+
+    return 'true';
+}
+```
+La función iniciarSesion verifica las credenciales de un usuario (correo y contraseña) comparando los hashes proporcionados con los almacenados en el contrato. Si ambos coinciden, devuelve 'true'; si no, emite un mensaje de error específico. 
+
+- **Propósito**: Permite a los usuarios iniciar sesión en la plataforma verificando sus credenciales (correo electrónico y contraseña).
+- **Cómo Funciona**:
+   - Verificación del Correo: La función primero compara el hash del correo electrónico proporcionado (_correo) con el hash almacenado en el struct Usuario asociado a la dirección _cuenta. La comparación se realiza utilizando la función keccak256 para asegurar que la comparación sea segura.
+   - Verificación de la Contraseña: Luego, compara el hash de la contraseña proporcionada (_password) con el hash almacenado en el struct Usuario. Esta comparación también se realiza con keccak256.
+   - Respuesta: Si ambas verificaciones son correctas, la función devuelve 'true', indicando que las credenciales son correctas. Si alguna de las verificaciones falla, se emite un mensaje de error específico ("Correo incorrecto" o "pass incorrecta"), y la función no devolverá 'true'.
+- **Acceso**: Es una función pública, por lo que puede ser llamada por cualquier usuario para intentar iniciar sesión.
+- **Seguridad**:
+   - Hashing de Contraseñas: Las contraseñas se almacenan como hashes en lugar de texto plano, lo cual es una buena práctica para la seguridad. Utilizar 
+   - keccak256 proporciona una forma de comparar contraseñas sin exponerlas directamente.
+- **Requerimientos**: La función garantiza que tanto el correo como la contraseña sean verificados correctamente para una autenticación adecuada.
 
 
 
+
+
+
+
+
+
+
+
+
+  
 
 
 
