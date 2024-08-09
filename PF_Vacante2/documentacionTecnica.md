@@ -64,8 +64,9 @@ Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que ti
 
 A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
 
-#### Preparacion del contrato
+#### Preparacion del contrato. 
 
+ 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
@@ -470,6 +471,53 @@ La función iniciarSesion verifica las credenciales de un usuario (correo y cont
    - Hashing de Contraseñas: Las contraseñas se almacenan como hashes en lugar de texto plano, lo cual es una buena práctica para la seguridad. Utilizar 
    - keccak256 proporciona una forma de comparar contraseñas sin exponerlas directamente.
 - **Requerimientos**: La función garantiza que tanto el correo como la contraseña sean verificados correctamente para una autenticación adecuada.
+
+### Despliegues
+
+A continuación, documentaré el proceso de despliegue de la red blockchain utilizando Ganache, que proporciona un entorno local de Ethereum para pruebas, y el despliegue del contrato inteligente en esta red mediante Remix con capturas de pantalla.
+
+#### Despliegue de la red Blockchain.
+
+Lo primero que voy a hacer es abrir el aplicativo de Ganache para crear la red, dandole a "new workspace" como vemos en la siguiente imagen. 
+
+![image](https://github.com/user-attachments/assets/e9a03f6a-9805-4457-99eb-90386419f06b) 
+
+Despues nos dejara elegir las opciones de configuracion de la red, como el nombre del workspace, el hostname y su puerto, las cuentas que habran en la red y sus balances, el precio y el limite del gas. En mi caso el hostname es la direccion localhost y el puerto es 7545 y configure para que se crearan 20 cuentas.
+
+Una vez creado el workspace Ganache muestra las direcciones disponibles en el apartado de accounts, tambien es posible revisar los bloques miandos y las transacciones que se crearan mas adelante, como se puede ver en la siguiente imagen. 
+
+![image](https://github.com/user-attachments/assets/662a940c-62c9-4ec4-b951-68993c0d9c01) 
+
+#### Despliegue del contrato
+
+Una vez que la red esta desplegada, desde Remix IDE compilaremos y desplegaremos el contrato. Primero me conectare a mi red desde la pestaña lateral de deploy & run transactions, con la direccion de mi nodo, como se ve en las siguientes imagenes.
+
+![image](https://github.com/user-attachments/assets/ffd88a6e-114f-455a-903a-4e761a775a3b) 
+![image](https://github.com/user-attachments/assets/ceca0394-8ca6-49d5-b412-e56c9c60e095)
+
+Ahora con la red conectada, me aparecen todas las direcciones que tiene el nodo, entonces compilare el contrato y lo desplegare en la red.
+
+![image](https://github.com/user-attachments/assets/3cd4d3d0-53ad-426e-9cb6-f135d7ff6573)
+
+Al desplegar el contrato, a traves de la consola de Remix, podemos observar los datos del contrato, como en la imagen anterior. Para comprobar que se haya desplegado correcatmente, ahora iremos a Ganache para demostrar que sea creado el primer bloque con la creacion del contrato.
+
+![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
