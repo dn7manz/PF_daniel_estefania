@@ -696,10 +696,167 @@ El método manejarModoAdmin permite al administrador gestionar profesores y curs
 - Manejo del Menú del Administrador:
 
    - Menú Principal: Presenta un menú con tres opciones:
-   - Agregar Profesor: Llama a registrarProfesor, que es una función que probablemente maneja la lógica para registrar un nuevo profesor.
+   - Agregar Profesor: Llama a registrarProfesor, que es la función que maneja la lógica para registrar un nuevo profesor.
    - Agregar Curso: Llama a registrarCurso, que maneja la lógica para registrar un nuevo curso en el contrato inteligente.
    - Salir: Termina el modo administrador y vuelve al menú principal de la aplicación.
    - Opción no válida: Si se ingresa una opción no válida, el programa informa al usuario y reinicia el menú del modo administrador.
+
+```java
+private static void manejarModoProfesor(Scanner scanner) throws Exception {
+        // Manejo del modo Profesor
+    	try {
+            System.out.println("Introduce una clave privada de profesor");
+            String privateKeyProfesor = scanner.nextLine();
+            credentials = Credentials.create(privateKeyProfesor);
+            contract = Contrato_sol_DAppEducativa.load(
+                direccionContrato, 
+                web3j, 
+                credentials, 
+                new DefaultGasProvider()
+            );
+        } catch (Exception e) {
+            System.out.println("Error al cargar el contrato: " + e.getMessage());
+            return;
+        }
+
+        while (true) {
+            // Menú del modo Profesor
+            System.out.println("1. Mostrar usuarios por curso");
+            System.out.println("2. Mostrar todos los profesores");
+            System.out.println("3. Salir");
+            int optionProfesor = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (optionProfesor) {
+                case 1:
+                    obtenerUsuariosPorCurso(scanner);
+                    break;
+                case 2:
+                    obtenerProfesores();
+                    break;
+                case 3:
+                    System.out.println("Saliendo del modo Profesor");
+                    return;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+
+el método manejarModoProfesor permite a los profesores interactuar con el contrato inteligente para obtener información relevante, como los usuarios matriculados en sus cursos o los datos de otros profesores registrados, asegurando que estas operaciones solo se realicen con las credenciales correctas. 
+
+- Inicialización del Contrato para el Profesor:
+
+   - Entrada de Clave Privada: Solicita al usuario que introduzca la clave privada del profesor. Esta clave se utiliza para crear un objeto Credentials específico para el profesor, que es necesario para realizar transacciones y leer datos de la red Ethereum.
+   - Cargar el Contrato: Utiliza las credenciales del profesor para cargar el contrato inteligente desde la dirección especificada (direccionContrato). Si ocurre un error al cargar el contrato, se captura y muestra un mensaje de error, y la función termina.
+     
+- Manejo del Menú del Profesor:
+
+   - Menú Principal: Presenta un menú con tres opciones:
+Mostrar Usuarios por Curso: Llama a la función obtenerUsuariosPorCurso, que permite al profesor ver los usuarios matriculados en un curso específico.
+   - Mostrar Todos los Profesores: Llama a la función obtenerProfesores, que muestra una lista de todos los profesores registrados en el sistema.
+   - Salir: Termina el modo profesor y regresa al menú principal de la aplicación.
+   - Opción no válida: Si se ingresa una opción no válida, el programa informa al usuario y reinicia el menú del modo profesor.
+ 
+
+```java
+private static void manejarModoAlumno(Scanner scanner) throws Exception {
+        // Manejo del modo Alumno
+        while (true) {
+            System.out.println("1. Matricularse");
+            System.out.println("2. Iniciar Sesión");
+            System.out.println("3. Salir");
+            int optionAlumno = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (optionAlumno) {
+                case 1:
+                    matricularse(scanner);
+                    break;
+                case 2:
+                	try {
+                        System.out.println("Introduce tu clave privada");
+                        String privateKeyAlum = scanner.nextLine();
+                        credentials = Credentials.create(privateKeyAlum);
+                        contract = Contrato_sol_DAppEducativa.load(
+                            direccionContrato, 
+                            web3j, 
+                            credentials, 
+                            new DefaultGasProvider()
+                        );
+                    } catch (Exception e) {
+                        System.out.println("Error al cargar el contrato: " + e.getMessage());
+                        break;
+                    }
+                    direccionUsuario = iniciarSesion(scanner);
+
+                    if (direccionUsuario != null) {
+                        manejarSesionAlumno(scanner);
+                    }
+                    break;
+                case 3:
+                    System.out.println("Saliendo del modo Alumno");
+                    return;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+manejarModoAlumno permite a los alumnos interactuar con el contrato inteligente para matricularse, iniciar sesión y realizar otras acciones específicas, asegurando que solo puedan hacerlo aquellos con las credenciales correctas.
+
+- Menú del Alumno:
+
+   - Opciones Disponibles: Al ingresar al modo Alumno, se presenta un menú con tres opciones:
+   - Matricularse: Permite al alumno registrarse en el sistema, llamando a la función matricularse.
+   - Iniciar Sesión: Permite al alumno iniciar sesión en el sistema, utilizando su clave privada para interactuar con el contrato inteligente.
+   - Salir: Sale del modo Alumno y regresa al menú principal de la aplicación. 
+
+- Manejo de la Opción de Iniciar Sesión:
+
+   - Solicitar Clave Privada: Si el alumno elige iniciar sesión, se le solicita que introduzca su clave privada. Esta clave se utiliza para crear un objeto Credentials para el alumno.
+   - Cargar el Contrato: Con las credenciales del alumno, se carga el contrato inteligente utilizando la dirección previamente definida (direccionContrato). Si ocurre un error al cargar el contrato, se muestra un mensaje de error y se vuelve al menú del alumno.
+   - Iniciar Sesión: Si el contrato se carga correctamente, se llama a la función iniciarSesion(scanner) para verificar las credenciales del alumno. Si la verificación es exitosa, se procede a manejar la sesión del alumno a través del método manejarSesionAlumno.
+
+```java
+private static void manejarSesionAlumno(Scanner scanner) throws Exception {
+        // Menú de acciones para el alumno después de iniciar sesión
+        boolean sessionActive = true;
+
+        while (sessionActive) {
+            System.out.println("1. Matricularse en otro curso");
+            System.out.println("2. Listar cursos matriculados");
+            System.out.println("3. Cerrar sesión");
+
+            int optionAlumnoLog = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (optionAlumnoLog) {
+                case 1:
+                    matricularEnOtroCurso(scanner);
+                    break;
+                case 2:
+                    listarCursosDeAlumno(scanner);
+                    break;
+                case 3:
+                    System.out.println("Cerrando sesión...");
+                    sessionActive = false; // Salir del bucle de sesión
+                    break;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+  
+
+
+
+
+
+
+
 
 
 
