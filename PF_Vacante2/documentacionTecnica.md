@@ -542,6 +542,169 @@ Ahora describiré cómo voy a crear un nuevo proyecto en Eclipse utilizando Mave
    ```
    - Este fragmento de código añade la dependencia principal de web3j al proyecto, lo que permitirá interactuar con la red Ethereum y con el Smart Contract desde Java.
 
+### Explicacion main.java. 
+
+Finalmente, crearé un archivo Main.java donde implementaré un sistema interactivo en Java que permitirá a diferentes tipos de usuarios (admin, profesor, alumno) interactuar con el contrato.
+
+Modo Admin: El administrador podrá agregar nuevos cursos y profesores, y gestionar otras configuraciones de la DApp.
+Modo Profesor: Los profesores podrán consultar y gestionar los usuarios matriculados en sus cursos.
+Modo Alumno: Los alumnos podrán registrarse, iniciar sesión y matricularse en diferentes cursos.
+Voy a implementar la lógica de interacción utilizando bucles para presentar menús y opciones según el rol del usuario. Cada acción invocará las funciones del contrato inteligente a través de los métodos generados en el archivo Java por web3j. 
+
+A continuacion explicare bloque a bloque el contenido del main.java.
+
+```java
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple2;
+import org.web3j.tuples.generated.Tuple3;
+import org.web3j.tuples.generated.Tuple5;
+import org.web3j.tuples.generated.Tuple7;
+import org.web3j.tx.gas.DefaultGasProvider;
+
+import java.util.Scanner;
+import java.util.List;
+import contracts.Contrato_sol_DAppEducativa;
+```
+Este bloque de código importa las bibliotecas necesarias para interactuar con la blockchain Ethereum desde Java utilizando Web3j. Se incluyen clases para manejar la conexión con un nodo Ethereum (`Web3j` y `HttpService`), gestionar credenciales (`Credentials`), recibir transacciones (`TransactionReceipt`), y manejar datos devueltos por el contrato inteligente a través de tuples (`Tuple2`, `Tuple3`, etc.). Además, se prepara el uso de un proveedor de gas por defecto (`DefaultGasProvider`), la entrada de usuario mediante consola (`Scanner`), y se define la clase generada que representa el contrato inteligente (`Contrato_sol_DAppEducativa`), que permite interactuar con las funciones del contrato desplegado.
+
+```java
+public class Main {
+    private static final String direccionContrato = "0x6974d707e5F278CC766FAF6fE8C35f24B1cDb0CC"; // Dirección del contrato desplegado
+    private static Web3j web3j;
+    private static Credentials credentials;
+    private static Contrato_sol_DAppEducativa contract;
+    private static String direccionUsuario; // Variable global para almacenar la dirección del usuario
+
+    public static void main(String[] args) throws Exception {
+        // Conectar a la red Ethereum
+    	try {
+            web3j = Web3j.build(new HttpService("http://localhost:7545"));
+        } catch (Exception e) {
+            System.out.println("Error al conectar con la red Ethereum: " + e.getMessage());
+            return;
+        } 
+```
+
+Este fragmento establece la base para la interacción entre una aplicación Java y un contrato inteligente desplegado en la blockchain de Ethereum. La clase Main es la encargada de gestionar toda la lógica de la aplicación.
+
+En primer lugar, se define una constante direccionContrato que almacena la dirección del contrato inteligente desplegado en la red Ethereum. Esta dirección es crucial porque permite a la aplicación Java identificar y comunicarse con el contrato específico que se desea manejar.
+
+Luego, se definen algunas variables clave:
+
+- web3j es la instancia de Web3j, una librería que permite la comunicación entre la aplicación Java y la red Ethereum.
+- credentials se utilizará para gestionar las credenciales del usuario que interactuará con el contrato, permitiendo la firma de transacciones.
+- contract es una instancia generada a partir del ABI del contrato, que facilitará la llamada a sus funciones directamente desde Java.
+- direccionUsuario es una variable global que se utilizará para almacenar la dirección del usuario actual que interactúa con la aplicación.
+
+El método main es donde se inicia la conexión con la red Ethereum. Se utiliza la librería Web3j para conectarse a un nodo Ethereum, en este caso un nodo local que está funcionando en http://localhost:7545, que es la URL del nodo desplegado en Ganache. 
+
+Si ocurre un error durante el proceso de conexión, como que el nodo no esté disponible o que la URL esté mal configurada, se captura la excepción y se muestra un mensaje de error en la consola, terminando la ejecución del programa. Este manejo de errores es importante para evitar que la aplicación falle inesperadamente sin dar información al usuario sobre lo que ha sucedido. 
+
+```java
+while (true) {
+            // Menú principal
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Modo Admin");
+            System.out.println("2. Modo Profesor");
+            System.out.println("3. Modo Alumno");
+            System.out.println("4. Salir");
+
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (option) {
+                case 1:
+                    manejarModoAdmin(scanner);
+                    break;
+                case 2:
+                    manejarModoProfesor(scanner);
+                    break;
+                case 3:
+                    manejarModoAlumno(scanner);
+                    break;
+                case 4:
+                    System.out.println("Saliendo de la aplicación");
+                    return;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+
+Este fragmento de código implementa un bucle principal (while (true)) que mantiene la aplicación en ejecución hasta que el usuario decida salir. Aquí se presenta un menú principal que ofrece al usuario cuatro opciones:
+
+- Modo Admin: Permite al usuario entrar en el modo administrador, donde se pueden realizar funciones específicas para la gestión del sistema.
+- Modo Profesor: Permite al usuario acceder a funciones reservadas para los profesores.
+- Modo Alumno: Permite al usuario interactuar con las funciones diseñadas para los estudiantes.
+- Salir: Termina la ejecución de la aplicación.
+  
+Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
+
+```java
+private static void manejarModoAdmin(Scanner scanner) throws Exception {
+        // Manejo del modo Admin
+    	try {
+            System.out.println("Introduce la clave privada del dueño del contrato");
+            String privateKeyAdmin = scanner.nextLine();
+            credentials = Credentials.create(privateKeyAdmin);
+            contract = Contrato_sol_DAppEducativa.load(
+                direccionContrato, 
+                web3j, 
+                credentials, 
+                new DefaultGasProvider()
+            );
+        } catch (Exception e) {
+            System.out.println("Error al cargar el contrato: " + e.getMessage());
+            return;
+        }
+
+        while (true) {
+            // Menú del modo Admin
+            System.out.println("1. Agregar Profesor");
+            System.out.println("2. Agregar Curso");
+            System.out.println("3. Salir");
+            int optionAdmin = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (optionAdmin) {
+                case 1:
+                    registrarProfesor(scanner);
+                    break;
+                case 2:
+                    registrarCurso(scanner);
+                    break;
+                case 3:
+                    System.out.println("Saliendo del modo Admin");
+                    return;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+El método manejarModoAdmin permite al administrador gestionar profesores y cursos en el sistema, asegurándose de que las acciones sólo se puedan realizar con las credenciales adecuadas y que cualquier error en la carga del contrato sea manejado adecuadamente. 
+
+- Inicialización del Contrato:
+
+   - Entrada de Clave Privada: Solicita al usuario que introduzca la clave privada del administrador del contrato. Esta clave se utiliza para crear un objeto de Credentials, que es necesario para interactuar con la red Ethereum.
+   - Cargar el Contrato: Utiliza la clave privada para cargar el contrato inteligente desde la dirección especificada (direccionContrato). Se crea una instancia del contrato Contrato_sol_DAppEducativa usando web3j, credentials, y un DefaultGasProvider para gestionar las transacciones.
+     
+- Manejo del Menú del Administrador:
+
+   - Menú Principal: Presenta un menú con tres opciones:
+   - Agregar Profesor: Llama a registrarProfesor, que es una función que probablemente maneja la lógica para registrar un nuevo profesor.
+   - Agregar Curso: Llama a registrarCurso, que maneja la lógica para registrar un nuevo curso en el contrato inteligente.
+   - Salir: Termina el modo administrador y vuelve al menú principal de la aplicación.
+   - Opción no válida: Si se ingresa una opción no válida, el programa informa al usuario y reinicia el menú del modo administrador.
+
+
+
+ 
+
 
 
 
