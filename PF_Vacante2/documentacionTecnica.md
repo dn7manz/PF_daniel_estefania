@@ -501,7 +501,52 @@ Ahora con la red conectada, me aparecen todas las direcciones que tiene el nodo,
 
 Al desplegar el contrato, a traves de la consola de Remix, podemos observar los datos del contrato, como en la imagen anterior. Para comprobar que se haya desplegado correcatmente, ahora iremos a Ganache para demostrar que sea creado el primer bloque con la creacion del contrato.
 
-![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67)
+![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67) 
+
+## 4. Integración con DApp utilizando Java. 
+
+En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
+
+### Preparacion Java. 
+
+Primero, utilizaré el compilador de Solidity, solcjs, para generar los archivos bin y abi del contrato inteligente desplegado. Estos archivos serán esenciales para que herramientas como Web3j puedan generar clases Java que interactúen con el contrato. El comando es el siguiente:
+```sh
+solcjs --bin --abi -o ./build contrato.sol
+```
+Este comando producirá dos archivos en la carpeta build que contendrán el bytecode del contrato y su interfaz respectivamente. 
+
+Una vez teniendo los archivos bin y abi, utilizaré la herramienta web3j para crear una clase Java que me permitirá interactuar con el contrato inteligente directamente desde Java con el siguiente comando.
+```sh
+web3j generate solidity -b ./build/contrato_DappEducativa.bin -a ./build/contrato_DappEducativa.abi -o ./src/main/java -p contracts
+```
+Este comando generará una clase Java dentro del paquete especificado, la cual incluirá métodos para todas las funciones del contrato inteligente, permitiéndome invocarlas desde la aplicación Java.
+
+Ahora describiré cómo voy a crear un nuevo proyecto en Eclipse utilizando Maven para gestionar las dependencias necesarias, incluyendo web3j.
+
+- Creación del Proyecto Maven en Eclipse
+   - Abrir Eclipse: Inicio Eclipse y selecciono el espacio de trabajo donde se encuentran el contrato y sus archivos generados.
+   - Nuevo Proyecto Maven: Voy a File > New > Other..., luego selecciono Maven Project y hago clic en Next.
+   - Arquetipo de Maven: Selecciono el arquetipo maven-archetype-quickstart que proporciona una estructura básica para un proyecto Java y hago clic en Next
+   - Esto creará una estructura básica de proyecto con una carpeta src que contendrá los directorios main/java y test/java.
+
+- Configuración del archivo pom.xml
+   - Una vez que el proyecto está creado, voy a configurar el archivo pom.xml en la raiz del directorio para incluir las dependencias necesarias para web3j.        - Abro el archivo pom.xml y agrego las siguientes dependencias:
+   ```xml
+   <dependencies>
+    <dependency>
+        <groupId>org.web3j</groupId>
+        <artifactId>core</artifactId>
+        <version>4.8.7</version>
+    </dependency>
+   </dependencies>
+   ```
+   - Este fragmento de código añade la dependencia principal de web3j al proyecto, lo que permitirá interactuar con la red Ethereum y con el Smart Contract desde Java.
+
+
+
+
+
+
 
 
 
