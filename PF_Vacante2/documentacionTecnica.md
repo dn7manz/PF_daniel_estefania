@@ -553,96 +553,214 @@ Voy a implementar la lógica de interacción utilizando bucles para presentar me
 
 A continuacion explicare bloque a bloque el contenido del main.java.
 
-```java
-import org.web3j.crypto.Credentials;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.tuples.generated.Tuple2;
-import org.web3j.tuples.generated.Tuple3;
-import org.web3j.tuples.generated.Tuple5;
-import org.web3j.tuples.generated.Tuple7;
-import org.web3j.tx.gas.DefaultGasProvider;
-
-import java.util.Scanner;
-import java.util.List;
-import contracts.Contrato_sol_DAppEducativa;
-```
-Este bloque de código importa las bibliotecas necesarias para interactuar con la blockchain Ethereum desde Java utilizando Web3j. Se incluyen clases para manejar la conexión con un nodo Ethereum (`Web3j` y `HttpService`), gestionar credenciales (`Credentials`), recibir transacciones (`TransactionReceipt`), y manejar datos devueltos por el contrato inteligente a través de tuples (`Tuple2`, `Tuple3`, etc.). Además, se prepara el uso de un proveedor de gas por defecto (`DefaultGasProvider`), la entrada de usuario mediante consola (`Scanner`), y se define la clase generada que representa el contrato inteligente (`Contrato_sol_DAppEducativa`), que permite interactuar con las funciones del contrato desplegado.
+#### Calls funciones de escritura. 
 
 ```java
-public class Main {
-    private static final String direccionContrato = "0x6974d707e5F278CC766FAF6fE8C35f24B1cDb0CC"; // Dirección del contrato desplegado
-    private static Web3j web3j;
-    private static Credentials credentials;
-    private static Contrato_sol_DAppEducativa contract;
-    private static String direccionUsuario; // Variable global para almacenar la dirección del usuario
-
-    public static void main(String[] args) throws Exception {
-        // Conectar a la red Ethereum
+ private static void registrarProfesor(Scanner scanner) throws Exception {
     	try {
-            web3j = Web3j.build(new HttpService("http://localhost:7545"));
+            System.out.println("Ingrese el nombre del profesor:");
+            String nombre = scanner.nextLine();
+            System.out.println("Ingrese la direccion del profesor:");
+            String profesorDireccion = scanner.nextLine();
+
+            // Realizar la transacción y obtener el hash
+            TransactionReceipt receipt = contract.agregarProfesor(profesorDireccion, nombre).send();
+            System.out.println("Profesor matriculado con éxito. Hash de la transacción: " + receipt.getTransactionHash());
         } catch (Exception e) {
-            System.out.println("Error al conectar con la red Ethereum: " + e.getMessage());
-            return;
-        } 
+            System.out.println("Error al registrar el profesor: " + e.getMessage());
+        }
+    }
 ```
+registrarProfesor permite agregar nuevos profesores al sistema, interactuando directamente con el contrato inteligente para realizar el registro de manera segura y transparente en la blockchain. 
 
-Este fragmento establece la base para la interacción entre una aplicación Java y un contrato inteligente desplegado en la blockchain de Ethereum. La clase Main es la encargada de gestionar toda la lógica de la aplicación.
+- Solicitar Datos del Profesor:
 
-En primer lugar, se define una constante direccionContrato que almacena la dirección del contrato inteligente desplegado en la red Ethereum. Esta dirección es crucial porque permite a la aplicación Java identificar y comunicarse con el contrato específico que se desea manejar.
+   -Se solicita al usuario que ingrese el nombre del profesor y su dirección (dirección de la cuenta de Ethereum). Estos datos se leen mediante el objeto Scanner pasado como parámetro al método.
+  
+- Interacción y Transacción con el Contrato Inteligente:
 
-Luego, se definen algunas variables clave:
-
-- web3j es la instancia de Web3j, una librería que permite la comunicación entre la aplicación Java y la red Ethereum.
-- credentials se utilizará para gestionar las credenciales del usuario que interactuará con el contrato, permitiendo la firma de transacciones.
-- contract es una instancia generada a partir del ABI del contrato, que facilitará la llamada a sus funciones directamente desde Java.
-- direccionUsuario es una variable global que se utilizará para almacenar la dirección del usuario actual que interactúa con la aplicación.
-
-El método main es donde se inicia la conexión con la red Ethereum. Se utiliza la librería Web3j para conectarse a un nodo Ethereum, en este caso un nodo local que está funcionando en http://localhost:7545, que es la URL del nodo desplegado en Ganache. 
-
-Si ocurre un error durante el proceso de conexión, como que el nodo no esté disponible o que la URL esté mal configurada, se captura la excepción y se muestra un mensaje de error en la consola, terminando la ejecución del programa. Este manejo de errores es importante para evitar que la aplicación falle inesperadamente sin dar información al usuario sobre lo que ha sucedido. 
-
+   - Se utiliza el contrato inteligente Contrato_sol_DAppEducativa, que ya está cargado y conectado a la red Ethereum, para llamar al método agregarProfesor.
+   - Este método del contrato recibe la dirección del profesor y su nombre como parámetros.
+   - Se ejecuta la transacción llamando a .send() sobre el resultado del método agregarProfesor, lo que envía la transacción a la red Ethereum.
+   - Al completar la transacción, se obtiene un objeto TransactionReceipt, que contiene detalles de la transacción.
+   - Imprime por pantalla el hash de la operacion
+ 
 ```java
-while (true) {
-            // Menú principal
-            System.out.println("Seleccione una opción:");
-            System.out.println("1. Modo Admin");
-            System.out.println("2. Modo Profesor");
-            System.out.println("3. Modo Alumno");
-            System.out.println("4. Salir");
+private static void registrarCurso(Scanner scanner) throws Exception {
+    	try {
+            System.out.println("Ingrese el nombre del curso:");
+            String nombre = scanner.nextLine();
+            System.out.println("Ingrese la direccion del profesor:");
+            String profesor = scanner.nextLine();
 
-            int option = scanner.nextInt();
+            // Realizar la transacción y obtener el hash
+            TransactionReceipt receipt = contract.agregarCurso(nombre, profesor).send();
+            System.out.println("Curso creado con éxito. Hash de la transacción: " + receipt.getTransactionHash());
+        } catch (Exception e) {
+            System.out.println("Error al registrar el curso: " + e.getMessage());
+        }
+    }
+```
+registrarCurso facilita la creación de nuevos cursos dentro de la aplicación, asegurando que cada curso se registre adecuadamente en la blockchain a través de transacciones seguras y auditables. Esto permite un control efectivo sobre los cursos disponibles y los profesores asignados a ellos dentro del sistema. 
+
+- Entrada de Datos del Curso:
+
+   -El usuario es solicitado a ingresar el nombre del curso y la dirección del profesor encargado. Estos datos se recopilan utilizando un objeto Scanner pasado como argumento al método.
+  
+- Interacción y Transacción con el Contrato Inteligente:
+
+   - Utiliza la instancia del contrato inteligente Contrato_sol_DAppEducativa para llamar al método agregarCurso.
+   - El método agregarCurso del contrato inteligente recibe dos parámetros: el nombre del curso y la dirección del profesor.
+   - Se ejecuta la transacción en la red Ethereum usando .send(), lo que envía la solicitud de creación de curso al contrato inteligente.
+   - Al completar la transacción, se obtiene un objeto TransactionReceipt, que contiene detalles de la transacción.
+   - Imprime por pantalla el hash de la operacion.
+ 
+```java
+private static void matricularse(Scanner scanner) throws Exception {
+    	try {
+            System.out.println("Ingrese su dirección:");
+            String alumnoDireccion = scanner.nextLine();
+            System.out.println("Introduce la clave clave privada");
+            String privateKey = scanner.nextLine();
+            credentials = Credentials.create(privateKey);
+            contract = Contrato_sol_DAppEducativa.load(
+                direccionContrato, 
+                web3j, 
+                credentials, 
+                new DefaultGasProvider()
+            );
+
+            // Obtener y mostrar la lista de cursos disponibles
+            List<String> nombresCursos = contract.obtenerNombresCursos().send();
+            System.out.println("Cursos disponibles:");
+            for (int i = 0; i < nombresCursos.size(); i++) {
+                System.out.println((i + 1) + ". " + nombresCursos.get(i));
+            }
+
+            // Pedir al usuario que seleccione un curso
+            System.out.println("Seleccione un curso por número:");
+            int cursoSeleccionado = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
 
-            switch (option) {
-                case 1:
-                    manejarModoAdmin(scanner);
-                    break;
-                case 2:
-                    manejarModoProfesor(scanner);
-                    break;
-                case 3:
-                    manejarModoAlumno(scanner);
-                    break;
-                case 4:
-                    System.out.println("Saliendo de la aplicación");
-                    return;
-                default:
-                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            if (cursoSeleccionado > 0 && cursoSeleccionado <= nombresCursos.size()) {
+                String curso = nombresCursos.get(cursoSeleccionado - 1);
+
+                // Pedir los detalles del usuario
+                System.out.println("Ingrese su nombre:");
+                String nombre = scanner.nextLine();
+                System.out.println("Ingrese su Gmail:");
+                String email = scanner.nextLine();
+                System.out.println("Ingrese su clave:");
+                String pass = scanner.nextLine();
+
+                // Registrar al usuario en el contrato
+                TransactionReceipt receipt = contract.registrarUsuario(alumnoDireccion, email, pass, curso, nombre).send();
+                System.out.println("Usuario matriculado con éxito. Hash de la transacción: " + receipt.getTransactionHash());
+            } else {
+                System.out.println("Selección de curso no válida.");
             }
+        } catch (Exception e) {
+            System.out.println("Error al matricularse: " + e.getMessage());
+        }
+    }
+```
+La función matricularse permite a un alumno registrarse y matricularse en un curso disponible a través del contrato inteligente. 
+
+- Autenticación y Carga del Contrato Inteligente:
+
+   - El proceso comienza solicitando al alumno que ingrese su dirección y clave privada. Estos datos son esenciales para autenticar al usuario y permitir que realice transacciones en la blockchain.
+   - Con la clave privada proporcionada, se crean las credenciales del usuario utilizando Credentials.create(privateKey).
+   - A continuación, el contrato Contrato_sol_DAppEducativa se carga utilizando la dirección del contrato, el objeto Web3j, las credenciales del alumno, y un proveedor de gas por defecto (DefaultGasProvider). Esto establece una conexión con el contrato inteligente desplegado, permitiendo que el alumno interactúe con él.
+     
+- Entrada de Datos del Alumno:
+
+   - Selección de Curso:
+      - Se llama al método obtenerNombresCursos del contrato inteligente para obtener una lista de todos los cursos disponibles, que se muestran al usuario en una lista numerada.
+      - El alumno selecciona un curso ingresando el número correspondiente, y el programa verifica que la selección sea válida. Si la selección es válida, se extrae el nombre del curso de la lista.
+   - Detalles del Alumno:
+      - Se solicita al usuario que ingrese su nombre, correo electrónico (Gmail) y una clave personal. Estos datos son necesarios para registrar al usuario en el contrato inteligente.
+        
+- Registrar al Usuario:
+
+   - Se llama al método registrarUsuario del contrato inteligente para registrar al alumno, proporcionando su dirección, email, clave, curso seleccionado y nombre.
+   - La transacción resultante se envía a la blockchain, y se recibe un TransactionReceipt, que incluye el hash de la transacción.
+ 
+```java
+private static void matricularEnOtroCurso(Scanner scanner) {
+        // Verificar si el contrato está inicializado
+        if (contract == null) {
+            System.out.println("El contrato no está inicializado.");
+            return;
+        }
+
+        try {
+            // Verificar que la dirección no esté vacía
+            if (direccionUsuario.isEmpty()) {
+                System.out.println("La dirección no puede estar vacía.");
+                return;
+            }
+
+            // Verificar si el usuario está registrado
+            Tuple7<String, byte[], String, String, String, Boolean, String> usuario = contract.usuarios(direccionUsuario).send();
+            boolean registrado = usuario.component4() != null;  // Obtener el estado de registro (booleano)
+
+            if (registrado) {
+                // Obtener y mostrar la lista de cursos disponibles
+                List<String> nombresCursos = contract.obtenerNombresCursos().send();
+                System.out.println("Cursos disponibles:");
+                for (int i = 0; i < nombresCursos.size(); i++) {
+                    System.out.println((i + 1) + ". " + nombresCursos.get(i));
+                }
+
+                // Pedir al usuario que seleccione un curso
+                System.out.println("Seleccione un curso por número:");
+                if (scanner.hasNextInt()) {
+                    int cursoSeleccionado = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea
+
+                    if (cursoSeleccionado > 0 && cursoSeleccionado <= nombresCursos.size()) {
+                        String curso = nombresCursos.get(cursoSeleccionado - 1);
+
+                        // Matricular al usuario en el nuevo curso
+                        TransactionReceipt receipt = contract.matricularseEnOtroCurso(direccionUsuario, curso).send();
+                        System.out.println("Usuario matriculado con éxito en el curso " + curso + ". Hash de la transacción: " + receipt.getTransactionHash());
+                    } else {
+                        System.out.println("Selección de curso no válida.");
+                    }
+                } else {
+                    System.out.println("Entrada no válida. Debe ingresar un número.");
+                    scanner.next(); // Consumir la entrada no válida
+                }
+            } else {
+                System.out.println("La dirección ingresada no está registrada.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al matricular en otro curso: " + e.getMessage());
         }
     }
 ```
 
-Este fragmento de código implementa un bucle principal (while (true)) que mantiene la aplicación en ejecución hasta que el usuario decida salir. Aquí se presenta un menú principal que ofrece al usuario cuatro opciones:
+La función matricularEnOtroCurso permite que un usuario registrado en el sistema se matricule en un curso adicional, verificando previamente que esté registrado y que el contrato esté correctamente inicializado. A continuación se detalla el proceso:
 
-- Modo Admin: Permite al usuario entrar en el modo administrador, donde se pueden realizar funciones específicas para la gestión del sistema.
-- Modo Profesor: Permite al usuario acceder a funciones reservadas para los profesores.
-- Modo Alumno: Permite al usuario interactuar con las funciones diseñadas para los estudiantes.
-- Salir: Termina la ejecución de la aplicación.
-  
-Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
+- Inicialización del Contrato y Validación de Dirección:
+
+   - La función comienza verificando si el contrato Contrato_sol_DAppEducativa está inicializado. Si no lo está, muestra un mensaje de error y termina la ejecución. Esta verificación asegura que cualquier operación sobre el contrato no cause un fallo por referencia nula.
+   - Luego, se verifica que la variable direccionUsuario no esté vacía. Esta variable debe contener la dirección del usuario que se desea matricular. Si está vacía, se muestra un mensaje de error indicando que no se puede proceder con una dirección vacía.
+
+- Verificación del Registro del Usuario:
+
+   -Utilizando la función usuarios del contrato, se obtienen los detalles del usuario asociados a direccionUsuario. La función devuelve una tupla de siete componentes que incluye información sobre el usuario.
+   - Se verifica el estado de registro del usuario comprobando si el campo de registro (component4 de la tupla) no es nulo. Si el usuario está registrado, el flujo continúa; si no, se informa al usuario que su dirección no está registrada y se termina el proceso.
+     
+- Selección de Curso y Matrícula:
+
+   - Se llama al método obtenerNombresCursos del contrato para obtener una lista de los cursos disponibles. Esta lista se imprime para que el usuario pueda seleccionar un curso en el que desea matricularse.
+   - Se solicita al usuario que ingrese el número correspondiente al curso deseado. El programa verifica que la entrada sea un número válido y que corresponda a un curso existente.
+   - Si la selección es válida, el usuario es matriculado en el nuevo curso mediante el método matricularseEnOtroCurso del contrato. Se envía una transacción a la blockchain, y se muestra el hash de la transacción para confirmar el éxito del registro.
+     
+#### Calls funciones de lectura.
+
+#### Manejo de modos.
 
 ```java
 private static void manejarModoAdmin(Scanner scanner) throws Exception {
@@ -849,6 +967,94 @@ private static void manejarSesionAlumno(Scanner scanner) throws Exception {
         }
     }
 ```
+manejarSesionAlumno proporciona un entorno controlado donde el alumno puede realizar acciones específicas relacionadas con su perfil académico después de haber iniciado sesión correctamente. 
+
+- Menú de Sesión del Alumno:
+
+   - Opciones Disponibles: Una vez que el alumno ha iniciado sesión, se le presenta un menú con tres opciones principales:
+   - Matricularse en otro curso: Permite al alumno inscribirse en un curso adicional, llamando a la función matricularEnOtroCurso.
+   - Listar cursos matriculados: Muestra al alumno todos los cursos en los que está actualmente matriculado, llamando a la función listarCursosDeAlumno.
+   - Cerrar sesión: Finaliza la sesión del alumno y lo regresa al menú anterior.
+
+#### Clase Main. 
+
+```java
+public class Main {
+    private static final String direccionContrato = "0x6974d707e5F278CC766FAF6fE8C35f24B1cDb0CC"; // Dirección del contrato desplegado
+    private static Web3j web3j;
+    private static Credentials credentials;
+    private static Contrato_sol_DAppEducativa contract;
+    private static String direccionUsuario; // Variable global para almacenar la dirección del usuario
+
+    public static void main(String[] args) throws Exception {
+        // Conectar a la red Ethereum
+    	try {
+            web3j = Web3j.build(new HttpService("http://localhost:7545"));
+        } catch (Exception e) {
+            System.out.println("Error al conectar con la red Ethereum: " + e.getMessage());
+            return;
+        } 
+```
+
+Este fragmento establece la base para la interacción entre una aplicación Java y un contrato inteligente desplegado en la blockchain de Ethereum. La clase Main es la encargada de gestionar toda la lógica de la aplicación.
+
+En primer lugar, se define una constante direccionContrato que almacena la dirección del contrato inteligente desplegado en la red Ethereum. Esta dirección es crucial porque permite a la aplicación Java identificar y comunicarse con el contrato específico que se desea manejar.
+
+Luego, se definen algunas variables clave:
+
+- web3j es la instancia de Web3j, una librería que permite la comunicación entre la aplicación Java y la red Ethereum.
+- credentials se utilizará para gestionar las credenciales del usuario que interactuará con el contrato, permitiendo la firma de transacciones.
+- contract es una instancia generada a partir del ABI del contrato, que facilitará la llamada a sus funciones directamente desde Java.
+- direccionUsuario es una variable global que se utilizará para almacenar la dirección del usuario actual que interactúa con la aplicación.
+
+El método main es donde se inicia la conexión con la red Ethereum. Se utiliza la librería Web3j para conectarse a un nodo Ethereum, en este caso un nodo local que está funcionando en http://localhost:7545, que es la URL del nodo desplegado en Ganache. 
+
+Si ocurre un error durante el proceso de conexión, como que el nodo no esté disponible o que la URL esté mal configurada, se captura la excepción y se muestra un mensaje de error en la consola, terminando la ejecución del programa. Este manejo de errores es importante para evitar que la aplicación falle inesperadamente sin dar información al usuario sobre lo que ha sucedido. 
+
+```java
+while (true) {
+            // Menú principal
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Modo Admin");
+            System.out.println("2. Modo Profesor");
+            System.out.println("3. Modo Alumno");
+            System.out.println("4. Salir");
+
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (option) {
+                case 1:
+                    manejarModoAdmin(scanner);
+                    break;
+                case 2:
+                    manejarModoProfesor(scanner);
+                    break;
+                case 3:
+                    manejarModoAlumno(scanner);
+                    break;
+                case 4:
+                    System.out.println("Saliendo de la aplicación");
+                    return;
+                default:
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+            }
+        }
+    }
+```
+
+Este fragmento de código implementa un bucle principal (while (true)) que mantiene la aplicación en ejecución hasta que el usuario decida salir. Aquí se presenta un menú principal que ofrece al usuario cuatro opciones:
+
+- Modo Admin: Permite al usuario entrar en el modo administrador, donde se pueden realizar funciones específicas para la gestión del sistema.
+- Modo Profesor: Permite al usuario acceder a funciones reservadas para los profesores.
+- Modo Alumno: Permite al usuario interactuar con las funciones diseñadas para los estudiantes.
+- Salir: Termina la ejecución de la aplicación.
+  
+Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
+
+
+
+
   
 
 
