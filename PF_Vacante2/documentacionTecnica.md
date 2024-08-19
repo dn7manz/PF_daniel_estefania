@@ -760,6 +760,127 @@ La función matricularEnOtroCurso permite que un usuario registrado en el sistem
      
 #### Calls funciones de lectura.
 
+```java
+private static void obtenerProfesores() {
+        try {
+            // Obtenemos la tupla de cuentas y nombres de profesores del contrato
+            Tuple2<List<String>, List<String>> profesoresTuple = contract.obtenerCuentasProfesores().send();
+            List<String> direccionesProfesores = profesoresTuple.component1();
+            List<String> nombresProfesores = profesoresTuple.component2();
+
+            System.out.println("Profesores registrados:");
+            for (int i = 0; i < direccionesProfesores.size(); i++) {
+                String direccion = direccionesProfesores.get(i);
+                String nombre = nombresProfesores.get(i);
+                System.out.println("Dirección: " + direccion + ", Nombre: " + nombre);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener los profesores: " + e.getMessage());
+        }
+    }
+```
+La función obtenerProfesores() es una función que permite recuperar y mostrar la lista de profesores registrados en el contrato inteligente.
+
+- Obtención de datos:
+
+   - Se realiza una llamada al contrato inteligente para obtener una tupla (Tuple2) que contiene dos listas:
+      - direccionesProfesores: Una lista de direcciones de los profesores registrados.
+      - nombresProfesores: Una lista de nombres correspondientes a esas direcciones.
+        
+- Mostrar información:
+
+   - Se recorre la lista de direcciones de profesores (direccionesProfesores) y, para cada dirección, se muestra tanto la dirección como el nombre del profesor en la consola.
+
+```java
+private static void obtenerUsuariosPorCurso(Scanner scanner) {
+        try {
+            // Obtener y mostrar la lista de cursos
+            List<String> nombresCursos = contract.obtenerNombresCursos().send();
+            System.out.println("Cursos disponibles:");
+            for (int i = 0; i < nombresCursos.size(); i++) {
+                System.out.println((i + 1) + ". " + nombresCursos.get(i));
+            }
+
+            // Pedir al usuario que seleccione un curso
+            System.out.println("Seleccione un curso por número:");
+            int cursoSeleccionado = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            if (cursoSeleccionado > 0 && cursoSeleccionado <= nombresCursos.size()) {
+                String nombreCurso = nombresCursos.get(cursoSeleccionado - 1);
+
+                // Obtener los usuarios matriculados en el curso seleccionado
+                List<String> alumnos = contract.obtenerUsuariosPorCurso(nombreCurso).send();
+                System.out.println("Alumnos matriculados en el curso " + nombreCurso + ":");
+
+                // Mostrar los detalles de cada alumno
+                for (String alumno : alumnos) {
+                    Tuple7<String, byte[], String, String, String, Boolean, String> userTuple = contract.usuarios(alumno).send();
+                    String nombre = userTuple.component1(); // Asumiendo que el nombre es el primer componente
+                    System.out.println("Dirección: " + alumno + ", Nombre: " + nombre);
+                }
+            } else {
+                System.out.println("Selección no válida.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener los alumnos por curso: " + e.getMessage());
+        }
+    }
+```
+
+La función obtenerUsuariosPorCurso(Scanner scanner) permite al usuario listar todos los estudiantes matriculados en un curso específico.
+
+- Obtención de la lista de cursos:
+
+   - La función llama al contrato inteligente para obtener una lista de nombres de cursos disponibles mediante obtenerNombresCursos().
+   - Luego, se muestran estos cursos al usuario en la consola.
+ 
+- Selección del curso por parte del usuario:
+
+   - Se solicita al usuario que seleccione un curso ingresando el número correspondiente.
+   - Se valida que el número ingresado esté dentro del rango válido de cursos.
+     
+- Recuperación de usuarios matriculados:
+
+   - Una vez seleccionado el curso, se llama a la función obtenerUsuariosPorCurso(nombreCurso) del contrato inteligente para obtener las direcciones de los usuarios matriculados en ese curso.
+   - Por cada dirección de usuario obtenida, se recuperan los detalles del usuario, específicamente el nombre.
+     
+- Mostrar detalles de los usuarios:
+
+   - La dirección y el nombre de cada usuario matriculado en el curso seleccionado se muestran en la consola.
+
+```java
+ private static void listarCursosDeAlumno(Scanner scanner) {
+        // Listar cursos en los que el alumno está matriculado
+        try {
+            Tuple3<String, String, String> cursos = contract.obtenerCursosMatriculados(direccionUsuario).send();
+            System.out.println("Cursos en los que el alumno está matriculado:");
+            if (!cursos.component1().isEmpty()) {
+                System.out.println(cursos.component1());
+            }
+            if (!cursos.component2().isEmpty()) {
+                System.out.println(cursos.component2());
+            }
+            if (!cursos.component3().isEmpty()) {
+                System.out.println(cursos.component3());
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener los cursos del alumno: " + e.getMessage());
+        }
+    }
+```
+La función listarCursosDeAlumno(Scanner scanner) permite al alumno ver una lista de los cursos en los que está matriculado.
+
+- Obtención de cursos matriculados:
+
+   - La función utiliza la dirección del usuario almacenada en direccionUsuario para llamar a la función obtenerCursosMatriculados(direccionUsuario) del contrato inteligente.
+   - Esta llamada devuelve una tupla (Tuple3) con hasta tres cursos en los que el alumno está matriculado.
+     
+- Visualización de los cursos:
+
+   - La función verifica cada componente de la tupla para comprobar si no están vacíos y, si contienen un curso, los imprime en la consola.
+   - Cada componente de la tupla representa un curso en el que el alumno está matriculado, y si un componente está vacío, significa que no hay un curso asociado en esa posición.
+
 #### Manejo de modos.
 
 ```java
