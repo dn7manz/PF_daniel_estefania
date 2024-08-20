@@ -58,7 +58,7 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
 
 Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
 
-### 3.1 Explicacion del codigo.
+### Explicacion del codigo.
 
 A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
 
@@ -470,7 +470,7 @@ La función iniciarSesion verifica las credenciales de un usuario (correo y cont
    - keccak256 proporciona una forma de comparar contraseñas sin exponerlas directamente.
 - **Requerimientos**: La función garantiza que tanto el correo como la contraseña sean verificados correctamente para una autenticación adecuada.
 
-### 3.2 Despliegues
+### Despliegues
 
 A continuación, documentaré el proceso de despliegue de la red blockchain utilizando Ganache, que proporciona un entorno local de Ethereum para pruebas, y el despliegue del contrato inteligente en esta red mediante Remix con capturas de pantalla.
 
@@ -505,7 +505,7 @@ Al desplegar el contrato, a traves de la consola de Remix, podemos observar los 
 
 En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
 
-### 4.1 Preparacion proyecto Java. 
+### Preparacion proyecto Java. 
 
 Primero, utilizaré el compilador de Solidity, solcjs, para generar los archivos bin y abi del contrato inteligente desplegado. Estos archivos serán esenciales para que herramientas como Web3j puedan generar clases Java que interactúen con el contrato. El comando es el siguiente:
 ```sh
@@ -540,7 +540,7 @@ Ahora describiré cómo voy a crear un nuevo proyecto en Eclipse utilizando Mave
    ```
    - Este fragmento de código añade la dependencia principal de web3j al proyecto, lo que permitirá interactuar con la red Ethereum y con el Smart Contract desde Java.
 
-### 4.2 Explicacion main.java. 
+### Explicacion main.java. 
 
 Finalmente, crearé un archivo Main.java donde implementaré un sistema interactivo en Java que permitirá a diferentes tipos de usuarios (admin, profesor, alumno) interactuar con el contrato.
 
@@ -1171,17 +1171,17 @@ Este fragmento de código implementa un bucle principal (while (true)) que manti
   
 Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
 
-## 5 Ejecuccion de la Dapp. 
+## 5. Ejecuccion de la Dapp. 
 
 En este apartado ejecutare la Dapp desde Eclipse, docuemntare la consola del programa y a su vez los bloques generados a raiz de las futuras transacciones. Cuando el programa es ejcutado, la consola muestra un menu para elegir el modo de ejcuccion, admin, profesor y alumno. A continuacion se docuemnta el proceso de ejecuccion de cada modo.
 
 ### Modo admin. 
 
-#### Registro Profesores
-
 Para emepezar voy a entrar en el modo admin para establecer los profesores y cursos, al entrar al modo, la consola pide la clave privada del dueño del contrato, ya que este modo esta restringido.
 
 ![image](https://github.com/user-attachments/assets/0b67c841-8c78-4b89-8ae5-df66efae1fcd). 
+
+#### Registro Profesores
 
 Ahora una vez dentro del modo admin, voy a crear 5 profesores a traves de la opcion "agregar profesor", cuando se ejecuta esta opcion, la consola nos pide el nombre que tendra el profesor y su direccion y posteriormente se ejecutara la funcion del smartcontract que registra un profesor y nos mostrara su hash
 
@@ -1235,37 +1235,266 @@ Para resumir y confirmar las transacciones se han ejecutado correctamente, revis
 - Seguridad Informática:
 
    - Profesor asignado: Dirección 0x8E84978E0B187E58e67C4FEB5a7cc970ac2aC36f (Ignacio)
-   - Hash de la transacción: 0x4b31d64c96e67blefc5f12... 
+   - Hash: 0x4b31d64c96e67blefc5f12... 
 
 ![image](https://github.com/user-attachments/assets/8489650d-590c-4b79-a3d6-48ae537f77ad)
 
 - Programación:
 
    - Profesor asignado: Dirección 0xE53Bc885744b5f260eCE738da05c06baE06941db (Jose)
-   - Hash de la transacción: 0xe8albfcf9c11894c931b35...
+   - Hash: 0xe8albfcf9c11894c931b35...
 
 ![image](https://github.com/user-attachments/assets/c88bb141-6cf2-4138-b69d-f747670d1c82)
 
 - Redes Informáticas:
 
    - Profesor asignado: Dirección 0x5eDF7840ce73f3e27Bce204A09FC80831407Eda (Alfredo)
-   - Hash de la transacción: 0x54d8da925bd815348c0cd4...
+   - Hash: 0x54d8da925bd815348c0cd4...
 
 ![image](https://github.com/user-attachments/assets/5142d296-e2fa-43d7-832a-e958ef25e58f)
 
 - Blockchain:
 
    - Profesor asignado: Dirección 0x50f92916E3F8BEf956F6F4040D50E0Ccb2OA067 (Roberto de la primera imagen)
-   - Hash de la transacción: 0x214bdddc51403eb7bd8117...
+   - Hash: 0x214bdddc51403eb7bd8117...
 
 ![image](https://github.com/user-attachments/assets/8d1a2aa9-fccb-4c8e-8bd8-fa1166fdbf51)
 
 - Inteligencia Artificial:
 
    - Profesor asignado: Dirección 0x6239S7142B811e29dcceB23bA1A641681Bf14 (Carlos de la primera imagen)
-   - Hash de la transacción: 0xb52c2b59cba5979f6ad672...
+   - Hash: 0xb52c2b59cba5979f6ad672...
 
 ![image](https://github.com/user-attachments/assets/7aeb8142-e7d8-4ba6-bda9-1b867d8e86d8)
+
+
+### Modo alumno
+
+Una vez que ya estan disponibles los cursos, por que se ha creado por el admin del contrato, se pueden registrar los alumnos, al entrar al modo alumno podremos elgir la opcion de Matricularse y de Iniciar Sesion
+
+#### Matricularse
+
+Al escoger la  opcion de matricularse, la consola pedira la direccion y clave privada del alumno, despues se muestra una lista con los cursos disponibles y finalmente la consola pedira los datos personales del usuario como el nombre, el correo y la clave, estos datos seran necesarios para despues inciar sesion como alumno. 
+
+A continuacion voy a docuemntar todos los usuarios que se matricularan, con su posterior confirmacion con el bloque generado por la trasaccion.
+
+- curso: Seguridad Informatica
+- nombre: daniel
+- correo: daniel@tokio.com
+- clave: 1234
+- direccion: 0x8cA20E1ef734181168477337beA97fbb7c580C0A
+- hash: 0x5cf354b205afb31d0f2d2c542248f7c879142b40789aa1e92a36532bf8c4e965
+
+![image](https://github.com/user-attachments/assets/28b828b1-0b46-4411-9dee-d6a8d56cac56)
+
+![image](https://github.com/user-attachments/assets/858422f7-dc8a-417b-8b78-bad43eab4633)
+
+- curso: Seguridad Informatica
+- nombre: sergio
+- correo: sergio@tokio.com
+- clave: 1234
+- direccion: 0x960A1b413f4D2b24B8bba7d87A7eb7fa577C058f
+- hash: 0x7fc7d867f5814c0fefbaab7f29ca63c8c2eff78d5344559f8dd9862b93dfbbd1
+
+![image](https://github.com/user-attachments/assets/7cd46355-04ed-4f56-afe3-08bc3c609384) 
+
+![image](https://github.com/user-attachments/assets/199a647c-e27a-41eb-a3fa-f7b235e16ba0) 
+
+- curso: Seguridad Informatica
+- nombre: aaron
+- correo: aaron@tokio.com
+- clave: 1234
+- direccion: 0x9E156155A52D6f18a46A34207b7883956cfc1302
+- hash: 0xb8ab76854802a933df2f108b89bb979563c6d4be2b0530655ccd87639a6c3213
+
+![image](https://github.com/user-attachments/assets/70fe7273-5ddc-4f6d-bb39-06badd206d7d)
+
+![image](https://github.com/user-attachments/assets/eac4fd63-9d95-4480-8eea-de04b0025610)
+
+- curso: Programacion
+- nombre: alberto
+- correo: alberto@gmail.com
+- clave: 1234
+- direccion: 0xAf8F895607674fc3192Ca3200a0e66B433CB7f75
+- hash: 0xc3baf1bdfcc6e5a5dae25d7a92926ced6608106f94f9d81469f1b35bda66007e
+
+![image](https://github.com/user-attachments/assets/5b997b46-3f6a-4b10-8da8-87a202d6f596) 
+
+![image](https://github.com/user-attachments/assets/19a7d55d-5301-4f67-a6f4-39d39eb84825) 
+
+- curso: Programacion
+- nombre: Cristian
+- correo: cristian@gmail.com
+- clave: 1234
+- direccion: 0x3D626c32795DAeAC12c410BBb4f60dF477700810
+- hash: 0x7b59d81c47bb41895b76d20c5aa1956979d692531d1de57fd09c6ecc2dccde3d
+  
+![image](https://github.com/user-attachments/assets/42b59f41-2c6c-432d-bd9a-8f35c538ca7d) 
+
+![image](https://github.com/user-attachments/assets/4ec176a1-e3da-4985-b1b4-eddebec4cedc) 
+
+- curso: Programacion
+- nombre: Victor
+- correo: victor@gmail.com
+- clave: 1234
+- direccion: 0xF2DF9A0576302c34471AF4F70D0352C983d47e29
+- hash: 0x0533d3e68a9d0ebc7450f0f25dac5359c25021d3499a8d7e18fd29d33306629c
+
+![image](https://github.com/user-attachments/assets/dda4fc13-54e7-4162-9e99-242d725ff7af) 
+
+![image](https://github.com/user-attachments/assets/0a8283f6-2a2f-446e-99ff-81b3e2d1b41f) 
+
+- curso: Redes informaticas
+- nombre: Maria
+- correo: maria@gmail.com
+- clave: 1234
+- direccion: 0xbc8845971355DF7B1303d917D9873E9188a6E1AE
+- hash: 0x2200637259a5b8936455ec2704c70db560fe75642ecb958e43245728a2e188b9
+
+![image](https://github.com/user-attachments/assets/cae4bbca-a025-4e20-83af-c771e4273322) 
+
+![image](https://github.com/user-attachments/assets/ec48c5a3-916d-48a4-afe7-848910d8529a)
+
+- curso: Redes informaticas
+- nombre: Alex   
+- correo: alex@gmail.com
+- clave: 1234
+- direccion: 0x06998BcB8AE8f6d100b107758070Dc35D08184A1
+- hash: 0x73d796ba25c9dfc33c798eaead8f894cb7a7f497a039b1ae6ce8bacc2c19d37d
+
+![image](https://github.com/user-attachments/assets/68a5e76b-948b-427e-9e23-4dd7e0f13587) 
+
+![image](https://github.com/user-attachments/assets/d9602f88-896c-41df-b969-1c317251a0ea) 
+
+- curso: Redes informaticas
+- nombre: Celia   
+- correo: celia@gmail.com
+- clave: 1234
+- direccion: 0x1398A0F6AdEC27C2560E4536BfB8984BEB7D7466
+- hash: 0xf45d131310f747203bd04b638d68570fd84210b41f3eed18758b0e92ffd1ac2c
+
+![image](https://github.com/user-attachments/assets/93e04e83-81f9-4e85-9226-b85611033f1b) 
+
+![image](https://github.com/user-attachments/assets/963599cf-a197-4252-8a75-9ffb981d7ed4) 
+
+- curso: Blockchain
+- nombre: Adrian   
+- correo: adrian@gmail.com
+- clave: 1234
+- direccion: 0x45E4a66b179AE8E1615930e342b857c4cBBc47A5
+- hash: 0x3d25b4ebb52ee34e6ce00f463463eb769d09490ab655db1594dc142504f149a6
+
+![image](https://github.com/user-attachments/assets/e46e2e75-9db2-4d47-8728-00461f1790e1) 
+
+![image](https://github.com/user-attachments/assets/5036e15f-6ad6-4fa0-bcec-cda7db2bdfe2) 
+
+- curso: Blockchain
+- nombre: Alba   
+- correo: alba@gmail.com
+- clave: 1234
+- direccion: 0x23e26dc30ECF24fDe42A356e207128eD820382aB
+- hash: 0x277087ffe790a84f1663dfb99e364e30be685d58340ea02440445e9891b16e4d
+
+![image](https://github.com/user-attachments/assets/a0c823c6-ee0f-48c1-9643-9ddef7f09020) 
+
+![image](https://github.com/user-attachments/assets/b0778625-fcf4-419a-b344-961dd30223d1) 
+
+- curso: Blockchain
+- nombre: Andrea   
+- correo: andrea@gmail.com
+- clave: 1234
+- direccion: 0x28EaB16F2dFdC03d0Ae4315D8e754eA0857d0826
+- hash: 0x6b91effb0117e4fbc03b2969f00566697e3b03d91ce81ed35c0eee5c8057a006
+
+![image](https://github.com/user-attachments/assets/a8e5b79e-0178-45c4-b558-acc1173e37db) 
+
+![image](https://github.com/user-attachments/assets/d779102e-64c1-45b7-ac1a-02d867a45d9a) 
+
+- curso: Inteligencia Artificial
+- nombre: Javi   
+- correo: javi@gmail.com
+- clave: 1234
+- direccion: 0x4b3e37d90A766E3B3Ad38e086576D5388038DD64
+- hash: 0xa8a80eb0898e6015e7c25209efc09e575f573af4d399506ee48174a602481df9
+
+![image](https://github.com/user-attachments/assets/68573009-2193-4ef2-a1b3-a9d08ec166d0) 
+
+![image](https://github.com/user-attachments/assets/7158668d-0bdd-49b8-bcc8-32478baf2e65) 
+
+- curso: Inteligencia Artificial
+- nombre: David   
+- correo: david@gmail.com
+- clave: 1234
+- direccion: 0xf5F64D75fAb787A26e58051CaFEF93B9d7AE9f72
+- hash: 0x13484bac22a4941e7489bd928db3d4aba82034f149ff5a0b5d0104e436b08c59
+
+![image](https://github.com/user-attachments/assets/54dd9a91-95f6-48e4-95aa-8ff5c8470b7e) 
+
+![image](https://github.com/user-attachments/assets/1d26ef59-c388-4c69-bc05-a06d62d7fa95) 
+
+
+#### Iniciar Sesion
+
+Una vez que los usuarios estan creados, dichos usuarios podran inciar sesion con su correo y pass para poder hacer gestiones adicionales como matricularse en otro curso o listar los cursos en los que esta matriculado. Al ejecutar la opcion de Inicio de sesion, la consola pide la clave privada para cargar el contrato bajo las credenciales del usuario y como metodo de seguridad adicional, la consola pide el correo y pass, esto ejecuta la funcion en el smart contract que verifica si las credenciales entregadas coinciden con la clave privada del usuario. 
+Despues el usuario al escoger la opcion de matricularse en otro curso, me mostrara una lista de los cursos disponibles y al elegir una opcion, el usuario se matriculara en ese curso. 
+A continuacion se ve como el usuario Daniel se registra en Programacion y Blockchain, tambien se confirma dichas transacciones al revisar los bloques creados a partir de los hashes obtenidos. 
+
+![image](https://github.com/user-attachments/assets/5f83076e-d019-4924-824b-8d31b9c4f7d6) 
+
+![image](https://github.com/user-attachments/assets/3fa8f1cc-8eb2-400f-8c08-b7c8e346afec) 
+
+![image](https://github.com/user-attachments/assets/f8775eae-e0ce-458d-841a-f95091942059)
+
+Posteriormente, si el usuario decide escoger la opcion de listar cursos, la consola le mostrara la lista de los cursos en los que esta matriculados, como se muestra a continuacion.
+
+![image](https://github.com/user-attachments/assets/047fd808-4564-41f8-81d6-b48c96fe6292) 
+
+
+### Modo Profesor
+
+Cuando en menu incial, escogemos el modo profesor, la consola nos pedira uan clave privada de un profesor, ya que dentro del modo profesor las funciones son restringidas para solo profesores. Una vez dentro del modo profesor, este podra listar los alumnos matriculados por curso y obetener uan lista de todos sus compañeros profesores. En las siguientes imagenes se muestra el resultado de ejecuatar ambas tareas.
+
+![image](https://github.com/user-attachments/assets/49541319-0d64-48f1-a27a-fc6d49aec88e) 
+
+![image](https://github.com/user-attachments/assets/3580a016-45f1-429f-9913-40b43b44df5d)
+
+
+## 6. Comentarios finales
+
+En este proyecto, he aprendido a desarrollar y desplegar contratos inteligentes en la blockchain, lo que me ha permitido entender mejor cómo funciona esta tecnología a nivel técnico. He mejorado mi habilidad para estructurar y documentar código de manera clara y efectiva, asegurando que las funciones dentro del contrato estén bien definidas y que las restricciones necesarias estén implementadas correctamente. A través de este proceso, he aprendido a gestionar datos en un entorno descentralizado, comprendiendo la importancia de la validación y el almacenamiento seguro de la información. Además, he adquirido experiencia en la integración de contratos inteligentes con aplicaciones externas, lo que me ha mostrado cómo las soluciones blockchain pueden ser utilizadas en proyectos del mundo real.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
