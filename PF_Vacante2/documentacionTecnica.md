@@ -1,8 +1,6 @@
 # Proyecto Final: Desarrollo de una Dapp
 
-## 1. Introduccion
-
-### Contexto y Objetivo
+## 1 Introduccion
 
 El objetivo principal de este proyecto es demostrar la capacidad para desarrollar y desplegar un Smart Contract en una blockchain pública, específicamente en la red Ethereum. Este proyecto forma parte del proceso de candidatura para la vacante en la compañía Blockchain TS, que requiere habilidades avanzadas en el desarrollo de contratos inteligentes y en la gestión de datos en una blockchain. 
 
@@ -24,7 +22,7 @@ El objetivo del proyecto es desarrollar un Smart Contract que permita registrar 
 
 Este proyecto tiene como finalidad validar la capacidad técnica para el desarrollo de soluciones blockchain efectivas y funcionales en un entorno real.
 
-## 2. Requisitos y Preparación
+## 2 Requisitos y Preparación
 
 Para llevar a cabo este proyecto, se utilizara diversos software y herramientas que facilitarna el despligue de la red blockchain y el desarollo de la Dapp.
 
@@ -56,11 +54,11 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
 
    - En este proyecto, utilicé **Eclipse IDE** para desarrollar y ejecutar el archivo Java que interactúa con el contrato inteligente desplegado. Eclipse proporcionó un entorno de desarrollo eficiente para escribir, depurar y probar el código Java, facilitando la integración con **Web3j** y la ejecución de operaciones sobre la blockchain de Ethereum.
  
-## 3. Desarrollo y despliegue del SmartContract.
+## 3 Desarrollo y despliegue del SmartContract.
 
 Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
 
-### Explicacion del codigo.
+### 3.1 Explicacion del codigo.
 
 A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
 
@@ -472,7 +470,7 @@ La función iniciarSesion verifica las credenciales de un usuario (correo y cont
    - keccak256 proporciona una forma de comparar contraseñas sin exponerlas directamente.
 - **Requerimientos**: La función garantiza que tanto el correo como la contraseña sean verificados correctamente para una autenticación adecuada.
 
-### Despliegues
+### 3.2 Despliegues
 
 A continuación, documentaré el proceso de despliegue de la red blockchain utilizando Ganache, que proporciona un entorno local de Ethereum para pruebas, y el despliegue del contrato inteligente en esta red mediante Remix con capturas de pantalla.
 
@@ -503,11 +501,11 @@ Al desplegar el contrato, a traves de la consola de Remix, podemos observar los 
 
 ![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67) 
 
-## 4. Integración con DApp utilizando Java. 
+## 4 Integración con DApp utilizando Java. 
 
 En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
 
-### Preparacion Java. 
+### 4.1 Preparacion proyecto Java. 
 
 Primero, utilizaré el compilador de Solidity, solcjs, para generar los archivos bin y abi del contrato inteligente desplegado. Estos archivos serán esenciales para que herramientas como Web3j puedan generar clases Java que interactúen con el contrato. El comando es el siguiente:
 ```sh
@@ -542,7 +540,7 @@ Ahora describiré cómo voy a crear un nuevo proyecto en Eclipse utilizando Mave
    ```
    - Este fragmento de código añade la dependencia principal de web3j al proyecto, lo que permitirá interactuar con la red Ethereum y con el Smart Contract desde Java.
 
-### Explicacion main.java. 
+### 4.2 Explicacion main.java. 
 
 Finalmente, crearé un archivo Main.java donde implementaré un sistema interactivo en Java que permitirá a diferentes tipos de usuarios (admin, profesor, alumno) interactuar con el contrato.
 
@@ -1172,6 +1170,111 @@ Este fragmento de código implementa un bucle principal (while (true)) que manti
 - Salir: Termina la ejecución de la aplicación.
   
 Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
+
+## 5 Ejecuccion de la Dapp. 
+
+En este apartado ejecutare la Dapp desde Eclipse, docuemntare la consola del programa y a su vez los bloques generados a raiz de las futuras transacciones. Cuando el programa es ejcutado, la consola muestra un menu para elegir el modo de ejcuccion, admin, profesor y alumno. A continuacion se docuemnta el proceso de ejecuccion de cada modo.
+
+### Modo admin. 
+
+#### Registro Profesores
+
+Para emepezar voy a entrar en el modo admin para establecer los profesores y cursos, al entrar al modo, la consola pide la clave privada del dueño del contrato, ya que este modo esta restringido.
+
+![image](https://github.com/user-attachments/assets/0b67c841-8c78-4b89-8ae5-df66efae1fcd). 
+
+Ahora una vez dentro del modo admin, voy a crear 5 profesores a traves de la opcion "agregar profesor", cuando se ejecuta esta opcion, la consola nos pide el nombre que tendra el profesor y su direccion y posteriormente se ejecutara la funcion del smartcontract que registra un profesor y nos mostrara su hash
+
+![image](https://github.com/user-attachments/assets/a2c22575-fee2-4a33-89c3-7ab6d5f789d5)
+
+Para resumir y confirmar que estas transacciones se han ejecutado correctamente, compruebo los bloques creados a parir de los hashes obtenidos. 
+
+- Ignacio: 
+
+   - Dirección: 0x8E84978E0B187E58e67C4FEB5a7cc970ac2aC366
+   - Hash de la transacción: 0x0123217a279734...
+
+![image](https://github.com/user-attachments/assets/c9d5b1dd-ccab-4b95-995c-15480fce35fe)
+
+- Jose:
+
+   - Dirección: 0xE53Bc885744b5f260eCE738da05c06baE06941db
+   - Hash de la transacción: 0x5b631a42d5389e...
+
+![image](https://github.com/user-attachments/assets/c6f08770-3c6f-4083-9a51-c09823cb1144)
+
+- Alfredo:
+
+   - Dirección: 0x5eDF7840ce73f3e27Bce204A09FC80831407Eda
+   - Hash de la transacción: 0xf2127754e99712...
+
+![image](https://github.com/user-attachments/assets/0a760411-cbb0-4843-be87-5d189db928ac)
+
+- Roberto:
+
+   - Dirección: 0x50f92916E3F8BEf956F6F4040D50E0Ccb2OA067
+   - Hash de la transacción: 0x69533ed95bf0cf...
+
+![image](https://github.com/user-attachments/assets/bdf76df9-ef1e-4bdc-86ec-fe73a3d9d241)
+
+- Carlos:
+
+   - Dirección: 0x6239S7142B811e29dcceB23bA1A641681Bf14
+   - Hash de la transacción: 0x1635a5eac9aeb5... 
+
+![image](https://github.com/user-attachments/assets/d3052f2a-aeb4-4526-80c9-1ac59662e271)
+
+#### Registro de Cursos
+
+Una vez que los profesores son establecidos, se pueden crear los cursos, ya que es obligatorio que los cursos tenga un profesor asignados. Al ejecutar la opcion de agregar cursos, nos pediran el nombre del curso y la direccion del profesor que tendra el curso, posteriormente se ejcutara la funcion en el smart contract que registra el curso en la blockchain, en el caso que se establezca una direccion que no es profesor, dara un error. 
+
+![image](https://github.com/user-attachments/assets/fb695ec7-fc80-4e0d-83a1-f18bc1c52fca). 
+
+Para resumir y confirmar las transacciones se han ejecutado correctamente, reviso los bloques generados a partir de los hashes obtenidos.
+
+- Seguridad Informática:
+
+   - Profesor asignado: Dirección 0x8E84978E0B187E58e67C4FEB5a7cc970ac2aC36f (Ignacio)
+   - Hash de la transacción: 0x4b31d64c96e67blefc5f12... 
+
+![image](https://github.com/user-attachments/assets/8489650d-590c-4b79-a3d6-48ae537f77ad)
+
+- Programación:
+
+   - Profesor asignado: Dirección 0xE53Bc885744b5f260eCE738da05c06baE06941db (Jose)
+   - Hash de la transacción: 0xe8albfcf9c11894c931b35...
+
+![image](https://github.com/user-attachments/assets/c88bb141-6cf2-4138-b69d-f747670d1c82)
+
+- Redes Informáticas:
+
+   - Profesor asignado: Dirección 0x5eDF7840ce73f3e27Bce204A09FC80831407Eda (Alfredo)
+   - Hash de la transacción: 0x54d8da925bd815348c0cd4...
+
+![image](https://github.com/user-attachments/assets/5142d296-e2fa-43d7-832a-e958ef25e58f)
+
+- Blockchain:
+
+   - Profesor asignado: Dirección 0x50f92916E3F8BEf956F6F4040D50E0Ccb2OA067 (Roberto de la primera imagen)
+   - Hash de la transacción: 0x214bdddc51403eb7bd8117...
+
+![image](https://github.com/user-attachments/assets/8d1a2aa9-fccb-4c8e-8bd8-fa1166fdbf51)
+
+- Inteligencia Artificial:
+
+   - Profesor asignado: Dirección 0x6239S7142B811e29dcceB23bA1A641681Bf14 (Carlos de la primera imagen)
+   - Hash de la transacción: 0xb52c2b59cba5979f6ad672...
+
+![image](https://github.com/user-attachments/assets/7aeb8142-e7d8-4ba6-bda9-1b867d8e86d8)
+
+
+
+
+
+
+
+
+
 
 
 
