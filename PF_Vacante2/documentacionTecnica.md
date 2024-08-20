@@ -1,16 +1,16 @@
 # Proyecto Final: Desarrollo de una Dapp
 
-## Indice del contenido
+## Índice del contenido
 
 - [ 1. Introduccion](#1-introduccion)
 - [ 2. Requisitos y Preparación](#2-requisitos-y-preparación)
 - [ 3. Desarrollo y despliegue del SmartContract](#3-desarrollo-y-despliegue-del-smartcontract)
-   -  [Explicacion del codigo](#explicacion-del-codigo)
+   -  [Explicación del código](#explicación-del-código)
    -  [Despliegues](#despliegues)
 - [ 4. Integración con DApp utilizando Java](#4-integración-con-dapp-utilizando-java)
-   - [Preparacion proyecto Java](#preparacion-proyecto-java)
-   - [Explicacion main.java](#explicacion-mainjava) 
-- [ 5. Ejecuccion de la Dapp](#5-ejecucion-de-la-dapp)
+   - [Preparación proyecto Java](#preparación-proyecto-java)
+   - [Explicación main.java](#explicación-mainjava) 
+- [ 5. Ejecución de la Dapp](#5-ejecucion-de-la-dapp)
    -  [Modo admin](#modo-admin)
    -  [Modo alumno](#modo-alumno)
    -  [Modo profesor](#modo-profesor)
@@ -19,23 +19,23 @@
 
 
 
-## 1. Introduccion
+## 1. Introducción
 
 El objetivo principal de este proyecto es demostrar la capacidad para desarrollar y desplegar un Smart Contract en una blockchain pública, específicamente en la red Ethereum. Este proyecto forma parte del proceso de candidatura para la vacante en la compañía Blockchain TS, que requiere habilidades avanzadas en el desarrollo de contratos inteligentes y en la gestión de datos en una blockchain. 
 
 Se ha decidido presentar este proyecto como parte de la candidatura a la oferta de empleo de Blockchain TS. La vacante se centra en el desarrollo de un sistema basado en blockchain para gestionar la inscripción de estudiantes en diversos cursos ofrecidos.
 
-El objetivo del proyecto es desarrollar un Smart Contract que permita registrar la inscripción de estudiantes en cuatro cursos específicos ofrecidos por el centro de estudios Tokio School y interactuar con el contrato con programa de Java. Los pasos a seguir incluyen:
+El objetivo del proyecto es desarrollar un Smart Contract que permita registrar la inscripción de estudiantes en cuatro cursos específicos ofrecidos por el centro de estudios Tokio School e interactuar con el contrato con programa de Java. Los pasos a seguir incluyen:
 
 1. Utilizar la red Ethereum para desplegar la blockchain donde se ejecutará el Smart Contract.
 
-2. Crear un contrato inteligente que minimo tenga funciones para:
+2. Crear un contrato inteligente que mínimo tenga funciones para:
    - Permitir registrar a los estudiantes en uno de los cuatro cursos ofrecidos.
    - Ofrecer la capacidad de consultar la lista de estudiantes matriculados por curso.
 
 3. Desplegar el contrato inteligente en la red Ethereum seleccionada.
 
-4. Desarollo de una Dapp en Java que interactue con el contrato.
+4. Desarrollo de una Dapp en Java que interactúe con el contrato.
 
 5. Realizar transacciones y consultas para verificar que el Smart Contract funciona correctamente y cumple con los requisitos del proyecto.
 
@@ -43,7 +43,7 @@ Este proyecto tiene como finalidad validar la capacidad técnica para el desarro
 
 ## 2. Requisitos y Preparación
 
-Para llevar a cabo este proyecto, se utilizara diversos software y herramientas que facilitarna el despligue de la red blockchain y el desarollo de la Dapp.
+Para llevar a cabo este proyecto, se utilizará diversos software y herramientas que facilitarán el despliegue de la red blockchain y el desarrollo de la Dapp.
 
 - **Ganache**: Es una herramienta de Truffle Suite que permite crear y ejecutar una blockchain Ethereum local en tu máquina. Es una herramienta esencial para el desarrollo y la prueba de contratos inteligentes y aplicaciones descentralizadas (dApps). Ganache proporciona una red blockchain privada con las siguientes características:
 
@@ -56,7 +56,7 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
 
 - **solcjs**: Es la versión de línea de comandos basada en JavaScript del compilador Solidity, utilizado para compilar contratos inteligentes escritos en Solidity. Esta herramienta convierte el código fuente en bytecode ejecutable en la blockchain y genera la interfaz de binario de aplicación (ABI), necesaria para interactuar con el contrato desde aplicaciones externas.
 
-  - En el proyecto, utilicé olcjs para compilar el contrato inteligente y obtener el archivo binario y el archivo ABI, que son cruciales para permitir que la aplicación Java, utilizando Web3j, pueda comunicarse con el contrato desplegado.
+  - En el proyecto, utilicé solcjs para compilar el contrato inteligente y obtener el archivo binario y el archivo ABI, que son cruciales para permitir que la aplicación Java, utilizando Web3j, pueda comunicarse con el contrato desplegado.
   - Para instalar la herramienta ejecutaremos el siguiente comando:
   ```sh
   npm install -g solc
@@ -75,13 +75,13 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
  
 ## 3. Desarrollo y despliegue del SmartContract.
 
-Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
+Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matrícula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarrollado múltiples funciones de escritura y lectura.
 
-### Explicacion del codigo.
+### Explicación del código.
 
-A continuacion explicare por bloques de codigo el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
+A continuación explicare por bloques de código el funcionamiento de cada sentencia del [SmartContract](./src/main/java/contracts/contrato.sol). 
 
-#### Preparacion del contrato. 
+#### Preparación del contrato. 
 
  
 ```solidity
@@ -116,7 +116,7 @@ Este bloque define las estructuras de datos fundamentales que se utilizarán par
    - **Licencia SPDX**: Especifica la licencia bajo la cual se distribuye el contrato. Aquí se usa la licencia MIT, una de las más permisivas y populares en proyectos de código abierto.
    - **Versión de Solidity**: Define que el contrato está escrito para ser compilado con versiones de Solidity 0.8.0 o superiores.
      
-- **Definicion del contrato.**
+- **Definición del contrato.**
   
    - **contract DAppEducativa**: Define un nuevo contrato inteligente llamado DAppEducativa, que es el núcleo del proyecto. Este contrato gestionará la lógica para registrar usuarios, profesores y cursos en una plataforma educativa descentralizada.
      
@@ -221,7 +221,7 @@ La función agregarProfesor permite al propietario del contrato registrar nuevas
 ```solidity
 function agregarCurso(string memory _nombreCurso, address _profesor) public soloOwner {
         require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");
-        require(esProfesor[_profesor], "El profesor no esta registrado");
+        require(esProfesor[_profesor], "El profesor no está registrado");
 
         cursos[_nombreCurso] = Curso({
             nombreCurso: _nombreCurso,
@@ -233,17 +233,17 @@ function agregarCurso(string memory _nombreCurso, address _profesor) public solo
 ```
  La función agregarCurso permite al propietario del contrato añadir nuevos cursos a la plataforma educativa. Antes de registrar un curso, la función realiza verificaciones clave para asegurar que el curso no esté ya registrado y que el profesor asignado esté registrado como tal. Una vez superadas estas verificaciones, se registra el curso y se actualiza la lista de cursos disponibles.
 
-- **Parametros de entrada.**
+- **Parámetros de entrada.**
 
    - **string memory _nombreCurso**: El nombre del curso que se desea agregar.
    - **address _profesor**: La dirección de Ethereum del profesor que impartirá el curso.
      
 - **Modificador soloOwner**: Esta función está protegida por el modificador soloOwner, lo que significa que solo el propietario del contrato puede ejecutarla. Esto asegura que solo la persona con los permisos adecuados pueda agregar nuevos cursos a la plataforma.
   
-- **Logica de la funcion.**
+- **Lógica de la funcion.**
   
    - **require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");**: Esta línea verifica si el curso que se intenta agregar ya está registrado en el contrato. Si el curso ya existe (es decir, si tiene un profesor asignado), la función lanza un error con el mensaje "Curso ya registrado".
-   - **require(esProfesor[_profesor], "El profesor no esta registrado");**: Antes de asignar un curso a un profesor, la función verifica que la dirección proporcionada corresponde a un profesor registrado en la plataforma. Si no es así, se lanza un error con el mensaje "El profesor no está registrado".
+   - **require(esProfesor[_profesor], "El profesor no está registrado");**: Antes de asignar un curso a un profesor, la función verifica que la dirección proporcionada corresponde a un profesor registrado en la plataforma. Si no es así, se lanza un error con el mensaje "El profesor no está registrado".
    - Si las verificaciones anteriores son exitosas, se crea un nuevo curso y se asocia con el profesor correspondiente. Esto se hace mediante la asignación de una nueva instancia de la estructura Curso al mapeo cursos, utilizando el nombre del curso como clave.
    - Finalmente, el nombre del nuevo curso se agrega a la lista nombresCursos. Esto facilita la consulta de todos los cursos registrados en la plataforma.
 
@@ -495,19 +495,19 @@ A continuación, documentaré el proceso de despliegue de la red blockchain util
 
 #### Despliegue de la red Blockchain.
 
-Lo primero que voy a hacer es abrir el aplicativo de Ganache para crear la red, dandole a "new workspace" como vemos en la siguiente imagen. 
+Lo primero que voy a hacer es abrir el aplicativo de Ganache para crear la red, dándole a "new workspace" como vemos en la siguiente imagen. 
 
 ![image](https://github.com/user-attachments/assets/e9a03f6a-9805-4457-99eb-90386419f06b) 
 
-Despues nos dejara elegir las opciones de configuracion de la red, como el nombre del workspace, el hostname y su puerto, las cuentas que habran en la red y sus balances, el precio y el limite del gas. En mi caso el hostname es la direccion localhost y el puerto es 7545 y configure para que se crearan 20 cuentas.
+Despues nos dejará elegir las opciones de configuración de la red, como el nombre del workspace, el hostname y su puerto, las cuentas que habrá en la red y sus balances, el precio y el límite del gas. En mi caso el hostname es la dirección localhost y el puerto es 7545 y configure para que se crearan 20 cuentas.
 
-Una vez creado el workspace Ganache muestra las direcciones disponibles en el apartado de accounts, tambien es posible revisar los bloques miandos y las transacciones que se crearan mas adelante, como se puede ver en la siguiente imagen. 
+Una vez creado el workspace Ganache muestra las direcciones disponibles en el apartado de accounts, también es posible revisar los bloques minados y las transacciones que se crearan más adelante, como se puede ver en la siguiente imagen. 
 
 ![image](https://github.com/user-attachments/assets/662a940c-62c9-4ec4-b951-68993c0d9c01) 
 
 #### Despliegue del contrato
 
-Una vez que la red esta desplegada, desde Remix IDE compilaremos y desplegaremos el contrato. Primero me conectare a mi red desde la pestaña lateral de deploy & run transactions, con la direccion de mi nodo, como se ve en las siguientes imagenes.
+Una vez que la red está desplegada, desde Remix IDE compilaremos y desplegaremos el contrato. Primero me conectare a mi red desde la pestaña lateral de deploy & run transactions, con la dirección de mi nodo, como se ve en las siguientes imágenes.
 
 ![image](https://github.com/user-attachments/assets/ffd88a6e-114f-455a-903a-4e761a775a3b) 
 ![image](https://github.com/user-attachments/assets/ceca0394-8ca6-49d5-b412-e56c9c60e095)
@@ -516,7 +516,7 @@ Ahora con la red conectada, me aparecen todas las direcciones que tiene el nodo,
 
 ![image](https://github.com/user-attachments/assets/3cd4d3d0-53ad-426e-9cb6-f135d7ff6573)
 
-Al desplegar el contrato, a traves de la consola de Remix, podemos observar los datos del contrato, como en la imagen anterior. Para comprobar que se haya desplegado correcatmente, ahora iremos a Ganache para demostrar que sea creado el primer bloque con la creacion del contrato.
+Al desplegar el contrato, a través de la consola de Remix, podemos observar los datos del contrato, como en la imagen anterior. Para comprobar que se haya desplegado correctamente, ahora iremos a Ganache para demostrar que sea creado el primer bloque con la creación del contrato.
 
 ![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67) 
 
@@ -524,7 +524,7 @@ Al desplegar el contrato, a traves de la consola de Remix, podemos observar los 
 
 En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
 
-### Preparacion proyecto Java
+### Preparación proyecto Java
 
 Primero, utilizaré el compilador de Solidity, solcjs, para generar los archivos bin y abi del contrato inteligente desplegado. Estos archivos serán esenciales para que herramientas como Web3j puedan generar clases Java que interactúen con el contrato. El comando es el siguiente:
 ```sh
@@ -559,7 +559,7 @@ Ahora describiré cómo voy a crear un nuevo proyecto en Eclipse utilizando Mave
    ```
    - Este fragmento de código añade la dependencia principal de web3j al proyecto, lo que permitirá interactuar con la red Ethereum y con el Smart Contract desde Java.
 
-### Explicacion main.java. 
+### Explicación main.java. 
 
 Finalmente, crearé un archivo Main.java donde implementaré un sistema interactivo en Java que permitirá a diferentes tipos de usuarios (admin, profesor, alumno) interactuar con el contrato.
 
@@ -568,7 +568,7 @@ Modo Profesor: Los profesores podrán consultar y gestionar los usuarios matricu
 Modo Alumno: Los alumnos podrán registrarse, iniciar sesión y matricularse en diferentes cursos.
 Voy a implementar la lógica de interacción utilizando bucles para presentar menús y opciones según el rol del usuario. Cada acción invocará las funciones del contrato inteligente a través de los métodos generados en el archivo Java por web3j. 
 
-A continuacion explicare bloque a bloque el contenido del main.java.
+A continuación explicare bloque a bloque el contenido del main.java.
 
 #### Calls funciones de escritura. 
 
@@ -600,7 +600,7 @@ registrarProfesor permite agregar nuevos profesores al sistema, interactuando di
    - Este método del contrato recibe la dirección del profesor y su nombre como parámetros.
    - Se ejecuta la transacción llamando a .send() sobre el resultado del método agregarProfesor, lo que envía la transacción a la red Ethereum.
    - Al completar la transacción, se obtiene un objeto TransactionReceipt, que contiene detalles de la transacción.
-   - Imprime por pantalla el hash de la operacion
+   - Imprime por pantalla el hash de la operación
  
 ```java
 private static void registrarCurso(Scanner scanner) throws Exception {
@@ -630,7 +630,7 @@ registrarCurso facilita la creación de nuevos cursos dentro de la aplicación, 
    - El método agregarCurso del contrato inteligente recibe dos parámetros: el nombre del curso y la dirección del profesor.
    - Se ejecuta la transacción en la red Ethereum usando .send(), lo que envía la solicitud de creación de curso al contrato inteligente.
    - Al completar la transacción, se obtiene un objeto TransactionReceipt, que contiene detalles de la transacción.
-   - Imprime por pantalla el hash de la operacion.
+   - Imprime por pantalla el hash de la operación.
  
 ```java
 private static void matricularse(Scanner scanner) throws Exception {
@@ -757,7 +757,7 @@ private static void matricularEnOtroCurso(Scanner scanner) {
     }
 ```
 
-La función matricularEnOtroCurso permite que un usuario registrado en el sistema se matricule en un curso adicional, verificando previamente que esté registrado y que el contrato esté correctamente inicializado. A continuación se detalla el proceso:
+La función matricularEnOtroCurso permite que un usuario registrado en el sistema se matricule en un curso adicional, verificando previamente que esté registrado y que el contrato esté correctamente inicializado. A continuación, se detalla el proceso:
 
 - Inicialización del Contrato y Validación de Dirección:
 
@@ -1192,17 +1192,17 @@ Dentro del bucle, el usuario introduce su elección (option), y el programa util
 
 ## 5. Ejecucion de la Dapp. 
 
-En este apartado ejecutare la Dapp desde Eclipse, docuemntare la consola del programa y a su vez los bloques generados a raiz de las futuras transacciones. Cuando el programa es ejcutado, la consola muestra un menu para elegir el modo de ejcuccion, admin, profesor y alumno. A continuacion se docuemnta el proceso de ejecuccion de cada modo.
+En este apartado ejecutare la Dapp desde Eclipse, documentaré la consola del programa y a su vez los bloques generados a raiz de las futuras transacciones. Cuando el programa es ejecutado, la consola muestra un menú para elegir el modo de ejecución, admin, profesor y alumno. A continuación se documenta el proceso de ejecución de cada modo.
 
 ### Modo admin 
 
-Para emepezar voy a entrar en el modo admin para establecer los profesores y cursos, al entrar al modo, la consola pide la clave privada del dueño del contrato, ya que este modo esta restringido.
+Para empezar voy a entrar en el modo admin para establecer los profesores y cursos, al entrar al modo, la consola pide la clave privada del dueño del contrato, ya que este modo está restringido.
 
 ![image](https://github.com/user-attachments/assets/0b67c841-8c78-4b89-8ae5-df66efae1fcd). 
 
 #### Registro Profesores
 
-Ahora una vez dentro del modo admin, voy a crear 5 profesores a traves de la opcion "agregar profesor", cuando se ejecuta esta opcion, la consola nos pide el nombre que tendra el profesor y su direccion y posteriormente se ejecutara la funcion del smartcontract que registra un profesor y nos mostrara su hash
+Ahora una vez dentro del modo admin, voy a crear 5 profesores a través de la opción "agregar profesor", cuando se ejecuta esta opción, la consola nos pide el nombre que tendrá el profesor y su direccion y posteriormente se ejecutará la funcion del SmartContract que registra un profesor y nos mostrará su hash
 
 ![image](https://github.com/user-attachments/assets/a2c22575-fee2-4a33-89c3-7ab6d5f789d5)
 
@@ -1215,7 +1215,7 @@ Para resumir y confirmar que estas transacciones se han ejecutado correctamente,
 
 ![image](https://github.com/user-attachments/assets/c9d5b1dd-ccab-4b95-995c-15480fce35fe)
 
-- Jose:
+- José:
 
    - Dirección: 0xE53Bc885744b5f260eCE738da05c06baE06941db
    - Hash de la transacción: 0x5b631a42d5389e...
@@ -1245,7 +1245,7 @@ Para resumir y confirmar que estas transacciones se han ejecutado correctamente,
 
 #### Registro de Cursos
 
-Una vez que los profesores son establecidos, se pueden crear los cursos, ya que es obligatorio que los cursos tenga un profesor asignados. Al ejecutar la opcion de agregar cursos, nos pediran el nombre del curso y la direccion del profesor que tendra el curso, posteriormente se ejcutara la funcion en el smart contract que registra el curso en la blockchain, en el caso que se establezca una direccion que no es profesor, dara un error. 
+Una vez que los profesores son establecidos, se pueden crear los cursos, ya que es obligatorio que los cursos tengan un profesor asignado. Al ejecutar la opción de agregar cursos, nos pedirán el nombre del curso y la direccion del profesor que tendrá el curso, posteriormente se ejecutara la funcion en el Smart contract que registra el curso en la blockchain, en el caso que se establezca una direccion que no es profesor, dará un error. 
 
 ![image](https://github.com/user-attachments/assets/fb695ec7-fc80-4e0d-83a1-f18bc1c52fca). 
 
@@ -1260,7 +1260,7 @@ Para resumir y confirmar las transacciones se han ejecutado correctamente, revis
 
 - Programación:
 
-   - Profesor asignado: Dirección 0xE53Bc885744b5f260eCE738da05c06baE06941db (Jose)
+   - Profesor asignado: Dirección 0xE53Bc885744b5f260eCE738da05c06baE06941db (José)
    - Hash: 0xe8albfcf9c11894c931b35...
 
 ![image](https://github.com/user-attachments/assets/c88bb141-6cf2-4138-b69d-f747670d1c82)
@@ -1289,16 +1289,16 @@ Para resumir y confirmar las transacciones se han ejecutado correctamente, revis
 
 ### Modo alumno
 
-Una vez que ya estan disponibles los cursos, por que se ha creado por el admin del contrato, se pueden registrar los alumnos, al entrar al modo alumno podremos elgir la opcion de Matricularse y de Iniciar Sesion
+Una vez que ya están disponibles los cursos, porque se ha creado por el admin del contrato, se pueden registrar los alumnos, al entrar al modo alumno podremos elegir la opción de Matricularse y de Iniciar Sesión
 
 #### Matricularse
 
-Al escoger la  opcion de matricularse, la consola pedira la direccion y clave privada del alumno, despues se muestra una lista con los cursos disponibles y finalmente la consola pedira los datos personales del usuario como el nombre, el correo y la clave, estos datos seran necesarios para despues inciar sesion como alumno. 
+Al escoger la  opción de matricularse, la consola pedirá la direccion y clave privada del alumno, después se muestra una lista con los cursos disponibles y finalmente la consola pedirá los datos personales del usuario como el nombre, el correo y la clave, estos datos serán necesarios para después iniciar sesión como alumno. 
 
-A continuacion voy a docuemntar todos los usuarios que se matricularan, con su posterior confirmacion con el bloque generado por la trasaccion.
+A continuación voy a documentar todos los usuarios que se matricularan, con su posterior confirmación con el bloque generado por la transacción.
 
-- curso: Seguridad Informatica
-- nombre: daniel
+- curso: Seguridad Informática
+- nombre: Daniel
 - correo: daniel@tokio.com
 - clave: 1234
 - direccion: 0x8cA20E1ef734181168477337beA97fbb7c580C0A
@@ -1308,8 +1308,8 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/858422f7-dc8a-417b-8b78-bad43eab4633)
 
-- curso: Seguridad Informatica
-- nombre: sergio
+- curso: Seguridad Informática
+- nombre: Sergio
 - correo: sergio@tokio.com
 - clave: 1234
 - direccion: 0x960A1b413f4D2b24B8bba7d87A7eb7fa577C058f
@@ -1319,8 +1319,8 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/199a647c-e27a-41eb-a3fa-f7b235e16ba0) 
 
-- curso: Seguridad Informatica
-- nombre: aaron
+- curso: Seguridad Informática
+- nombre: Aaron
 - correo: aaron@tokio.com
 - clave: 1234
 - direccion: 0x9E156155A52D6f18a46A34207b7883956cfc1302
@@ -1330,8 +1330,8 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/eac4fd63-9d95-4480-8eea-de04b0025610)
 
-- curso: Programacion
-- nombre: alberto
+- curso: Programación
+- nombre: Alberto
 - correo: alberto@gmail.com
 - clave: 1234
 - direccion: 0xAf8F895607674fc3192Ca3200a0e66B433CB7f75
@@ -1341,7 +1341,7 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/19a7d55d-5301-4f67-a6f4-39d39eb84825) 
 
-- curso: Programacion
+- curso: Programación
 - nombre: Cristian
 - correo: cristian@gmail.com
 - clave: 1234
@@ -1352,8 +1352,8 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/4ec176a1-e3da-4985-b1b4-eddebec4cedc) 
 
-- curso: Programacion
-- nombre: Victor
+- curso: Programación
+- nombre: Víctor
 - correo: victor@gmail.com
 - clave: 1234
 - direccion: 0xF2DF9A0576302c34471AF4F70D0352C983d47e29
@@ -1363,8 +1363,8 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/0a8283f6-2a2f-446e-99ff-81b3e2d1b41f) 
 
-- curso: Redes informaticas
-- nombre: Maria
+- curso: Redes informáticas
+- nombre: María
 - correo: maria@gmail.com
 - clave: 1234
 - direccion: 0xbc8845971355DF7B1303d917D9873E9188a6E1AE
@@ -1374,7 +1374,7 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/ec48c5a3-916d-48a4-afe7-848910d8529a)
 
-- curso: Redes informaticas
+- curso: Redes informáticas
 - nombre: Alex   
 - correo: alex@gmail.com
 - clave: 1234
@@ -1385,7 +1385,7 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 
 ![image](https://github.com/user-attachments/assets/d9602f88-896c-41df-b969-1c317251a0ea) 
 
-- curso: Redes informaticas
+- curso: Redes informáticas
 - nombre: Celia   
 - correo: celia@gmail.com
 - clave: 1234
@@ -1397,7 +1397,7 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 ![image](https://github.com/user-attachments/assets/963599cf-a197-4252-8a75-9ffb981d7ed4) 
 
 - curso: Blockchain
-- nombre: Adrian   
+- nombre: Adrián   
 - correo: adrian@gmail.com
 - clave: 1234
 - direccion: 0x45E4a66b179AE8E1615930e342b857c4cBBc47A5
@@ -1452,11 +1452,11 @@ A continuacion voy a docuemntar todos los usuarios que se matricularan, con su p
 ![image](https://github.com/user-attachments/assets/1d26ef59-c388-4c69-bc05-a06d62d7fa95) 
 
 
-#### Iniciar Sesion
+#### Iniciar Sesión
 
-Una vez que los usuarios estan creados, dichos usuarios podran inciar sesion con su correo y pass para poder hacer gestiones adicionales como matricularse en otro curso o listar los cursos en los que esta matriculado. Al ejecutar la opcion de Inicio de sesion, la consola pide la clave privada para cargar el contrato bajo las credenciales del usuario y como metodo de seguridad adicional, la consola pide el correo y pass, esto ejecuta la funcion en el smart contract que verifica si las credenciales entregadas coinciden con la clave privada del usuario. 
-Despues el usuario al escoger la opcion de matricularse en otro curso, me mostrara una lista de los cursos disponibles y al elegir una opcion, el usuario se matriculara en ese curso. 
-A continuacion se ve como el usuario Daniel se registra en Programacion y Blockchain, tambien se confirma dichas transacciones al revisar los bloques creados a partir de los hashes obtenidos. 
+Una vez que los usuarios están creados, dichos usuarios podrán iniciar sesión con su correo y pass para poder hacer gestiones adicionales como matricularse en otro curso o listar los cursos en los que está matriculado. Al ejecutar la opción de Inicio de sesión, la consola pide la clave privada para cargar el contrato bajo las credenciales del usuario y como método de seguridad adicional, la consola pide el correo y pass, esto ejecuta la funcion en el Smart contract que verifica si las credenciales entregadas coinciden con la clave privada del usuario. 
+Despues el usuario al escoger la opción de matricularse en otro curso, me mostrará una lista de los cursos disponibles y al elegir una opción, el usuario se matriculará en ese curso. 
+A continuación se ve como el usuario Daniel se registra en Programación y Blockchain, también se confirma dichas transacciones al revisar los bloques creados a partir de los hashes obtenidos. 
 
 ![image](https://github.com/user-attachments/assets/5f83076e-d019-4924-824b-8d31b9c4f7d6) 
 
@@ -1464,14 +1464,14 @@ A continuacion se ve como el usuario Daniel se registra en Programacion y Blockc
 
 ![image](https://github.com/user-attachments/assets/f8775eae-e0ce-458d-841a-f95091942059)
 
-Posteriormente, si el usuario decide escoger la opcion de listar cursos, la consola le mostrara la lista de los cursos en los que esta matriculados, como se muestra a continuacion.
+Posteriormente, si el usuario decide escoger la opción de listar cursos, la consola le mostrara la lista de los cursos en los que esta matriculada, como se muestra a continuación.
 
 ![image](https://github.com/user-attachments/assets/047fd808-4564-41f8-81d6-b48c96fe6292) 
 
 
 ### Modo Profesor
 
-Cuando en menu incial, escogemos el modo profesor, la consola nos pedira uan clave privada de un profesor, ya que dentro del modo profesor las funciones son restringidas para solo profesores. Una vez dentro del modo profesor, este podra listar los alumnos matriculados por curso y obetener uan lista de todos sus compañeros profesores. En las siguientes imagenes se muestra el resultado de ejecuatar ambas tareas.
+Cuando en menú inicial, escogemos el modo profesor, la consola nos pedirá una clave privada de un profesor, ya que dentro del modo profesor las funciones son restringidas para solo profesores. Una vez dentro del modo profesor, este podrá listar los alumnos matriculados por curso y obtener una lista de todos sus compañeros profesores. En las siguientes imágenes se muestra el resultado de ejecutar ambas tareas.
 
 ![image](https://github.com/user-attachments/assets/49541319-0d64-48f1-a27a-fc6d49aec88e) 
 
@@ -1578,7 +1578,6 @@ En este proyecto, he aprendido a desarrollar y desplegar contratos inteligentes 
 
 
  
-
 
 
 
