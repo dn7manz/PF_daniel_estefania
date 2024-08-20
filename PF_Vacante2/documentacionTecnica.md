@@ -4,7 +4,18 @@
 
 - [ 1. Introduccion](#1-introduccion)
 - [ 2. Requisitos y Preparación](#2-requisitos-y-preparación)
-- [ 3. Configuración y Desarrollo](#3-configuracion-y-desarrollo)
+- [ 3. Desarrollo y despliegue del SmartContract](#3-desarrollo-y-despliegue-del-smartcontract)
+   -  [Explicacion del codigo](#explicacion-del-codigo)
+   -  [Despliegues](#despliegues)
+- [ 4. Integración con DApp utilizando Java](#4-integracion-con-dapp-utilizando-java)
+- [ 5. Ejecuccion de la Dapp](#5-ejecucion-de-la-dapp)
+   -  [Modo admin](#modo-admin)
+   -  [Modo alumno](#modo-alumno)
+   -  [Modo profesor](#modo-profesor)
+- [ 6. Comentarios finales](#6-comentarios-finales)
+
+
+
 
 ## 1. Introduccion
 
@@ -1177,11 +1188,11 @@ Este fragmento de código implementa un bucle principal (while (true)) que manti
   
 Dentro del bucle, el usuario introduce su elección (option), y el programa utiliza una estructura switch para llamar a la función correspondiente dependiendo de la opción seleccionada. Las funciones manejarModoAdmin, manejarModoProfesor y manejarModoAlumno gestionan las respectivas lógicas de negocio para cada uno de los modos.
 
-## 5. Ejecuccion de la Dapp. 
+## 5. Ejecucion de la Dapp. 
 
 En este apartado ejecutare la Dapp desde Eclipse, docuemntare la consola del programa y a su vez los bloques generados a raiz de las futuras transacciones. Cuando el programa es ejcutado, la consola muestra un menu para elegir el modo de ejcuccion, admin, profesor y alumno. A continuacion se docuemnta el proceso de ejecuccion de cada modo.
 
-### Modo admin. 
+### Modo admin 
 
 Para emepezar voy a entrar en el modo admin para establecer los profesores y cursos, al entrar al modo, la consola pide la clave privada del dueño del contrato, ya que este modo esta restringido.
 
