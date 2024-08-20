@@ -7,7 +7,9 @@
 - [ 3. Desarrollo y despliegue del SmartContract](#3-desarrollo-y-despliegue-del-smartcontract)
    -  [Explicacion del codigo](#explicacion-del-codigo)
    -  [Despliegues](#despliegues)
-- [ 4. Integración con DApp utilizando Java](#4-integracion-con-dapp-utilizando-java)
+- [ 4. Integración con DApp utilizando Java](#4-integración-con-dapp-utilizando-java)
+   - [Preparacion proyecto Java](#preparacion-proyecto-java)
+   - [Explicacion main.java](#explicacion-mainjava) 
 - [ 5. Ejecuccion de la Dapp](#5-ejecucion-de-la-dapp)
    -  [Modo admin](#modo-admin)
    -  [Modo alumno](#modo-alumno)
@@ -522,7 +524,7 @@ Al desplegar el contrato, a traves de la consola de Remix, podemos observar los 
 
 En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
 
-### Preparacion proyecto Java. 
+### Preparacion proyecto Java
 
 Primero, utilizaré el compilador de Solidity, solcjs, para generar los archivos bin y abi del contrato inteligente desplegado. Estos archivos serán esenciales para que herramientas como Web3j puedan generar clases Java que interactúen con el contrato. El comando es el siguiente:
 ```sh
