@@ -2,7 +2,7 @@
 
 ## Índice del contenido
 
-- [ 1. Introduccion](#1-introduccion)
+- [ 1. Introducción](#1-introducción)
 - [ 2. Requisitos y Preparación](#2-requisitos-y-preparación)
 - [ 3. Desarrollo y despliegue del SmartContract](#3-desarrollo-y-despliegue-del-smartcontract)
    -  [Explicación del código](#explicación-del-código)
