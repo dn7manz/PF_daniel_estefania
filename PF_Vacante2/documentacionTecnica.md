@@ -1,6 +1,12 @@
 # Proyecto Final: Desarrollo de una Dapp
 
-## 1 Introduccion
+## Indice del contenido
+
+- [ 1. Introduccion](#1-introduccion)
+- [ 2. Requisitos y Preparación](#2-requisitos-y-preparación)
+- [ 3. Configuración y Desarrollo](#3-configuracion-y-desarrollo)
+
+## 1. Introduccion
 
 El objetivo principal de este proyecto es demostrar la capacidad para desarrollar y desplegar un Smart Contract en una blockchain pública, específicamente en la red Ethereum. Este proyecto forma parte del proceso de candidatura para la vacante en la compañía Blockchain TS, que requiere habilidades avanzadas en el desarrollo de contratos inteligentes y en la gestión de datos en una blockchain. 
 
@@ -22,7 +28,7 @@ El objetivo del proyecto es desarrollar un Smart Contract que permita registrar 
 
 Este proyecto tiene como finalidad validar la capacidad técnica para el desarrollo de soluciones blockchain efectivas y funcionales en un entorno real.
 
-## 2 Requisitos y Preparación
+## 2. Requisitos y Preparación
 
 Para llevar a cabo este proyecto, se utilizara diversos software y herramientas que facilitarna el despligue de la red blockchain y el desarollo de la Dapp.
 
@@ -54,7 +60,7 @@ Para llevar a cabo este proyecto, se utilizara diversos software y herramientas 
 
    - En este proyecto, utilicé **Eclipse IDE** para desarrollar y ejecutar el archivo Java que interactúa con el contrato inteligente desplegado. Eclipse proporcionó un entorno de desarrollo eficiente para escribir, depurar y probar el código Java, facilitando la integración con **Web3j** y la ejecución de operaciones sobre la blockchain de Ethereum.
  
-## 3 Desarrollo y despliegue del SmartContract.
+## 3. Desarrollo y despliegue del SmartContract.
 
 Para este proyecto, he desarrollado un Smart Contract utilizando Solidity que tiene como objetivo registrar y gestionar la matricula de alumnos en diferentes cursos. Para que este sistema pueda funcionar correctamente he desarollado multiples funciones de escritura y lectura.
 
@@ -501,7 +507,7 @@ Al desplegar el contrato, a traves de la consola de Remix, podemos observar los 
 
 ![image](https://github.com/user-attachments/assets/d4e8fd4e-ff54-420c-91c7-62e35e840b67) 
 
-## 4 Integración con DApp utilizando Java. 
+## 4. Integración con DApp utilizando Java. 
 
 En este punto del proyecto, describiré cómo voy a realizar la integración del Smart Contract en una aplicación Java, para permitir la interacción con las funciones del contrato. 
 
