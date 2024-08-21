@@ -1,8 +1,15 @@
 # Proyecto Final: Configuración de Red Blockchain Privada
 
+## Indice de contenido
+
+- [1. Introducción](#1-introducción)
+- [2. Requisitos y preparacion](#2-requisitos-y-preparación)
+- [3. Configuracion y desarrollo](#3-configuración-y-desarrollo)
+	- [Generar directorios y cuentas](#generar-directorios-y-cuentas)
+
+
 ## 1. Introducción
 
-### Contexto y Objetivo
 El objetivo principal de este proyecto es demostrar la capacidad técnica para gestionar una red blockchain privada utilizando OpenEthereum en un entorno Dockerizado. Este proyecto se presenta como parte del proceso de candidatura a una posición en la compañía Blockchain TS, que requiere habilidades para crear y gestionar redes blockchain, así como en el despliegue y uso de contratos inteligentes.
 
 Los objetivos del proyecto incluyen:
@@ -26,7 +33,6 @@ El proyecto abarca varios componentes clave:
 
 ## 2. Requisitos y Preparación
 
-### Entorno de Desarrollo
 Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software que facilitan la creación y gestión de una red blockchain privada. A continuación, se detallan las herramientas utilizadas:
 
 1. **Docker**: Docker es una plataforma de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización a nivel de sistema operativo. Los contenedores son livianos y contienen todo lo necesario para ejecutar la aplicación: código, runtime, herramientas del sistema, librerías y configuraciones. Esto permite que la aplicación se ejecute de manera uniforme y consistente en cualquier entorno, facilitando el desarrollo, la prueba y la implementación de aplicaciones en múltiples plataformas.
@@ -55,10 +61,9 @@ Para llevar a cabo este proyecto, se utilizaron diversas herramientas y software
 
 ## 3. Configuración y Desarrollo
 
-### Script GenerateAll.sh
 Para configurar todo lo necesario para poner a funcionar la red blockchain privada con OpenEthereum, he generado un script de shell llamado [Generate_all.sh](Generate_all.sh) para crear las cuentas, crear el bloque génesis, el docker-compose y los archivos de configuración de cada nodo.
 
-#### Generar directorios y cuentas.
+### Generar directorios y cuentas.
 La primera función que hay en el shell, se llama generate_keys, la que, al ejecutarse, se crean los directorios iniciales, uno por cada nodo y dentro de cada nodo la carpeta config y keys. Despues de generar los directorios, se generan unos archivos llamados password.pwd, uno por cada nodo y contendrá la pass para desbloquear las cuentas que se crearan. Lo siguiente que hace la función es generar una cuenta por cada nodo utilizando las password generadas anteriormente y por último muestra por pantalla la información de las cuentas creadas. A continuación, el código de la función:
 
 ```sh
@@ -110,7 +115,7 @@ echo "node_non_validator_1: $account_node_non_validator_1"
 echo "node_non_validator_2: $account_node_non_validator_2"
 echo "node_rpc: $account_node_rpc"
 ```
-#### Generar archivo Genesis
+### Generar archivo Genesis
 La siguiente función es para generar el archivo Genesis, el archivo génesis es un archivo de configuración fundamental en las redes de blockchain. Define las reglas y parámetros iniciales para una nueva red de blockchain. Esencialmente, establece el estado inicial de la red al momento de su creación. A continuación, se analiza cada parte del código:
 
 ```sh
@@ -163,7 +168,7 @@ Este fragmento del archivo génesis configura una red blockchain personalizada c
 ```
 Este fragmento del archivo génesis define la configuración del consenso, los parámetros iniciales para el minado (o límites del bloque), y establece saldos iniciales para cuentas específicas. Cuando se ejecute esta función, deberemos de volver para establecer las direcciones de las cuentas de cada nodo.
 
-#### Generar Docker-compose
+### Generar Docker-compose
 La siguiente función se encarga simplemente de crear el archivo docker-compose, necesario para iniciar y configurar cada nodo. A continuación, se muestra el código del archivo con comentarios que explican cada línea.
 
 ```yml
@@ -299,7 +304,7 @@ La red ethereum_net asegura que todos los nodos pueden comunicarse entre sí a t
    - Los nodos no validadores y el nodo RPC no incluyen esta opción
 
 
-#### Generar los config.toml
+### Generar los config.toml
 
 El archivo config.toml es un archivo de configuración utilizado por OpenEthereum (anteriormente conocido como Parity) para definir cómo debe comportarse un nodo en la red Ethereum. Este archivo está escrito en formato TOML (Tom's Obvious, Minimal Language), que es un formato de configuración simple y legible para humanos. A continuación, muestro los ficheros de configuración de cada nodo.
 
@@ -437,7 +442,7 @@ Hilos del Servidor RPC (server_threads):
 Este conjunto de configuraciones permite que cada nodo desempeñe su papel específico en la red Ethereum, ya sea como validador, nodo no validador, o nodo RPC.
 
 
-#### Ejecucion del Script
+### Ejecucion del Script
 
 Una vez se ha revisado las funciones del script, al final del archivo se llaman a las funciones como se puede ver a continuación:
 
