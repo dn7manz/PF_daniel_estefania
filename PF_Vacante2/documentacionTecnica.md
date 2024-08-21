@@ -1,4 +1,4 @@
-# Proyecto Final: Desarrollo de una Dapp
+# Vacante 2: Desarrollo de SmartContract e Integración con DApp
 
 ## Índice del contenido
 
