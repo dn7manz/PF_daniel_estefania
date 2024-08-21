@@ -149,7 +149,7 @@ mapping(address => Usuario) public usuarios;
     address public owner;
 
     constructor() {
-        owner = msg.sender; // El creador del contrato es el propietario inicial
+        owner = msg.sender;
     }
 
     modifier soloOwner() {
@@ -227,7 +227,7 @@ function agregarCurso(string memory _nombreCurso, address _profesor) public solo
             nombreCurso: _nombreCurso,
             profesor: _profesor
         });
-        nombresCursos.push(_nombreCurso); // Agregar el nombre del curso a la lista
+        nombresCursos.push(_nombreCurso);
 
     }
 ```
@@ -580,7 +580,6 @@ A continuación explicare bloque a bloque el contenido del main.java.
             System.out.println("Ingrese la direccion del profesor:");
             String profesorDireccion = scanner.nextLine();
 
-            // Realizar la transacción y obtener el hash
             TransactionReceipt receipt = contract.agregarProfesor(profesorDireccion, nombre).send();
             System.out.println("Profesor matriculado con éxito. Hash de la transacción: " + receipt.getTransactionHash());
         } catch (Exception e) {
@@ -610,7 +609,6 @@ private static void registrarCurso(Scanner scanner) throws Exception {
             System.out.println("Ingrese la direccion del profesor:");
             String profesor = scanner.nextLine();
 
-            // Realizar la transacción y obtener el hash
             TransactionReceipt receipt = contract.agregarCurso(nombre, profesor).send();
             System.out.println("Curso creado con éxito. Hash de la transacción: " + receipt.getTransactionHash());
         } catch (Exception e) {
@@ -657,7 +655,7 @@ private static void matricularse(Scanner scanner) throws Exception {
             // Pedir al usuario que seleccione un curso
             System.out.println("Seleccione un curso por número:");
             int cursoSeleccionado = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
+            scanner.nextLine();
 
             if (cursoSeleccionado > 0 && cursoSeleccionado <= nombresCursos.size()) {
                 String curso = nombresCursos.get(cursoSeleccionado - 1);
