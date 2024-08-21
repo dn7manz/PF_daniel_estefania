@@ -6,7 +6,14 @@
 - [2. Requisitos y preparacion](#2-requisitos-y-preparación)
 - [3. Configuracion y desarrollo](#3-configuración-y-desarrollo)
 	- [Generar directorios y cuentas](#generar-directorios-y-cuentas)
-
+ 	- [Generar Docker-compose](#generar-docker-compose)
+  	- [Generar Config.toml](#generar-los-configtoml)
+  	- [Ejecucion del script](#ejecucion-del-script)
+- [4. Despliegue y pruebas](#4-despliegue-y-pruebas)
+	- [Levantamiento de contenedores](#levanyamiento-de-contenedores)
+	- [Pruebas y transacciones](#pruebas-y-transacciones)
+ 	- [Despliegue de SmartContract](#despliegue-de-smartcontract)
+- [5. Comentarios finales](#comentarios-finales)
 
 ## 1. Introducción
 
