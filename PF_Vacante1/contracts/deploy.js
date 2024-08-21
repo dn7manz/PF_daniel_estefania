@@ -4,7 +4,7 @@ const path = require('path');
 const readlineSync = require('readline-sync');
 const fetch = require('node-fetch');
 
-// Conecta a tu nodo Ethereum
+
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 console.log('Se ha conectado con el node RPC');
 
