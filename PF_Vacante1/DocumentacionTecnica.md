@@ -10,10 +10,10 @@
   	- [Generar Config.toml](#generar-los-configtoml)
   	- [Ejecucion del script](#ejecucion-del-script)
 - [4. Despliegue y pruebas](#4-despliegue-y-pruebas)
-	- [Levantamiento de contenedores](#levanyamiento-de-contenedores)
+	- [Levantamiento de contenedores](#levantamiento-de-contenedores)
 	- [Pruebas y transacciones](#pruebas-y-transacciones)
  	- [Despliegue de SmartContract](#despliegue-de-smartcontract)
-- [5. Comentarios finales](#comentarios-finales)
+- [5. Comentarios finales](#5-comentarios-finales)
 
 ## 1. Introducción
 
