@@ -625,7 +625,7 @@ Para realizar una transacción de ethers de una cuenta a otra cuenta, utilizando
       - "gas": El límite de gas para la transacción, que establece el máximo de unidades de gas que se puede gastar.
       - "gasPrice": El precio del gas por unidad, especificado en Wei.
       - "data": Datos adicionales a enviar, usualmente utilizado para interactuar con contratos inteligentes.
-   - "YourAccountPassword": La contraseña de la cuenta remitente, utilizada para desbloquear la cuenta y firmar la transacción.
+   - "AccountPassword": La contraseña de la cuenta remitente, utilizada para desbloquear la cuenta y firmar la transacción.
    - "id": 1: Un identificador único para la solicitud, utilizado para hacer un seguimiento de esta. Puede ser cualquier número o cadena.
 
 Como se puede ver una vez es ejecutado el comando, como resultado obtengo el hash de la transacción. Para comprobar que esta transacción se incluyó en un bloque debemos de ir a los logs del nodo desde el cual se realizó la operación para ver si se ha minado la transacción.
