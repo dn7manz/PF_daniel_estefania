@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // Conectar a la red Ethereum
     	try {
-            web3j = Web3j.build(new HttpService("http://localhost:7545")); // Cambia la URL según tu configuración
+            web3j = Web3j.build(new HttpService("http://localhost:7545"));
         } catch (Exception e) {
             System.out.println("Error al conectar con la red Ethereum: " + e.getMessage());
             return;
