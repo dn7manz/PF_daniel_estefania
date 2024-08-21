@@ -47,7 +47,7 @@ contract DAppEducativa {
         _;
     }
 
-    // Funciones de Escritura (Modificar el estado del contrato)
+    // Funciones de Escritura
 
     function agregarCurso(string memory _nombreCurso, address _profesor) public soloOwner {
         require(cursos[_nombreCurso].profesor == address(0), "Curso ya registrado");
@@ -104,7 +104,7 @@ contract DAppEducativa {
         }
     }
 
-    // Funciones de Lectura (Obtener información)
+    // Funciones de Lectura
 
     function obtenerNombresCursos() public view returns (string[] memory) {
         return nombresCursos;
