@@ -1,4 +1,4 @@
-# Proyecto Final: Configuración de Red Blockchain Privada
+# Vacante 1: Configuración de una Red Privada Blockchain.
 
 ## Indice de contenido
 
