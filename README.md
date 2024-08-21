@@ -61,3 +61,14 @@ El objetivo principal de esta etapa fue verificar la funcionalidad de la DApp a 
 - Modo alumno: Aquí se probaron las funcionalidades relacionadas con la inscripción y participación en los cursos.
   
 - Modo profesor: Finalmente, se validaron las capacidades de los profesores para gestionar sus cursos y alumnos dentro de la DApp.
+
+
+### Conclusiones finales
+
+A lo largo de los proyectos desarrollados en las vacantes 1 y 2, he demostrado una capacidad sólida para abordar desafíos técnicos complejos en el ámbito de la tecnología blockchain. Cada vacante presentó oportunidades únicas para aplicar mis habilidades en la configuración de redes blockchain privadas, el desarrollo de contratos inteligentes y la integración con aplicaciones descentralizadas.
+
+En la Vacante 1, el enfoque se centró en la creación de una red blockchain privada utilizando OpenEthereum. El proceso implicó no solo la configuración detallada de la infraestructura, sino también la automatización de tareas clave mediante scripts. La validación de la red a través de pruebas de transacciones y el despliegue de contratos inteligentes demostró la fiabilidad del entorno creado.
+
+La Vacante 2 se centró en el desarrollo y despliegue de un contrato inteligente, seguido de su integración con una DApp desarrollada en Java. Utilizando Ganache como proveedor de la red blockchain, se realizaron pruebas exhaustivas para garantizar que la DApp funcionara correctamente en diversos modos de operación. Este proyecto destacó mi capacidad para conectar el desarrollo de blockchain con la programación en Java, facilitando la creación de soluciones descentralizadas eficaces.
+
+Ambos proyectos subrayan mi habilidad para trabajar de manera autónoma en la configuración, desarrollo, y despliegue de soluciones blockchain. La combinación de estas experiencias refuerza mi capacidad para enfrentar nuevos retos en el campo de la tecnología blockchain, aportando soluciones innovadoras y efectivas.
