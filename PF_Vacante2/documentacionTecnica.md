@@ -326,55 +326,6 @@ La función matricularseEnOtroCurso permite que un usuario registrado se matricu
 
     
 ```solidity
-function obtenerNombresCursos() public view returns (string[] memory) {
-        return nombresCursos;
-    }
-
-    function obtenerCursosMatriculados(
-        address _cuenta
-    ) public view returns (string memory, string memory, string memory) {
-        Usuario storage usuario = usuarios[_cuenta];
-        return (
-            usuario.cursoMatriculado, 
-            usuario.cursoMatriculado2, 
-            usuario.cursoMatriculado3
-        );
-    }
-
-    function obtenerUsuariosRegistrados() public view soloProfesor returns (Usuario[] memory) {
-        Usuario[] memory usuariosRegistrados = new Usuario[](cuentasRegistradas.length);
-        for (uint i = 0; i < cuentasRegistradas.length; i++) {
-            usuariosRegistrados[i] = usuarios[cuentasRegistradas[i]];
-        }
-        return usuariosRegistrados;
-    }
-
-    function obtenerUsuariosPorCurso(string memory _curso) public view returns (address[] memory) {
-        uint256 count = 0;
-        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
-            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
-                count++;
-            }
-        }
-
-        address[] memory resultado = new address[](count);
-        uint256 index = 0;
-        for (uint256 i = 0; i < cuentasRegistradas.length; i++) {
-            if (keccak256(abi.encodePacked(usuarios[cuentasRegistradas[i]].cursoMatriculado)) == keccak256(abi.encodePacked(_curso))) {
-                resultado[index] = cuentasRegistradas[i];
-                index++;
-            }
-        }
-
-        return resultado;
-    }
-
-    function obtenerCuentasProfesores() public view returns (address[] memory, string[] memory) {
-        string[] memory nombres = new string[](cuentasProfesores.length);
-        for (uint i = 0; i < cuentasProfesores.length; i++) {
-            nombres[i] = profesores[cuentasProfesores[i]].nombre;
-        }
-        return (cuentasProfesores, nombres);
     }function obtenerNombresCursos() public view returns (string[] memory) {
         return nombresCursos;
     }
